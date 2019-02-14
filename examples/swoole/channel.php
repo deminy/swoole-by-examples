@@ -13,7 +13,7 @@ go(function () use ($chan) {
 });
 
 go(function () use ($chan) {
-    $cli = new Client('sunshinephp.com');
+    $cli = new Client('confoo.ca');
     $ret = $cli->get('/');
     $chan->push((int) $cli->statusCode);
 });
@@ -23,7 +23,3 @@ go(function () use ($chan) {
     $ret = $cli->get('/');
     $chan->push("{$cli->statusCode}");
 });
-
-/**
- * @see https://segmentfault.com/a/1190000017243966 PHP 协程：Go + Chan + Defer
- */
