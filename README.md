@@ -52,9 +52,9 @@ Create a server socket with one of following two commands:
 
 ```bash
 # Create a server socket on port 8000 with PHP.
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php php/socket.php"
+docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "php php/socket.php"
 # Create a server socket on port 8000 with Swoole.
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php swoole/socket.php"
+docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "php swoole/socket.php"
 ```
 
 Now use the _ab_ command to benchmark the server socket created:
