@@ -2,6 +2,18 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/deminy/swoole-by-examples/blob/master/LICENSE.txt)
 
+Examples to show different features in Swoole 4.
+
+* [Setup the PHP Environments](#setup-the-php-environments)
+* [Run Sample Scripts](#run-sample-scripts)
+   * [Sleep](#sleep)
+   * [Server Socket](#server-socket)
+   * [Coroutines in a For Loop](#coroutines-in-a-for-loop)
+   * [Nested Coroutines](#nested-coroutines)
+   * [Channels](#channels)
+   * [Defer](#defer)
+   * [Enable Coroutines at Runtime](#enable-coroutines-at-runtime)
+
 ## Setup the PHP Environments
 
 Run following command to launch a Docker container with PHP environments built in:
@@ -86,9 +98,9 @@ docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php swoo
 docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php swoole/defer.php"
 ```
 
-### Enable Coroutine at Runtime
+### Enable Coroutines at Runtime
 
 ```bash
-# The script takes about 2 seconds to finish. Without coroutine enabled at runtime, it takes about 3 seconds to finish.
+# The script takes about 2 seconds to finish. Without coroutines enabled at runtime, it takes about 3 seconds to finish.
 docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php swoole/enable-coroutine.php"
 ```
