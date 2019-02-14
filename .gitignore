@@ -1,0 +1,10 @@
+# Ignore PhpStorm files
+/.idea/
+
+# Ignore files under Mac
+.DS_Store
+
+# Ignore Composer files
+/composer.lock
+/composer.phar
+/vendor/

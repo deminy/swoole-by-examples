@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  app:
+    image: deminy/php-fpm-swoole
+    ports:
+      - "80:80"
+      - "81:81"
+      - "8000:8000"
+      - "9501:9501"
+    volumes:
+      - ./examples:/var/www

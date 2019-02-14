@@ -1,0 +1,23 @@
+{
+  "name": "deminy/swoole-by-examples",
+  "description": "Go through different features in Swoole by examples.",
+  "homepage": "https://github.com/deminy/swoole-by-examples",
+  "license": "MIT",
+  "require": {
+    "swoole/ide-helper": "@dev"
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "swoole/ide-helper",
+        "version": "master",
+        "dist": {
+          "type": "zip",
+          "url": "https://github.com/swoole/ide-helper/archive/master.zip",
+          "reference": "master"
+        }
+      }
+    }
+  ]
+}
