@@ -88,7 +88,7 @@ docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php swoo
 
 ```bash
 # At some point during the execution, there are 3 coroutines paused.
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php swoole/channel.php"
+docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "php swoole/channel.php"
 ```
 
 ### Defer
