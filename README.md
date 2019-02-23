@@ -16,91 +16,86 @@ Examples to show different features in Swoole 4.
 
 ## Setup the PHP Environments
 
-Run following command to launch a Docker container with PHP environments built in:
+First, please run the following command to have the Docker container running in the background:
 
 ```bash
 docker-compose up -d
 ```
 
-There are 4 ports mapped:
+This Docker container has PHP environments (both PHP-FPM and Swoole) built in. Now please run following command to log
+into the container so that we can start running some sample scripts in it:
+
+```bash
+docker exec -ti $(docker ps | grep app | awk '{print $1}') bash
+```
+
+There are four ports mapped in the Docker container:
 
 * port 80: an Nginx web server with PHP-FPM running behind.
     * http://127.0.0.1/index.php
     * http://127.0.0.1/phpinfo.php
-* port 81: an Nginx web server with Swoole running behind.
-    * http://127.0.0.1:81/index.php
-* port 8000: This port is mapped for benchmarking server sockets created with PHP and Swoole.
 * port 9501: an HTTP server created with Swoole.
     * http://127.0.0.1:9501/index.php
+* port 9502: an Nginx web server with Swoole running behind.
+    * http://127.0.0.1:9502/index.php
+* port 9999: This port is mapped only to benchmark server sockets created with PHP and Swoole.
 
 ## Run Sample Scripts
+
+Before running any sample scripts, please run following command to log into the running Docker container first, if you
+haven't yet done that:
+
+```bash
+docker exec -ti $(docker ps | grep app | awk '{print $1}') bash
+```
 
 ### Sleep
 
 ```bash
 # The script takes about 3 seconds to finish, and prints out "12".
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php php/sleep.php"
+time php php/sleep.php
 # The script takes about 2 seconds to finish, and prints out "21".
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php swoole/sleep1.php"
+time php swoole/sleep1.php
 # The script takes about 2 seconds to finish, and prints out "123456".
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php swoole/sleep2.php"
-```
-
-### Server Socket
-
-Create a server socket with one of following two commands:
-
-```bash
-# Create a server socket on port 8000 with PHP.
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "php php/socket.php"
-# Create a server socket on port 8000 with Swoole.
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "php swoole/socket.php"
-```
-
-Now use the _ab_ command to benchmark the server socket created:
-
-```bash
-ab -n 5000 -c  500 http://127.0.0.1:8000/ # Fire 500 concurrent HTTP requests.
-ab -n 5000 -c 1000 http://127.0.0.1:8000/ # Fire 1,000 concurrent HTTP requests.
-ab -n 5000 -c 3000 http://127.0.0.1:8000/ # Fire 3,000 concurrent HTTP requests.
+time php swoole/sleep2.php
 ```
 
 ### Coroutines in a For Loop
 
 ```bash
 # The script takes about 1 second to finish, with 2,000 coroutines created.
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php swoole/for.php"
+time php swoole/for.php
 ```
 
 ### Nested Coroutines
 
 ```bash
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php swoole/nested1.php"
+time php swoole/nested1.php
 # The script takes about 5 seconds to finish.
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php swoole/nested2.php"
+time php swoole/nested2.php
 # The script takes about 5 seconds to finish, and prints out "127983465".
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php swoole/nested3.php"
+time php swoole/nested3.php
 # The script takes about 5 seconds to finish, and prints out "123456789".
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php swoole/nested4.php"
+time php swoole/nested4.php
 ```
 
 ### Channels
 
 ```bash
 # At some point during the execution, there are 3 coroutines paused.
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "php swoole/channel.php"
+php swoole/channel.php
 ```
 
 ### Defer
 
 ```bash
 # The script takes about 1 second to finish, and prints out "123456".
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php swoole/defer.php"
+time php swoole/defer.php
 ```
 
 ### Enable Coroutines at Runtime
 
 ```bash
 # The script takes about 2 seconds to finish. Without coroutines enabled at runtime, it takes about 3 seconds to finish.
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "time php swoole/enable-coroutine.php"
+time php swoole/enable-coroutine.php
 ```

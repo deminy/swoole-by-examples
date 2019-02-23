@@ -13,13 +13,13 @@ go(function () use ($chan) {
 });
 
 go(function () use ($chan) {
-    $cli = new Client('confoo.ca');
-    $ret = $cli->get('/');
-    $chan->push((int) $cli->statusCode);
-});
-
-go(function () use ($chan) {
     $cli = new Client('php.net');
     $ret = $cli->get('/');
     $chan->push("{$cli->statusCode}");
+});
+
+go(function () use ($chan) {
+    $cli = new Client('example.com');
+    $ret = $cli->get('/');
+    $chan->push((int) $cli->statusCode);
 });
