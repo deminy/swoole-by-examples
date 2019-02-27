@@ -66,6 +66,7 @@ time php swoole/sleep2.php
 
 ```bash
 # The script takes about 1 second to finish, with 2,000 coroutines created.
+# Without coroutine enabled, the script takes about 2,000 seconds to finish.
 time php swoole/for.php
 ```
 
