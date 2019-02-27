@@ -97,6 +97,7 @@ time php swoole/defer.php
 ### Enable Coroutines at Runtime
 
 ```bash
-# The script takes about 2 seconds to finish. Without coroutines enabled at runtime, it takes about 3 seconds to finish.
+# The script takes about 2 seconds to finish.
+# Without coroutines enabled at runtime, it takes about 3 seconds to finish.
 time php swoole/enable-coroutine.php
 ```
