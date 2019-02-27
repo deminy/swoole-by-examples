@@ -82,8 +82,9 @@ time php swoole/nested4.php
 ### Channels
 
 ```bash
-# At some point during the execution, there are 3 coroutines paused.
 php swoole/channel.php
+# Similar to the previous one but has debug messages printed out showing # of active coroutines.
+php swoole/channel_debug.php
 ```
 
 ### Defer
