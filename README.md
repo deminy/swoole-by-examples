@@ -54,8 +54,10 @@ docker exec -ti $(docker ps | grep app | awk '{print $1}') bash
 ```bash
 # The script takes about 3 seconds to finish, and prints out "12".
 time php php/sleep.php
+
 # The script takes about 2 seconds to finish, and prints out "21".
 time php swoole/sleep1.php
+
 # The script takes about 2 seconds to finish, and prints out "123456".
 time php swoole/sleep2.php
 ```
@@ -71,10 +73,13 @@ time php swoole/for.php
 
 ```bash
 time php swoole/nested1.php
+
 # The script takes about 5 seconds to finish.
 time php swoole/nested2.php
+
 # The script takes about 5 seconds to finish, and prints out "127983465".
 time php swoole/nested3.php
+
 # The script takes about 5 seconds to finish, and prints out "123456789".
 time php swoole/nested4.php
 ```
@@ -83,6 +88,7 @@ time php swoole/nested4.php
 
 ```bash
 php swoole/channel.php
+
 # Similar to the previous one but has debug messages printed out showing # of active coroutines.
 php swoole/channel_debug.php
 ```
