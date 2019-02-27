@@ -8,16 +8,8 @@
   },
   "repositories": [
     {
-      "type": "package",
-      "package": {
-        "name": "swoole/ide-helper",
-        "version": "master",
-        "dist": {
-          "type": "zip",
-          "url": "https://github.com/swoole/ide-helper/archive/master.zip",
-          "reference": "master"
-        }
-      }
+      "type": "vcs",
+      "url": "https://github.com/swoole/ide-helper"
     }
   ]
 }
