@@ -68,6 +68,9 @@ time php swoole/sleep2.php
 # The script takes about 1 second to finish, with 2,000 coroutines created.
 # Without coroutine enabled, the script takes about 2,000 seconds to finish.
 time php swoole/for.php
+#
+# Similar to the previous one but has debug message printed out during execution.
+php swoole/for_debug.php
 ```
 
 ### Nested Coroutines
