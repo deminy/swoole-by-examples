@@ -5,8 +5,8 @@ services:
     image: deminy/php-fpm-swoole
     ports:
       - "80:80"
-      - "81:81"
-      - "8000:8000"
       - "9501:9501"
+      - "9502:9502"
+      - "9999:9999"
     volumes:
       - ./examples:/var/www

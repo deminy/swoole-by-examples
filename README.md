@@ -108,3 +108,20 @@ time php swoole/defer.php
 # Without coroutines enabled at runtime, it takes about 3 seconds to finish.
 time php swoole/enable-coroutine.php
 ```
+
+### Server Socket
+
+Create an HTTP server socket with one of following two commands:
+
+```bash
+# Create a server socket on port 8000 with PHP.
+docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "php php/socket.php"
+# Create a server socket on port 8000 with Swoole.
+docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "php swoole/socket.php"
+```
+
+Now use the _ab_ command to benchmark the server socket created:
+
+```bash
+ab -n 5000 -c 5 http://127.0.0.1:9999/ # Fire 5 concurrent HTTP requests.
+```
