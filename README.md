@@ -4,15 +4,18 @@
 
 Examples to show different features in Swoole 4.
 
-* [Setup the PHP Environments](#setup-the-php-environments)
-* [Run Sample Scripts](#run-sample-scripts)
-   * [Sleep](#sleep)
-   * [Server Socket](#server-socket)
-   * [Coroutines in a For Loop](#coroutines-in-a-for-loop)
-   * [Nested Coroutines](#nested-coroutines)
-   * [Channels](#channels)
-   * [Defer](#defer)
-   * [Enable Coroutines at Runtime](#enable-coroutines-at-runtime)
+**Table of Contents**:
+
+* [Swoole by Examples](#swoole-by-examples)
+    * [Setup the PHP Environments](#setup-the-php-environments)
+    * [Run Sample Scripts](#run-sample-scripts)
+        * [Sleep](#sleep)
+        * [Coroutines in a For Loop](#coroutines-in-a-for-loop)
+        * [Nested Coroutines](#nested-coroutines)
+        * [Channels](#channels)
+        * [Defer](#defer)
+        * [Enable Coroutines at Runtime](#enable-coroutines-at-runtime)
+        * [Server Socket](#server-socket)
 
 ## Setup the PHP Environments
 
