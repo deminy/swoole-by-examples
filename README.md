@@ -114,9 +114,9 @@ time php swoole/enable-coroutine.php
 Create an HTTP server socket with one of following two commands:
 
 ```bash
-# Create a server socket on port 8000 with PHP.
+# Create a server socket on port 9999 with PHP.
 docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "php php/socket.php"
-# Create a server socket on port 8000 with Swoole.
+# Create a server socket on port 9999 with Swoole.
 docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "php swoole/socket.php"
 ```
 

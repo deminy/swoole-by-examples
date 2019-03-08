@@ -3,7 +3,7 @@
 Swoole\Runtime::enableCoroutine();
 
 for ($i = 1; $i <= 2000; $i++) {
-    go(function() {
+    go(function () {
         sleep(1);
     });
 }

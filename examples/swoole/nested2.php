@@ -1,5 +1,5 @@
 <?php
-go(function() {
+go(function () {
     go(function () {
         co::sleep(3);
         go(function () {

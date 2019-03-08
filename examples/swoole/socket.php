@@ -5,7 +5,7 @@ $socket->listen(128);
 go(function () use ($socket) {
     while (true) {
         $client = $socket->accept();
-        go(function() use ($client) {
+        go(function () use ($client) {
             $buffer = '';
             do {
                 $buffer .= $client->recv(1024, -1);

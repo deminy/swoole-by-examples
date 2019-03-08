@@ -1,5 +1,5 @@
 <?php
-go(function() {
+go(function () {
     echo "1";
     go(function () {
         echo "2";

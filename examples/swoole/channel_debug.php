@@ -21,7 +21,7 @@ go(function () use ($chan) {
     $cli = new Client('swoole.com');
     $ret = $cli->get('/');
 
-    echo count(Coroutine::listCoroutines()), " active coroutines when finishing fetching HTTP content in the 2nd coroutine.\n";
+    echo count(Coroutine::listCoroutines()), " active coroutines once done fetching web page in the 2nd coroutine.\n";
 
     $chan->push("{$cli->statusCode}");
 });
@@ -32,7 +32,7 @@ go(function () use ($chan) {
     $cli = new Client('php.net');
     $ret = $cli->get('/');
 
-    echo count(Coroutine::listCoroutines()), " active coroutines when finishing fetching HTTP content in the 3rd coroutine.\n";
+    echo count(Coroutine::listCoroutines()), " active coroutines once done fetching web page in the 3rd coroutine.\n";
 
     $chan->push((int) $cli->statusCode);
 });
