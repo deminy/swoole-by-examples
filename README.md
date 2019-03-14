@@ -2,7 +2,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/deminy/swoole-by-examples/blob/master/LICENSE.txt)
 
-Examples to show different features in Swoole 4.
+Examples to show different features in Swoole 4. This was created for my talk "_Swoole 4: Introducing a New Coroutine Design Pattern in PHP_" at [SunshinePHP 2019](http://sunshinephp.com) and [ConFoo 2019](https://confoo.ca/en/yul2019).
+Slides can be found [here](https://www.swoole.co.uk/article/coroutine-design-pattern).
 
 **Table of Contents**:
 
@@ -45,8 +46,8 @@ There are four ports mapped in the Docker container:
 
 ## Run Sample Scripts
 
-Before running any sample scripts, please run following command to log into the running Docker container first, if you
-haven't yet done that:
+Before running any sample scripts below, please run following command to log into the running Docker container first,
+if you haven't yet done that:
 
 ```bash
 docker exec -ti $(docker ps | grep app | awk '{print $1}') bash
@@ -117,16 +118,16 @@ time php swoole/enable-coroutine.php
 
 ### Server Socket
 
-Create an HTTP server socket with one of following two commands:
+Create a simple HTTP server socket with one of following two commands:
 
 ```bash
-# Create a server socket on port 9999 with PHP.
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "php php/socket.php"
-# Create a server socket on port 9999 with Swoole.
-docker exec -t $(docker ps | grep app | awk '{print $1}') bash -c "php swoole/socket.php"
+# Create a simple HTTP server socket on port 9999 with PHP.
+php php/socket.php
+# Create a simple HTTP server socket on port 9999 with Swoole.
+php swoole/socket.php
 ```
 
-Now use the _ab_ command to benchmark the server socket created:
+Now use the _ab_ command **in the host** to benchmark the server socket created:
 
 ```bash
 ab -n 5000 -c 5 http://127.0.0.1:9999/ # Fire 5 concurrent HTTP requests.
