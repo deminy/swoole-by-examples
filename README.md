@@ -30,7 +30,7 @@ This Docker container has PHP environments (both PHP-FPM and Swoole) built in. N
 into the container so that we can start running some sample scripts in it:
 
 ```bash
-docker exec -ti $(docker ps | grep app | awk '{print $1}') bash
+docker exec -ti $(docker ps -qf "name=app") bash
 ```
 
 There are four ports mapped in the Docker container:
@@ -50,7 +50,7 @@ Before running any sample scripts below, please run following command to log int
 if you haven't yet done that:
 
 ```bash
-docker exec -ti $(docker ps | grep app | awk '{print $1}') bash
+docker exec -ti $(docker ps -qf "name=app") bash
 ```
 
 ### Sleep
