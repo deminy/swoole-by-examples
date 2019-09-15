@@ -3,14 +3,8 @@
   "description": "Go through different features in Swoole by examples.",
   "homepage": "https://github.com/deminy/swoole-by-examples",
   "license": "MIT",
-  "require": {
+  "require-dev": {
     "squizlabs/php_codesniffer": "~3.4.0",
     "swoole/ide-helper": "@dev"
-  },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/swoole/ide-helper"
-    }
-  ]
+  }
 }
