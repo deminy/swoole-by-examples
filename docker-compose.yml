@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  app:
+    image: phpswoole/swoole
+    environment:
+      SWOOLE_EXT_ASYNC: enabled
+      SWOOLE_EXT_ORM: enabled
+      SWOOLE_EXT_POSTGRESQL: enabled
+      SWOOLE_EXT_SERIALIZE: enabled
+    volumes:
+      - ./examples:/var/www
+    ports:
+      - 9501
