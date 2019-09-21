@@ -2,7 +2,9 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/deminy/swoole-by-examples/blob/master/LICENSE.txt)
 
-NOTE: I'm adding new examples for latest versions of Swoole. For the talk "_Swoole 4: Introducing a New Coroutine Design Pattern in PHP_" I gave at [SunshinePHP 2019](http://sunshinephp.com) and [ConFoo 2019](https://confoo.ca/en/yul2019), you may find the slides [here](https://www.swoole.co.uk/article/coroutine-design-pattern) and the examples under branch [conferences-2019](https://github.com/deminy/swoole-by-examples/tree/conferences-2019).
+The repository is to help developers to get familiar with [Swoole](https://github.com/swoole/swoole-src) through a variety of examples.
+
+NOTE: I'm adding new examples for latest versions of Swoole, so please be patient.
 
 ## Setup the Development Environment
 
@@ -17,11 +19,12 @@ Docker container.
 
 * CSP programming
     * from blocking I/O to non-blocking I/O
-    * [coroutines in a for loop](https://github.com/deminy/swoole-by-examples/blob/master/examples/for.php)
-    * nested coroutines
-    * enable coroutines at runtime
+    * coroutines
+        * [coroutines in a for loop](https://github.com/deminy/swoole-by-examples/blob/master/examples/for.php)
+        * nested coroutines
+        * enable coroutines at runtime
     * channels
-    * waitGroup
+        * waitGroup
     * [defer](https://github.com/deminy/swoole-by-examples/blob/master/examples/defer.php)
 * server-side programming
     * application servers
