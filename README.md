@@ -31,9 +31,10 @@ Docker container.
     * [defer](https://github.com/deminy/swoole-by-examples/blob/master/examples/defer.php)
 * server-side programming
     * application servers
-        * [HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/server.php)
+        * [HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1.php)
         * HTTP/2 server
-        * WebSocket server
+            * HTTP/2 server push
+        * [WebSocket server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/websocket.php)
         * TCP server
         * UDP server
     * resource pooling
