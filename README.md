@@ -22,5 +22,6 @@ Docker container.
     * Enable coroutines at runtime
     * channels
     * waitGroup
-    * defer
+    * [defer](https://github.com/deminy/swoole-by-examples/blob/master/examples/defer.php)
 * Server-side programming
+    * [timer](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer.php). There is [a 2nd example](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer-in-coroutine-style.php) included to show how to implement timer using coroutines only.
