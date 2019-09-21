@@ -19,9 +19,24 @@ Docker container.
     * from blocking I/O to non-blocking I/O
     * [coroutines in a for loop](https://github.com/deminy/swoole-by-examples/blob/master/examples/for.php)
     * nested coroutines
-    * Enable coroutines at runtime
+    * enable coroutines at runtime
     * channels
     * waitGroup
     * [defer](https://github.com/deminy/swoole-by-examples/blob/master/examples/defer.php)
-* Server-side programming
+* server-side programming
+    * application servers
+        * HTTP/1 server
+        * HTTP/2 server
+        * WebSocket server
+        * TCP server
+        * UDP server
+    * resource pooling
+        * process pool
+        * connection pool
+    * port listening
+        * multiple protocols on the same port
+        * multiple ports listening
+    * network connection detection
+        * dead network detection
+        * heartbeats
     * [timer](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer.php). There is [a 2nd example](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer-in-coroutine-style.php) included to show how to implement timer using coroutines only.
