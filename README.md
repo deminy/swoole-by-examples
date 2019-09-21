@@ -4,7 +4,7 @@
 
 The repository is to help developers to get familiar with [Swoole](https://github.com/swoole/swoole-src) through a variety of examples.
 
-NOTE: I'm adding new examples for latest versions of Swoole, so please be patient.
+NOTE: I'm adding examples for latest versions of Swoole, so please be patient.
 
 ## Setup the Development Environment
 
@@ -24,17 +24,18 @@ Docker container.
     * coroutines
         * enable coroutines
         * create coroutines
-        * [coroutines in a for loop](https://github.com/deminy/swoole-by-examples/blob/master/examples/for.php)
+        * [coroutines in a for loop](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/for.php)
         * nested coroutines
     * channels
-        * waitGroup
-    * [defer](https://github.com/deminy/swoole-by-examples/blob/master/examples/defer.php)
+        * waitGroup (like [the WaitGroup type in Golang](https://golang.org/pkg/sync/#WaitGroup))
+    * [defer](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/defer.php)
 * server-side programming
     * application servers
         * [HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1.php)
         * HTTP/2 server
             * HTTP/2 server push
         * [WebSocket server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/websocket.php)
+        * Redis server
         * TCP server
         * UDP server
     * resource pooling

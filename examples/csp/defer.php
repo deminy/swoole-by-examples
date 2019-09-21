@@ -2,7 +2,7 @@
 <?php
 /**
  * How to run this script:
- *     docker exec -t  $(docker ps -qf "name=app") bash -c "./defer.php"
+ *     docker exec -t  $(docker ps -qf "name=app") bash -c "./csp/defer.php"
  *
  * The script takes about 1 second to finish, and prints out "123456".
  */
