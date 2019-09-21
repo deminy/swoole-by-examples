@@ -2,7 +2,7 @@
   "name": "deminy/swoole-by-examples",
   "description": "Go through different features in Swoole by examples.",
   "homepage": "https://github.com/deminy/swoole-by-examples",
-  "license": "MIT",
+  "license": "CC-BY-NC-ND-4.0",
   "require-dev": {
     "squizlabs/php_codesniffer": "~3.4.0",
     "swoole/ide-helper": "@dev"

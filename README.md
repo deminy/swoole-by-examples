@@ -1,6 +1,6 @@
 # Swoole by Examples
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/deminy/swoole-by-examples/blob/master/LICENSE.txt)
+[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
 The repository is to help developers to get familiar with [Swoole](https://github.com/swoole/swoole-src) through a variety of examples.
 
