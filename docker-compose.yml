@@ -8,6 +8,7 @@ services:
       SWOOLE_EXT_ORM: enabled
       SWOOLE_EXT_POSTGRESQL: enabled
       SWOOLE_EXT_SERIALIZE: enabled
+      AUTORELOAD_PROGRAMS: "http1"
     volumes:
       - ./examples:/var/www
       - ./rootfilesystem/etc/supervisor/service.d:/etc/supervisor/service.d
