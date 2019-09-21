@@ -11,4 +11,4 @@ services:
     volumes:
       - ./examples:/var/www
     ports:
-      - 9501
+      - 9501:9501
