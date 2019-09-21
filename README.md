@@ -19,10 +19,12 @@ Docker container.
 
 * CSP programming
     * from blocking I/O to non-blocking I/O
+        * The blocking version can be found [here](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/blocking-io.php).
+        * The non-blocking version of the same script can be found [here](https://github.com/deminy/swoole-by-examples/blob/master/examples/examples/io/non-blocking-io.php). You can also check [this script](https://github.com/deminy/swoole-by-examples/blob/master/examples/examples/io/non-blocking-io-debug.php) to see how the non-blocking version is executed in order.
     * coroutines
+        * enable coroutines
         * [coroutines in a for loop](https://github.com/deminy/swoole-by-examples/blob/master/examples/for.php)
         * nested coroutines
-        * enable coroutines at runtime
     * channels
         * waitGroup
     * [defer](https://github.com/deminy/swoole-by-examples/blob/master/examples/defer.php)
@@ -42,4 +44,8 @@ Docker container.
     * network connection detection
         * dead network detection
         * heartbeats
-    * [timer](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer.php). There is [a 2nd example](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer-in-coroutine-style.php) included to show how to implement timer using coroutines only.
+    * task scheduling and handling
+        * [timer](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer.php). There is [a 2nd example](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer-in-coroutine-style.php) included to show how to implement timer using coroutines only.
+    * benchmark
+        * single-process mode vs multi-process mode
+* client-side programming
