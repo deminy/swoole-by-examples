@@ -5,7 +5,7 @@
  * original implementation where class \Swoole\Timer is used.
  *
  * How to run this script:
- *     docker exec -t  $(docker ps -qf "name=app") bash -c "./timer-in-coroutine-style.php"
+ *     docker exec -t  $(docker ps -qf "name=app") bash -c "./timer/coroutine-style.php"
  */
 
 go(function () {
@@ -18,5 +18,5 @@ go(function () {
             break;
         }
     }
-    echo "Nothing should be printed out after the 500th millisecond.\n";
+    echo "No more messages should be printed out after the 500th millisecond.\n";
 });
