@@ -20,7 +20,7 @@ Docker container.
 * CSP programming
     * from blocking I/O to non-blocking I/O
         * The blocking version can be found [here](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/blocking-io.php).
-        * The non-blocking version of the same script can be found [here](https://github.com/deminy/swoole-by-examples/blob/master/examples/examples/io/non-blocking-io.php). You can also check [this script](https://github.com/deminy/swoole-by-examples/blob/master/examples/examples/io/non-blocking-io-debug.php) to see how the non-blocking version is executed in order.
+        * The non-blocking version of the same script can be found [here](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/non-blocking-io.php). You can also check [this script](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/non-blocking-io-debug.php) to see how the non-blocking version is executed in order.
     * coroutines
         * enable coroutines
         * [coroutines in a for loop](https://github.com/deminy/swoole-by-examples/blob/master/examples/for.php)
