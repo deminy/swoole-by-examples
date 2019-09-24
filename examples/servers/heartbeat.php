@@ -13,7 +13,7 @@ use Swoole\Process;
 use Swoole\Server;
 
 // In this example, we start a TCP server first. When a client is connected, the server checks activities from the
-// client every second. If there is no data received from the client with 3 seconds, the server closes the connection.
+// client every second. If there is no data received from the client within 3 seconds, the server closes the connection.
 $serverProcess = new Process(
     function () {
         $server = new Server("127.0.0.1", 9601);
@@ -35,11 +35,6 @@ $serverProcess = new Process(
     true
 );
 $serverProcess->start();
-
-// Stop the TCP server once PHP code finishes execution.
-register_shutdown_function(function () use ($serverProcess) {
-    Process::kill($serverProcess->pid);
-});
 
 go(function () {
     // Sleep for 1 second waiting for the TCP server to start.
@@ -70,6 +65,11 @@ go(function () {
     } else {
         echo "INFO: Server side has successfully closed the connection and no message received.\n";
     }
+});
+
+// Stop the TCP server once PHP code finishes execution.
+register_shutdown_function(function () use ($serverProcess) {
+    Process::kill($serverProcess->pid);
 });
 
 Event::wait();

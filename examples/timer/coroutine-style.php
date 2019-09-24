@@ -11,7 +11,7 @@
 go(function () {
     $i = 0;
     while (true) {
-        Co::sleep(0.1);
+        co::sleep(0.1);
         echo "Print out this message every 100 milliseconds.\n";
         if (++$i === 5) {
             echo "Stop printing out messages at the 500th millisecond.\n";
