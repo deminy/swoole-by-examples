@@ -8,7 +8,7 @@
  * Starting from Swoole 4.1.0, you can use exit() inside coroutines directly. In this case, a \Swoole\ExitException
  * exception is thrown out instead of terminating code execution immediately.
  *
- * In general, a best way to to stop a coroutine is to throw out an exception and catch it at parent level.
+ * In general, a best way to to exit from a coroutine is to throw out an exception and catch it at parent level.
  */
 
 go(function () {

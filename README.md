@@ -26,7 +26,7 @@ Docker container.
         * create coroutines
         * [coroutines in a for loop](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/for.php)
         * nested coroutines
-        * [stop coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/exit.php)
+        * [exit from coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/exit.php)
     * channels
         * waitGroup (like [the WaitGroup type in Golang](https://golang.org/pkg/sync/#WaitGroup))
     * [defer](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/defer.php)
