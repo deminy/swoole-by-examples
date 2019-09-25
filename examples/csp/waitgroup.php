@@ -30,5 +30,7 @@ go(function () use ($wg) {
         co::sleep(3);
         $wg->done();
     });
-    $wg->wait();
+    $wg->wait(); // Wait those 3 coroutines to finish.
+
+    // Any code here won't be executed until all 3 coroutines created in this function finish execution.
 });
