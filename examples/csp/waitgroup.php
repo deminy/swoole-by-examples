@@ -1,10 +1,11 @@
 #!/usr/bin/env php
 <?php
 /**
+ * This example shows how to wait for a collection of coroutines to finish in PHP applications. It has 3 coroutines
+ * executed, and takes about 3 seconds to finish.
+ *
  * How to run this script:
  *     docker exec -t  $(docker ps -qf "name=app") bash -c "time ./csp/waitgroup.php"
- *
- * This script takes about 3 seconds to finish, with 3 coroutines created.
  *
  * Class \Swoole\Coroutine\WaitGroup is defined in this file:
  *     https://github.com/swoole/swoole-src/blob/master/library/core/Coroutine/WaitGroup.php
