@@ -13,13 +13,13 @@
  *     docker exec -t  $(docker ps -qf "name=app") bash -c "time ./csp/coroutines/creation.php"
  */
 
-function test(int $i) {
+function test(int $i)
+{
     co::sleep(1);
     echo "Coroutine #{$i} is finishing execution.\n";
 }
 
-$i = 1;
-swoole_coroutine_create("test", $i++);
-Swoole\Coroutine::create("test", $i++);
-co::create("test", $i++);
-go("test", $i++);
+swoole_coroutine_create("test", 1);
+Swoole\Coroutine::create("test", 2);
+co::create("test", 3);
+go("test", 4);

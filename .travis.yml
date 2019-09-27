@@ -7,4 +7,4 @@ before_install:
   - composer update -n
 
 script:
-  - ./vendor/bin/phpcs -v --standard=PSR12 examples
+  - ./vendor/bin/phpcs -v --standard=ruleset.xml examples
