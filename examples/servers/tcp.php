@@ -11,8 +11,8 @@ You may use netcat to open a TCP connection, like:
 
 nc 127.0.0.1 9504
 
-Then you can start typing something and hit the return button to send it to the TCP server. Whatever you type, it will be
-sent back from the TCP server.
+Then you can start typing something and hit the return button to send it to the TCP server. Whatever you type, it will
+be sent back from the TCP server.
 EOT;
 
 $server = new Swoole\Server("0.0.0.0", 9504, SWOOLE_BASE, SWOOLE_SOCK_TCP);
