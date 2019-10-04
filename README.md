@@ -49,9 +49,6 @@ Docker container.
     * resource pooling
         * process pool
         * connection pool
-    * port listening
-        * multiple protocols on the same port
-        * multiple ports listening
     * network connection detection (dead network detection)
         * [heartbeat](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/heartbeat.php)
         * TCP keepalive
@@ -59,4 +56,8 @@ Docker container.
         * [timer](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer/timer.php). There is [a 2nd example](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer/coroutine-style.php) included to show how to implement timer using coroutines only.
     * benchmark
         * single-process mode vs multi-process mode
+    * advanced topics
+        * mixed protocols
+            * [support HTTP/1, HTTP/2, and WebSocket on same port](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/mixed-protocols-1.php)
+        * multiple ports listening
 * client-side programming

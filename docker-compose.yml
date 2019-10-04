@@ -8,7 +8,7 @@ services:
       SWOOLE_EXT_ORM: enabled
       SWOOLE_EXT_POSTGRESQL: enabled
       SWOOLE_EXT_SERIALIZE: enabled
-      AUTORELOAD_PROGRAMS: "http1 websocket tcp"
+      AUTORELOAD_PROGRAMS: "http1 websocket tcp mixed-protocols-1"
     volumes:
       - ./examples:/var/www
       - ./rootfilesystem/etc/supervisor/service.d:/etc/supervisor/service.d
@@ -16,3 +16,4 @@ services:
       - 9501:9501
       - 9503:9503
       - 9504:9504
+      - 9511:9511
