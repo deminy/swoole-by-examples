@@ -6,14 +6,14 @@
  * You can use following commands to test different protocols:
  * 1. To test HTTP/1:
  *     curl -i -d TOM http://127.0.0.1:9511
- * 1. To test WebSocket:
+ * 2. To test WebSocket:
  *     websocat ws://127.0.0.1:9511
  */
 
 $server = new Swoole\WebSocket\Server("0.0.0.0", 9511, SWOOLE_BASE);
 $server->set(
     [
-        'open_http2_protocol' => true,
+        "open_http2_protocol" => true,
     ]
 );
 

@@ -59,5 +59,6 @@ Docker container.
     * advanced topics
         * mixed protocols
             * [support HTTP/1, HTTP/2, and WebSocket on same port](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/mixed-protocols-1.php)
+            * support multiple protocols on same server
         * multiple ports listening
 * client-side programming
