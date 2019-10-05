@@ -25,6 +25,12 @@ $serverProcess = new Process(
             ]
         );
         $server->on(
+            "start",
+            function (Server $server) {
+                file_put_contents("/var/run/sw-heartbeat.pid", $server->master_pid);
+            }
+        );
+        $server->on(
             "receive",
             function (Server $server, int $fd, int $reactorId, string $data) {
                 $server->send($fd, "pong");
@@ -35,10 +41,7 @@ $serverProcess = new Process(
             function (Server $server, int $fd) {
                 // In this example we only have one client created, and this client will be closed by the server due to
                 // timeout.
-                // Once the client is closed, we send a signal to the TCP server to shut it down so that you can
-                // rerun this example again without any problem.
                 echo "\nTCP client #{$fd} is closed due to timeout.\n";
-                Process::kill($server->master_pid, SIGTERM);
             }
         );
         $server->start();
@@ -80,8 +83,10 @@ go(function () {
     }
 });
 
-// Stop the process created once PHP code finishes execution.
+// Stop the TCP server and the process created once PHP code finishes execution.
 register_shutdown_function(function () use ($serverProcess) {
+    Process::kill(`cat /var/run/sw-heartbeat.pid`, SIGTERM);
+    sleep(1);
     Process::kill($serverProcess->pid);
 });
 
