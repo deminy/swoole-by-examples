@@ -7,6 +7,7 @@
  *     docker exec -t  $(docker ps -qf "name=app") bash -c "./servers/heartbeat.php"
  */
 
+use Swoole\Constant;
 use Swoole\Coroutine\Client;
 use Swoole\Event;
 use Swoole\Process;
@@ -17,22 +18,34 @@ use Swoole\Server;
 $serverProcess = new Process(
     function () {
         $server = new Server("127.0.0.1", 9601);
-        //TODO: use constants defined in Swoole library instead.
         $server->set(
             [
-                "heartbeat_check_interval" => 1,
-                "heartbeat_idle_time"      => 3,
+                Constant::OPTION_HEARTBEAT_CHECK_INTERVAL => 1,
+                Constant::OPTION_HEARTBEAT_IDLE_TIME      => 3,
             ]
         );
-        $server->on("receive", function ($server, $fd, $reactorId, $data) {
-            $server->send($fd, "pong");
-        });
-
+        $server->on(
+            "receive",
+            function (Server $server, int $fd, int $reactorId, string $data) {
+                $server->send($fd, "pong");
+            }
+        );
+        $server->on(
+            "close",
+            function (Server $server, int $fd) {
+                // In this example we only have one client created, and this client will be closed by the server due to
+                // timeout.
+                // Once the client is closed, we send a signal to the TCP server to shut it down so that you can
+                // rerun this example again without any problem.
+                echo "\nTCP client #{$fd} is closed due to timeout.\n";
+                Process::kill($server->master_pid, SIGTERM);
+            }
+        );
         $server->start();
 
         exit();
     },
-    true
+    false
 );
 $serverProcess->start();
 
@@ -55,19 +68,19 @@ go(function () {
         co::sleep(2);
     }
 
-    // Then we wait 3 second and send a last message to the server. This time, since the server has closed the
-    // connection due to inactivity, we should receive nothing from the server.
-    co::sleep(3);
+    // Then we wait 2 second and send a last message to the server. This message is sent 4 seconds after last message,
+    // thus the server has closed the connection due to inactivity and we should receive nothing from the server.
+    co::sleep(2);
     $client->send("ping");
     $data = $client->recv();
     if ("pong" == $data) {
-        echo "ERROR: Server side should have closed the connection and no message received.\n";
+        echo "\nERROR: Server side should have closed the connection and no message received.\n";
     } else {
-        echo "INFO: Server side has successfully closed the connection and no message received.\n";
+        echo "\nINFO: Server side has successfully closed the connection and no message received.\n";
     }
 });
 
-// Stop the TCP server once PHP code finishes execution.
+// Stop the process created once PHP code finishes execution.
 register_shutdown_function(function () use ($serverProcess) {
     Process::kill($serverProcess->pid);
 });
