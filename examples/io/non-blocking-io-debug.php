@@ -2,7 +2,7 @@
 <?php
 /**
  * How to run this script:
- *     docker exec -t  $(docker ps -qf "name=app") bash -c "time ./io/non-blocking-io-debug.php"
+ *     docker exec -t  $(docker ps -qf "name=server") bash -c "time ./io/non-blocking-io-debug.php"
  *
  * This script takes about 2 seconds to finish, and prints out "123456".
  *

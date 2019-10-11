@@ -5,7 +5,7 @@
  * executed. The script will keep printing out integers.
  *
  * How to run this script:
- *     docker exec -t  $(docker ps -qf "name=app") bash -c "./csp/scheduling/non-preemptive.php"
+ *     docker exec -t  $(docker ps -qf "name=server") bash -c "./csp/scheduling/non-preemptive.php"
  */
 
 co\run(

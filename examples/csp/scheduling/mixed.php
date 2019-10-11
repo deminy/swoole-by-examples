@@ -7,7 +7,7 @@
  * executed only after the schedule is enabled at line 23.
  *
  * How to run this script:
- *     docker exec -t  $(docker ps -qf "name=app") bash -c "./csp/scheduling/mixed.php"
+ *     docker exec -t  $(docker ps -qf "name=server") bash -c "./csp/scheduling/mixed.php"
  */
 
 ini_set("swoole.enable_preemptive_scheduler", 1);

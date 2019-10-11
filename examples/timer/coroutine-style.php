@@ -5,7 +5,7 @@
  * original implementation where class \Swoole\Timer is used.
  *
  * How to run this script:
- *     docker exec -t  $(docker ps -qf "name=app") bash -c "./timer/coroutine-style.php"
+ *     docker exec -t  $(docker ps -qf "name=server") bash -c "./timer/coroutine-style.php"
  */
 
 go(function () {

@@ -2,7 +2,7 @@
 <?php
 /**
  * How to run this script:
- *     docker exec -t  $(docker ps -qf "name=app") bash -c "./csp/coroutines/exit.php"
+ *     docker exec -t  $(docker ps -qf "name=server") bash -c "./csp/coroutines/exit.php"
  *
  * In lower versions of Swoole, exit() should not be used in coroutines since it results in unexpected behavior.
  * Starting from Swoole 4.1.0, you can use exit() inside coroutines directly. In this case, a \Swoole\ExitException
