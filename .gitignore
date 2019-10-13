@@ -11,3 +11,6 @@
 /composer.lock
 /composer.phar
 /vendor/
+
+# Some examples will download files from Internet. This is to ignore those downloaded files.
+/examples/clients/*.png

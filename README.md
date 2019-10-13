@@ -62,3 +62,13 @@ Docker container.
             * support multiple protocols on same server
         * multiple ports listening
 * client-side programming
+    * [HTTP/1 client](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1.php)
+    * HTTP/2 client
+    * WebSocket client
+    * TCP client
+* Swoole extensions
+    * async
+    * orm
+    * postgresql
+    * serialize
+    * zookeeper
