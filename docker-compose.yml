@@ -8,12 +8,12 @@ services:
       SWOOLE_EXT_ORM: enabled
       SWOOLE_EXT_POSTGRESQL: enabled
       SWOOLE_EXT_SERIALIZE: enabled
+      SWOOLE_EXT_ZOOKEEPER: enabled
       AUTORELOAD_PROGRAMS: "http1 websocket redis tcp mixed-protocols-1"
     volumes:
       - ./examples:/var/www
       - ./rootfilesystem/etc/supervisor/service.d:/etc/supervisor/service.d
     ports:
-      - 6379:6379
       - 9501:9501
       - 9503:9503
       - 9504:9504
