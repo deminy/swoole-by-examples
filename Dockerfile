@@ -1,9 +1,11 @@
-# This Dockerfile is to start a client-side container where only client-side scripts are to be executed.
-# Please check file ./docker-compose.yml to see how it's used under this repository.
+# This Dockerfile is to build Docker image "deminy/swoole-by-examples:client".
+# @see https://hub.docker.com/r/deminy/swoole-by-examples
 FROM phpswoole/swoole
 
 RUN \
-    pecl update-channels        && \
-    pecl install redis-5.0.2    && \
+    pecl install redis-5.0.2 && \
     docker-php-ext-enable redis && \
+    curl -sfL -o websocat.deb https://github.com/vi/websocat/releases/download/v1.5.0/websocat_1.5.0_ssl1.1_amd64.deb && \
+    dpkg -i websocat.deb && \
+    rm -rf websocat.deb /var/lib/apt/lists/* && \
     composer require -d ${HOME} -n predis/predis:~1.1.0
