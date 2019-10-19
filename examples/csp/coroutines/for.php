@@ -5,10 +5,10 @@
  * this script takes about 2,000 seconds to finish.
  *
  * How to run this script:
- *     docker exec -t  $(docker ps -qf "name=server") bash -c "./csp/coroutines/for.php"
+ *     docker exec -t  $(docker ps -qf "name=client") bash -c "./csp/coroutines/for.php"
  *
  * You can run following command to see how much time it takes to run the script:
- *     docker exec -t  $(docker ps -qf "name=server") bash -c "time ./csp/coroutines/for.php"
+ *     docker exec -t  $(docker ps -qf "name=client") bash -c "time ./csp/coroutines/for.php"
  */
 
 Swoole\Runtime::enableCoroutine();

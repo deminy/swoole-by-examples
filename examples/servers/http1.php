@@ -1,10 +1,10 @@
 #!/usr/bin/env php
 <?php
 /**
- * In this example we start an HTTP/1 server. You should be able to hit URL http://127.0.0.1:9501 and check the output.
+ * In this example we start an HTTP/1 server.
  *
- * You can also run following curl command to check HTTP headers:
- *     curl -i http://127.0.0.1:9501
+ * You can also run following curl command to check HTTP/1 response headers and body:
+ *     docker exec -t  $(docker ps -qf "name=client") bash -c "curl -i http://server:9501"
  */
 
 use Swoole\Http\Server;

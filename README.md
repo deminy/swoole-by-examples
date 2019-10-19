@@ -9,12 +9,21 @@ NOTE: I'm adding examples for latest versions of Swoole, so please be patient.
 
 ## Setup the Development Environment
 
+We use Docker to setup our development environment. Other than Docker, you don't need to install any other software to
+run and test the examples: you don't need to have PHP, Swoole, Composer, or some other software installed locally.
+
 We use [the official Docker image of Swoole](https://hub.docker.com/r/phpswoole/swoole) to run the examples. There are
 tens of examples under repository [swoole/docker-swoole](https://github.com/swoole/docker-swoole) shown how to use the
 image. Please spend some time checking it first.
 
-Before running the examples, please run command `docker-compose up -d` under the root repository directory to start a
-Docker container.
+Before running the examples, please run command `docker-compose up -d` under the root repository directory to start the
+Docker containers. There are two containers used to run the examples:
+
+* a server container where application servers are running.
+* a client container where client-side scripts should be executed.
+
+Both containers have the same PHP scripts in place, so most standalone scripts (e.g., most CSP programming examples) can be
+executed from either container.
 
 ## List of Examples
 

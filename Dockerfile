@@ -5,6 +5,8 @@ FROM phpswoole/swoole
 RUN \
     pecl install redis-5.0.2 && \
     docker-php-ext-enable redis && \
+    apt-get update && \
+    apt-get install -y netcat --no-install-recommends && \
     curl -sfL -o websocat.deb https://github.com/vi/websocat/releases/download/v1.5.0/websocat_1.5.0_ssl1.1_amd64.deb && \
     dpkg -i websocat.deb && \
     rm -rf websocat.deb /var/lib/apt/lists/* && \

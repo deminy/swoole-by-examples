@@ -5,9 +5,11 @@
  *
  * You can use following commands to test different protocols:
  * 1. To test HTTP/1:
- *     curl -i -d TOM http://127.0.0.1:9511
- * 2. To test WebSocket:
- *     websocat ws://127.0.0.1:9511
+ *   docker exec -t $(docker ps -qf "name=client") bash -c "curl -i -d World http://server:9511"
+ * 2. To test HTTP/2:
+ *   docker exec -t $(docker ps -qf "name=client") bash -c "curl -i -d World --http2-prior-knowledge http://server:9511"
+ * 3. To test WebSocket:
+ *   docker exec -ti $(docker ps -qf "name=client") bash -c "websocat ws://server:9511"
  */
 
 $server = new Swoole\WebSocket\Server("0.0.0.0", 9511, SWOOLE_BASE);

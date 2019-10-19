@@ -13,11 +13,6 @@ services:
     volumes:
       - ./examples:/var/www
       - ./rootfilesystem/etc/supervisor/service.d:/etc/supervisor/service.d
-    ports:
-      - 9501:9501
-      - 9503:9503
-      - 9504:9504
-      - 9511:9511
   client:
     image: deminy/swoole-by-examples:client
     environment:

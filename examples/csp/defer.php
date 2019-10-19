@@ -4,7 +4,7 @@
  * The example is to show how defer works in Swoole. It takes about 1 second to finish, and prints out "123456".
  *
  * How to run this script:
- *     docker exec -t  $(docker ps -qf "name=server") bash -c "./csp/defer.php"
+ *     docker exec -t  $(docker ps -qf "name=client") bash -c "./csp/defer.php"
  */
 
 go(function () {

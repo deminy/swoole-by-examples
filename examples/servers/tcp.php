@@ -7,12 +7,12 @@
 $comments = <<<EOT
 This dummy variable is only for documenting purpose.
 
-You may use netcat to open a TCP connection, like:
-
-nc 127.0.0.1 9504
-
-Then you can start typing something and hit the return button to send it to the TCP server. Whatever you type, it will
-be sent back from the TCP server.
+To test the TCP server, you can create a new Bash session in the client container first using following command:
+    docker exec -ti $(docker ps -qf "name=client") bash
+Then execute a netcat command in the Bash session to talk to the TCP server:
+    nc server 9504
+Now you can start typing something and hit the return button to send it to the TCP server. Whatever you type, the TCP
+server echos it back.
 EOT;
 
 $server = new Swoole\Server("0.0.0.0", 9504, SWOOLE_BASE, SWOOLE_SOCK_TCP);
