@@ -15,10 +15,12 @@ Now you can start typing something and hit the return button to send it to the T
 server echos it back.
 EOT;
 
-$server = new Swoole\Server("0.0.0.0", 9504, SWOOLE_BASE, SWOOLE_SOCK_TCP);
+use Swoole\Server;
+
+$server = new Server("0.0.0.0", 9504);
 $server->on(
     "receive",
-    function (Swoole\Server $server, int $fd, int $rid, string $data) {
+    function (Server $server, int $fd, int $reactorId, string $data) {
         $server->send($fd, $data);
     }
 );
