@@ -2,7 +2,7 @@ version: '3'
 
 services:
   server:
-    image: phpswoole/swoole
+    image: deminy/swoole-by-examples:server
     environment:
       SWOOLE_EXT_ASYNC: enabled
       SWOOLE_EXT_ORM: enabled
