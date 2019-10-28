@@ -21,7 +21,7 @@ $server->set(
         // For a list of file types that can be served as static content, please check
         //     https://github.com/swoole/swoole-src/blob/master/src/protocol/mime_types.cc
         Constant::OPTION_DOCUMENT_ROOT            => dirname(__DIR__),
-        Constant::OPTION_ENABLE_STATIC_HANDLER    => TRUE,
+        Constant::OPTION_ENABLE_STATIC_HANDLER    => true,
         Constant::OPTION_STATIC_HANDLER_LOCATIONS => [
             "/clients",
             "/servers",
