@@ -49,6 +49,7 @@ executed from either container.
 * server-side programming
     * application servers
         * [HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1.php)
+            * [advanced usages with HTTP/1](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1-advanced.php)
         * [HTTP/2 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http2.php)
             * HTTP/2 server push
         * [WebSocket server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/websocket.php)

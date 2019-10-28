@@ -3,8 +3,11 @@
 /**
  * In this example we start an HTTP/1 server.
  *
- * You can also run following curl command to check HTTP/1 response headers and body:
- *     docker exec -t  $(docker ps -qf "name=client") bash -c "curl -i http://server:9501"
+ * You can run following curl command to check HTTP/1 response headers and body:
+ *     docker exec -t $(docker ps -qf "name=client") bash -c "curl -i http://server:9501"
+ *
+ * To see some advanced usages like customizing status code, serving static content, and more, please check script
+ * http1-advanced.php.
  */
 
 use Swoole\Http\Server;
