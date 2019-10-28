@@ -5,7 +5,7 @@
  * check comments in script https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/redis.php.
  *
  * You can use following command to run this script:
- *     docker exec -t  $(docker ps -qf "name=client") bash -c "./clients/redis/predis.php"
+ *     docker exec -t $(docker ps -qf "name=client") bash -c "./clients/redis/predis.php"
  */
 
 require_once "{$_ENV["HOME"]}/vendor/autoload.php";

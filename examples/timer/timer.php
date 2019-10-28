@@ -2,7 +2,7 @@
 <?php
 /**
  * How to run this script:
- *     docker exec -t  $(docker ps -qf "name=server") bash -c "./timer/timer.php"
+ *     docker exec -t $(docker ps -qf "name=server") bash -c "./timer/timer.php"
  *
  * Check the output and see how Timer works in Swoole.
  *

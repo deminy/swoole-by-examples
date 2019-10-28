@@ -5,7 +5,7 @@
  * executed, and takes about 3 seconds to finish.
  *
  * How to run this script:
- *     docker exec -t  $(docker ps -qf "name=client") bash -c "time ./csp/waitgroup.php"
+ *     docker exec -t $(docker ps -qf "name=client") bash -c "time ./csp/waitgroup.php"
  *
  * Class \Swoole\Coroutine\WaitGroup is defined in this file:
  *     https://github.com/swoole/swoole-src/blob/master/library/core/Coroutine/WaitGroup.php

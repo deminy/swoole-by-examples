@@ -10,8 +10,8 @@
  *
  * In this repository there are two client-side scripts included to talk to the server: one uses phpredis and the other
  * one uses predis. Here are the commands to run the two client-side scripts:
- *     docker exec -t  $(docker ps -qf "name=client") bash -c "./clients/redis/phpredis.php"
- *     docker exec -t  $(docker ps -qf "name=client") bash -c "./clients/redis/predis.php"
+ *     docker exec -t $(docker ps -qf "name=client") bash -c "./clients/redis/phpredis.php"
+ *     docker exec -t $(docker ps -qf "name=client") bash -c "./clients/redis/predis.php"
  * You can find the scripts from
  *     1. https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/redis/phpredis.php
  *     2. https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/redis/predis.php

@@ -5,7 +5,7 @@
  * "1234567".
  *
  * How to run this script:
- *     docker exec -t  $(docker ps -qf "name=client") bash -c "./csp/coroutines/yield-and-resume.php"
+ *     docker exec -t $(docker ps -qf "name=client") bash -c "./csp/coroutines/yield-and-resume.php"
  */
 
 $cid = go(function () {
