@@ -9,7 +9,7 @@ services:
       SWOOLE_EXT_POSTGRESQL: enabled
       SWOOLE_EXT_SERIALIZE: enabled
       SWOOLE_EXT_ZOOKEEPER: enabled
-      AUTORELOAD_PROGRAMS: "http1 http1-advanced http2 keepalive mixed-protocols-1 redis tcp websocket"
+      AUTORELOAD_PROGRAMS: "http1 http1-advanced http2 keepalive mixed-protocols-1 redis tcp udp websocket"
     volumes:
       - ./examples:/var/www
       - ./rootfilesystem/etc/supervisor/service.d:/etc/supervisor/service.d
