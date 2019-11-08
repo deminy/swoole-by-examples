@@ -58,6 +58,10 @@ executed from either container.
         * [UDP server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/udp.php)
     * resource pooling
         * process pool
+            * [standalone](https://github.com/deminy/swoole-by-examples/blob/master/examples/multiprocess/pool-standalone.php)
+            * [using message queue](https://github.com/deminy/swoole-by-examples/blob/master/examples/multiprocess/pool-msgqueue.php)
+            * [using TCP socket](https://github.com/deminy/swoole-by-examples/blob/master/examples/multiprocess/pool-tcp-socket.php)
+            * [using Unix socket](https://github.com/deminy/swoole-by-examples/blob/master/examples/multiprocess/pool-unix-socket.php)
         * connection pool
     * network connection detection (dead network detection)
         * [heartbeat](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/heartbeat.php)
