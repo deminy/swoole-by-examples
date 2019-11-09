@@ -39,6 +39,7 @@ executed from either container.
         * [nested coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/nested.php)
         * [exit from coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/exit.php)
     * channels
+        * [basic usage](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/channel.php)
         * [waitGroup](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/waitgroup.php) (like [the WaitGroup type in Golang](https://golang.org/pkg/sync/#WaitGroup))
     * [defer](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/defer.php)
     * advanced topics
