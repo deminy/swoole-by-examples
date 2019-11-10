@@ -20,16 +20,17 @@ go(function () use ($wg) {
         co::sleep(1);
         $wg->done();
     });
+
+    $wg->add(2); // You don't have to increase the counter one by one.
     go(function () use ($wg) {
-        $wg->add();
         co::sleep(2);
         $wg->done();
     });
     go(function () use ($wg) {
-        $wg->add();
         co::sleep(3);
         $wg->done();
     });
+
     $wg->wait(); // Wait those 3 coroutines to finish.
 
     // Any code here won't be executed until all 3 coroutines created in this function finish execution.
