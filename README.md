@@ -23,7 +23,13 @@ Docker containers. There are two containers used to run the examples:
 * a client container where client-side scripts should be executed.
 
 Both containers have the same PHP scripts in place, so most standalone scripts (e.g., most CSP programming examples) can be
-executed from either container.
+executed from either container. Once the containers are running, you can use one of following commands to get a Bash shell
+in the containers:
+
+```bash
+docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the client container.
+docker exec -ti $(docker ps -qf "name=server") bash # Get a Bash shell in the server container.
+```
 
 ## List of Examples
 
@@ -38,6 +44,7 @@ executed from either container.
         * [coroutines in a for loop](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/for.php)
         * [nested coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/nested.php)
         * [exit from coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/exit.php)
+        * context
     * channels
         * [basic usage](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/channel.php)
         * [waitGroup](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/waitgroup.php) (like [the WaitGroup type in Golang](https://golang.org/pkg/sync/#WaitGroup))
@@ -47,14 +54,18 @@ executed from either container.
             1. [non-preemptive scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/non-preemptive.php)
             2. [preemptive scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/preemptive.php)
             3. [mixed scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/mixed.php)
+        * runtime hooks
+            * hook _curl_ functions
+            * hook _mysql_/_pdo_ functions
 * server-side programming
     * application servers
         * [HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1.php)
-            * [advanced usages with HTTP/1](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1-advanced.php)
+            * advanced usages with HTTP/1: gzip compression, serving static content, SSL support, the non-standard PURGE method, etc.
         * [HTTP/2 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http2.php)
             * HTTP/2 server push
         * [WebSocket server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/websocket.php)
         * [Redis server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/redis.php)
+        * proxy server
         * [TCP server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp.php)
         * [UDP server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/udp.php)
     * resource pooling
@@ -76,6 +87,8 @@ executed from either container.
             * [support HTTP/1, HTTP/2, and WebSocket on same port](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/mixed-protocols-1.php)
             * support multiple protocols on same server
         * multiple ports listening
+        * built-in job worker
+        * event listeners
 * client-side programming
     * [HTTP/1 client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/http1.php)
     * HTTP/2 client
