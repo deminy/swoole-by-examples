@@ -9,7 +9,7 @@
  * cable on the server side (or on the client side), but in our Docker environment we are unable to do that. However,
  * you can still check network connection status to see if it works:
  * 1. In the client container, make a TCP connection to the server:
- *         docker exec -ti $(docker ps -qf "name=client") bash -c "nc server 9602"
+ *        docker exec -ti $(docker ps -qf "name=client") bash -c "nc server 9602"
  * 2. In the server container, monitor network connection status:
  *        docker exec -t $(docker ps -qf "name=server") bash -c "watch -n 1 'netstat -a -n -o | grep :9602'"
  *    From the output you will see an "ESTABLISHED keepalive" line, which is the TCP connection from the client

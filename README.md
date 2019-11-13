@@ -3,7 +3,9 @@
 [![Build Status](https://travis-ci.com/deminy/swoole-by-examples.svg?branch=master)](https://travis-ci.com/deminy/swoole-by-examples)
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
-The repository is to help developers to get familiar with [Swoole](https://github.com/swoole/swoole-src) through a variety of examples.
+The repository is to help developers to get familiar with [Swoole](https://github.com/swoole/swoole-src) through a 
+variety of examples. All the examples are fully functioning; they can be executed and verified using the Docker images
+provided.
 
 NOTE: I'm adding examples for latest versions of Swoole, so please be patient.
 
@@ -27,8 +29,8 @@ executed from either container. Once the containers are running, you can use one
 in the containers:
 
 ```bash
-docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the client container.
 docker exec -ti $(docker ps -qf "name=server") bash # Get a Bash shell in the server container.
+docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the client container.
 ```
 
 ## List of Examples
