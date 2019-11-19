@@ -59,6 +59,7 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
         * runtime hooks
             * hook _curl_ functions
             * hook _mysql_/_pdo_ functions
+        * unit tests
 * server-side programming
     * application servers
         * [HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1.php)

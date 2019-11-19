@@ -13,8 +13,9 @@
 
 use Swoole\Coroutine\WaitGroup;
 
-$wg = new WaitGroup();
-go(function () use ($wg) {
+go(function () {
+    $wg = new WaitGroup();
+
     go(function () use ($wg) {
         $wg->add();
         co::sleep(1);
