@@ -40,7 +40,7 @@ co::set(
         Constant::OPTION_MAX_COROUTINE => $totalCoroutines,
     ]
 );
-for ($i = $totalCoroutines; $i--; ) {
+for ($i = $totalCoroutines; $i--;) {
     go(function () {
         co::sleep(5);
     });
