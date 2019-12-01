@@ -47,6 +47,7 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
         * [nested coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/nested.php)
         * [exit from coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/exit.php)
         * context
+        * [benchmark](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/benchmark.php): In this example we create 1,000,000 coroutines in a single process; each coroutine sleeps for 5 seconds.
     * channels
         * [basic usage](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/channel.php)
         * [waitGroup](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/waitgroup.php) (like [the WaitGroup type in Golang](https://golang.org/pkg/sync/#WaitGroup))
