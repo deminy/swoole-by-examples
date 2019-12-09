@@ -17,7 +17,7 @@ use Swoole\Database\RedisConfig;
 use Swoole\Database\RedisPool;
 
 co\run(function () {
-    $pool = new RedisPool((new RedisConfig)->withHost(System::gethostbyname("server")));
+    $pool = new RedisPool((new RedisConfig())->withHost(System::gethostbyname("server")));
     for ($n = 1024; $n--;) {
         go(function () use ($pool) {
             $redis = $pool->get();
