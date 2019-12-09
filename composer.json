@@ -5,6 +5,7 @@
   "license": "CC-BY-NC-ND-4.0",
   "require-dev": {
     "squizlabs/php_codesniffer": "~3.4.0",
-    "swoole/ide-helper": "@dev"
+    "swoole/ide-helper": "@dev",
+    "swoole/library": "@dev"
   }
 }
