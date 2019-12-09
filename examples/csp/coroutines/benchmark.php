@@ -5,9 +5,11 @@
  * WARNING: This example requires better CPU/memory to run; it may not work on your laptop/desktop.
  *
  * How to run this script:
+ *     docker run --rm -v $(pwd)/examples/csp/coroutines/benchmark.php:/benchmark.php -t phpswoole/swoole bash -c "/benchmark.php"
  *     docker exec -t $(docker ps -qf "name=client") bash -c "./examples/csp/coroutines/benchmark.php"
  *
- * You can run following command to see how much time it takes to run the script:
+ * You can run following commands to see how much time it takes to run the script:
+ *     docker run --rm -v $(pwd)/examples/csp/coroutines/benchmark.php:/benchmark.php -t phpswoole/swoole bash -c "time /benchmark.php"
  *     docker exec -t $(docker ps -qf "name=client") bash -c "time ./examples/csp/coroutines/benchmark.php"
  *
  * Following is an output I got when running from a Docker container in an Amazon EC2 m5.2xlarge instance (8 vCPU, 32GB
@@ -30,6 +32,7 @@
  */
 
 use Swoole\Constant;
+use Swoole\Coroutine;
 
 ini_set("memory_limit", -1);
 
@@ -48,7 +51,7 @@ for ($i = $totalCoroutines; $i--;) {
     if (($i % 100000) === 0) {
         printf(
             "%07d active coroutines; total time: %f seconds; memory usage: %d.\n",
-            count(Swoole\Coroutine::listCoroutines()),
+            count(Coroutine::listCoroutines()),
             (microtime(true) - $startTime),
             memory_get_usage()
         );
