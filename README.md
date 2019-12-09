@@ -74,10 +74,10 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
         * [UDP server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/udp.php)
     * resource pooling
         * process pool
-            * [standalone](https://github.com/deminy/swoole-by-examples/blob/master/examples/multiprocess/pool-standalone.php)
-            * [using message queue](https://github.com/deminy/swoole-by-examples/blob/master/examples/multiprocess/pool-msgqueue.php)
-            * [using TCP socket](https://github.com/deminy/swoole-by-examples/blob/master/examples/multiprocess/pool-tcp-socket.php)
-            * [using Unix socket](https://github.com/deminy/swoole-by-examples/blob/master/examples/multiprocess/pool-unix-socket.php)
+            * [standalone](https://github.com/deminy/swoole-by-examples/blob/master/examples/pool/process-pool/pool-standalone.php)
+            * [using message queue](https://github.com/deminy/swoole-by-examples/blob/master/examples/pool/process-pool/pool-msgqueue.php)
+            * [using TCP socket](https://github.com/deminy/swoole-by-examples/blob/master/examples/pool/process-pool/pool-tcp-socket.php)
+            * [using Unix socket](https://github.com/deminy/swoole-by-examples/blob/master/examples/pool/process-pool/pool-unix-socket.php)
         * connection pool
     * network connection detection (dead network detection)
         * [heartbeat](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/heartbeat.php)

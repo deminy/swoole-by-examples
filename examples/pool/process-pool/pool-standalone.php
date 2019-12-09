@@ -6,7 +6,7 @@
  *
  * This example creates a pool to run the worker process 3 times.
  * To run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./multiprocess/pool-standalone.php"
+ *     docker exec -t $(docker ps -qf "name=client") bash -c "./pool/process-pool/pool-standalone.php"
  */
 
 use Swoole\Atomic;

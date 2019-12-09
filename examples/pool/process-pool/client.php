@@ -7,7 +7,7 @@
  *     * through Unix socket.
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=server") bash -c "./multiprocess/client.php"
+ *     docker exec -t $(docker ps -qf "name=server") bash -c "./pool/process-pool/client.php"
  */
 
 use Swoole\Constant;
