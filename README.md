@@ -70,7 +70,8 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
         * [WebSocket server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/websocket.php)
         * [Redis server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/redis.php)
         * proxy server
-        * [TCP server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp.php)
+        * [TCP server]
+            * [event-driven style](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp1.php)
         * [UDP server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/udp.php)
     * resource pooling
         * process pool
