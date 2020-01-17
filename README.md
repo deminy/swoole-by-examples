@@ -70,7 +70,7 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
         * [WebSocket server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/websocket.php)
         * [Redis server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/redis.php)
         * proxy server
-        * [TCP server]
+        * TCP server
             * [event-driven style](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp1.php)
             * [coroutine style](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp2.php)
         * [UDP server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/udp.php)
@@ -100,7 +100,7 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
     * [HTTP/1 client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/http1.php)
     * HTTP/2 client
     * WebSocket client
-    * TCP client
+    * [TCP client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/tcp.php)
 * Swoole extensions
     * async
     * orm
