@@ -1,7 +1,8 @@
 #!/usr/bin/env php
 <?php
 /**
- * In this example we start a TCP server on port 9505. Please check next section to see how to test the example.
+ * In this example we start a TCP server in event-driven style on port 9505. Please check next section to see how to
+ * test the example.
  */
 
 $comments = <<<EOT
