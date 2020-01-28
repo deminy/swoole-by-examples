@@ -63,8 +63,8 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
         * unit tests
 * server-side programming
     * application servers
-        * [HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1.php)
-            * advanced usages with HTTP/1: gzip compression, serving static content, SSL support, the non-standard PURGE method, etc.
+        * [HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1.php): support gzip compression, serving static content, customizing status code, etc.
+            * [integrated HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1-integrated.php): an HTTP/1 server that supports cronjobs and synchronous/asynchronous tasks.
         * [HTTP/2 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http2.php)
             * HTTP/2 server push
         * [WebSocket server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/websocket.php)
