@@ -22,14 +22,17 @@ $settings = [
 ];
 
 // This first example shows how to send messages (and deploy tasks) to a process pool through message queue.
+// Swoole extension "async" (https://github.com/swoole/ext-async) is needed to run this example.
 // If your PHP is compiled to support System V semaphore, you can also use message queue functions msg_get_queue() and
 // msg_send() to do that. Check PHP manual https://www.php.net/sem for details.
-go(function () {
-    $mq = new MsgQueue(0x7000001);
-    for ($i = 0; $i < 3; $i++) {
-        $mq->push("Message #{$i}!");
-    }
-});
+if (class_exists(MsgQueue::class)) {
+    go(function () {
+        $mq = new MsgQueue(0x7000001);
+        for ($i = 0; $i < 3; $i++) {
+            $mq->push("Message #{$i}!");
+        }
+    });
+}
 
 // This second example shows how to send messages (and deploy tasks) to a process pool through TCP socket.
 go(function () use ($settings) {
