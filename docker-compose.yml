@@ -4,11 +4,6 @@ services:
   server:
     image: deminy/swoole-by-examples:server
     environment:
-      SWOOLE_EXT_ASYNC: enabled
-      SWOOLE_EXT_ORM: enabled
-      SWOOLE_EXT_POSTGRESQL: enabled
-      SWOOLE_EXT_SERIALIZE: enabled
-      SWOOLE_EXT_ZOOKEEPER: enabled
       AUTORELOAD_PROGRAMS: "http1 http1-advanced http2 keepalive mixed-protocols-1 pool-msgqueue pool-tcp-socket pool-unix-socket redis tcp1 tcp2 udp websocket"
     volumes:
       - ./examples:/var/www
