@@ -4,7 +4,7 @@ services:
   server:
     image: deminy/swoole-by-examples:server
     environment:
-      AUTORELOAD_PROGRAMS: "http1 http1-advanced http2 keepalive mixed-protocols-1 pool-msgqueue pool-tcp-socket pool-unix-socket redis tcp1 tcp2 udp websocket"
+      AUTORELOAD_PROGRAMS: "http1 http1-integrated http2 keepalive mixed-protocols-1 pool-msgqueue pool-tcp-socket pool-unix-socket redis tcp1 tcp2 udp websocket"
     volumes:
       - ./examples:/var/www
       - ./rootfilesystem/etc/supervisor/service.d:/etc/supervisor/service.d

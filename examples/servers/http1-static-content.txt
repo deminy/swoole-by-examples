@@ -1,1 +1,1 @@
-This text file is for testing serving static content under HTTP/1. Please check script http1-advanced.php for details.
+This text file is for testing serving static content under HTTP/1. Please check script http1.php for details.

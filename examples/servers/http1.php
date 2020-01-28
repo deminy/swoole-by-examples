@@ -24,7 +24,7 @@
  *   # To fetch a non-existing file outside of the specified static file locations in the web server.
  *   docker exec -t $(docker ps -qf "name=client") bash -c "curl -i http://server:9501/non-existing.txt"
  *
- * For advanced usages like integrated cronjob and job queue, please check script http1-advanced.php.
+ * For advanced usages like integrated cronjob and job queue, please check script http1-integrated.php.
  */
 
 use Swoole\Constant;
