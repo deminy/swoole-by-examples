@@ -87,7 +87,6 @@ $server->on(
                 });
                 break;
         }
-
     }
 );
 $server->on(
