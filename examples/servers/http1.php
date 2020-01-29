@@ -33,6 +33,8 @@ use Swoole\Http\Request;
 use Swoole\Http\Response;
 
 $server = new Server("0.0.0.0", 9501);
+
+// All the options set here are optional.
 $server->set(
     [
         Constant::OPTION_HTTP_COMPRESSION       => true,
@@ -48,6 +50,7 @@ $server->set(
         ],
     ]
 );
+
 $server->on(
     "request",
     function (Request $request, Response $response) {

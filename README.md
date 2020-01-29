@@ -86,7 +86,9 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
         * [heartbeat](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/heartbeat.php)
         * [TCP keepalive](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/keepalive.php)
     * task scheduling and handling
-        * [timer](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer/timer.php). There is [a 2nd example](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer/coroutine-style.php) included to show how to implement timer using coroutines only.
+        * [timer](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer/timer.php)
+            * There is [a 2nd example](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer/coroutine-style.php) included to show how to implement timer using coroutines only.
+            * To see how to setup cronjobs using the _\Swoole\Timer_ class in an application server, please check [integrated HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1-integrated.php).
     * benchmark
         * single-process mode vs multi-process mode
     * advanced topics

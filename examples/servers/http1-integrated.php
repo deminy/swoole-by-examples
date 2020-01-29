@@ -35,7 +35,7 @@ $server->on(
         echo "[HTTP1-ADVANCED]: # of CPU units: ", swoole_cpu_num(), "\n";
 
         // Here we start a cron job to run every 20 seconds.
-        $server->timerId = Timer::tick(
+        Timer::tick(
             1000 * 20,
             function () {
                 echo "[HTTP1-ADVANCED]: This message is printed out every 20 seconds. (", date("H:i:s"), ")\n";
