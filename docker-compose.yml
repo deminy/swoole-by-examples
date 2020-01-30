@@ -7,7 +7,6 @@ services:
       AUTORELOAD_PROGRAMS: "http1 http1-integrated http2 keepalive mixed-protocols-1 pool-msgqueue pool-tcp-socket pool-unix-socket redis tcp1 tcp2 udp websocket"
     volumes:
       - ./examples:/var/www
-      - ./rootfilesystem/etc/supervisor/service.d:/etc/supervisor/service.d
   client:
     image: deminy/swoole-by-examples:client
     environment:

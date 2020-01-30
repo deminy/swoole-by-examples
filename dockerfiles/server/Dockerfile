@@ -2,6 +2,8 @@
 # @see https://hub.docker.com/r/deminy/swoole-by-examples
 FROM phpswoole/swoole:4.4.15-php7.3
 
+COPY ./rootfilesystem /
+
 RUN \
     apt-get update && \
     apt-get install -y net-tools --no-install-recommends && \
