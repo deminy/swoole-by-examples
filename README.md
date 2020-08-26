@@ -82,6 +82,7 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
             * [using Unix socket](https://github.com/deminy/swoole-by-examples/blob/master/examples/pool/process-pool/pool-unix-socket.php)
         * connection pool
             * [Redis connection pool](https://github.com/deminy/swoole-by-examples/blob/master/examples/pool/database-pool/redis.php)
+            * How to implement a customized connection pool? Check package [crowdstar/vertica-swoole-adapter](https://github.com/Crowdstar/vertica-swoole-adapter) for details. This package implements connection pool for HP Vertica databases through ODBC, and it's maintained by me.
     * network connection detection (dead network detection)
         * [heartbeat](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/heartbeat.php)
         * [TCP keepalive](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/keepalive.php)
