@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * In this example we start a WebSocket server on port 9504. Please check next section to see how to test the example.
  */

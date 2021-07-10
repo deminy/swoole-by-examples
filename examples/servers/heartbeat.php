@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * In this example we show how to detect dead TCP connections with heartbeats.
  *

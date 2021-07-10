@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * In this script we show how to communicate with process pool in three different ways:
  *     * through message queue.

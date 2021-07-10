@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * In this example we start a mini-version of Redis server, where only the Redis "get" and "set" commands are
  * implemented.

@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * How to run this script:
  *     docker exec -t $(docker ps -qf "name=client") bash -c "time ./io/non-blocking-io-debug.php"

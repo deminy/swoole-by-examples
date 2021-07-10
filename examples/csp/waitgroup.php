@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * This example shows how to wait for a collection of coroutines to finish in PHP applications. It has 3 coroutines
  * executed, and takes about 3 seconds to finish.

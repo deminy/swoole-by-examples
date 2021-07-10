@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * In this example, the first coroutine keeps running all the time, while the second coroutine has no chance of getting
  * executed. The script will keep printing out integers.

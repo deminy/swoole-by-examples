@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * This example shows how to do multiprocessing without IPC (inter-process communication). It doesn't listen or
  * accept any external messages, and you should implement your business logic in the "workerStart" callback.

@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * In this example we show how to detect dead TCP connections using TCP keepalive. This script is very similar to the
  * TCP server one (tcp.php), except that here we use a different port #, have TCP keepalive enabled, and adjust some

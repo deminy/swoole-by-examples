@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * This script takes about 1 second to finish, with 2,000 coroutines created. Without coroutine enabled (in line 14),
  * this script takes about 2,000 seconds to finish.

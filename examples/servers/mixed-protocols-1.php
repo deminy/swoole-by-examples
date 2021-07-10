@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * In this example we start a server to support HTTP/1, HTTP/2, and WebSocket on same port.
  *

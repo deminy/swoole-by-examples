@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * This example shows how to use channels to communicate among different coroutines.
  *

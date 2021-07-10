@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * The example is to show how to yield and resume coroutines. It takes about 1 second to finish, and prints out
  * "1234567".

@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * This script is to help to understand how nested coroutines are executed in order; it works similarly to script
  * "nested.php" under the same directory. Once executed, it prints out "123456789".

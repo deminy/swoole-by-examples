@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * In this example two HTTP/1 requests are made in non-blocking mode. Since the 2nd request usually takes
  * much less time to finish, you should see following output in most cases:

@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * In this example we start a TCP server in coroutine style on port 9507. Please check next section to see how to
  * test the example.

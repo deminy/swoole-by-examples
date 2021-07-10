@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * In this example we start an HTTP/1 server, with following features supported:
  *     * customize status code.
