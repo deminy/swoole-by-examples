@@ -3,7 +3,7 @@ name: Coding Style Checks
 on: [ push, pull_request, workflow_dispatch ]
 
 jobs:
-  ci:
+  coding-style-checks:
     runs-on: ubuntu-latest
 
     steps:
@@ -13,6 +13,7 @@ jobs:
       - name: Install dependencies
         uses: php-actions/composer@v6
         with:
+          args: --ignore-platform-reqs
           version: 2
 
       - name: Run Coding Style Checks
