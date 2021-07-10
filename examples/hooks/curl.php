@@ -2,9 +2,15 @@
 <?php
 
 /**
- * In this example, ten HTTP/1 requests are made using the curl extension.
+ * In this example, six non-blocking HTTP/1 requests are made by enabling option "SWOOLE_HOOK_CURL" for the curl
+ * extension.
  * Each request takes about two seconds to finish; however, since the requests are made in non-blocking mode, it takes
  * barely over two seconds to finish all the requests.
+ *
+ * Notes:
+ *     * This feature works under Swoole 4.4.0+.
+ *     * This approach doesn't work for curl_multi_* functions. To hook curl_multi_* functions, please check the other
+ *       example in file "./hooks/native-curl.php".
  *
  * How to run this script:
  *     docker exec -t $(docker ps -qf "name=client") bash -c "./hooks/curl.php"
@@ -20,7 +26,7 @@ use Swoole\Coroutine\Http\Client;
 Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_CURL]);
 
 co\run(function () {
-    for ($i = 0; $i < 10; $i++) {
+    for ($i = 0; $i < 6; $i++) {
         go(function () {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, "http://server:9501?sleep=2");

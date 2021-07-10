@@ -58,7 +58,9 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
             2. [preemptive scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/preemptive.php)
             3. [mixed scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/mixed.php)
         * runtime hooks
-            * [hook _curl_ functions](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/curl.php)
+            * curl. There are two different ways to hook curl functions:
+                * Option [SWOOLE_HOOK_CURL](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/curl.php): This approach is implemented through [Swoole Library](https://github.com/swoole/library); however, it doesn't work for _curl_multi_*_ functions.
+                * Option [SWOOLE_HOOK_NATIVE_CURL](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/native-curl.php)
             * hook _mysql_/_pdo_ functions
         * unit tests
 * server-side programming
