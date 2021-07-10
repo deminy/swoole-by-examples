@@ -29,6 +29,7 @@
  */
 
 use Swoole\Constant;
+use Swoole\Coroutine;
 use Swoole\Http\Server;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
@@ -55,6 +56,10 @@ $server->set(
 $server->on(
     "request",
     function (Request $request, Response $response) {
+        if (!empty($request->get['sleep'])) {
+            Coroutine::sleep($request->get['sleep']); // Sleep for a while if HTTP query parameter "sleep" presents.
+        }
+
         // Next method call is to show how to change HTTP status code from the default one (200) to something else.
         $response->status(234, 'Test');
 

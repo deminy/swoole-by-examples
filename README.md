@@ -58,7 +58,7 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
             2. [preemptive scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/preemptive.php)
             3. [mixed scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/mixed.php)
         * runtime hooks
-            * hook _curl_ functions
+            * [hook _curl_ functions](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/curl.php)
             * hook _mysql_/_pdo_ functions
         * unit tests
 * server-side programming
