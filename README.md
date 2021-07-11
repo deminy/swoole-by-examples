@@ -1,6 +1,5 @@
 # Swoole by Examples
 
-[![Build Status](https://travis-ci.com/deminy/swoole-by-examples.svg?branch=master)](https://travis-ci.com/deminy/swoole-by-examples)
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
 The repository is to help developers to get familiar with [Swoole](https://github.com/swoole/swoole-src) through a 
