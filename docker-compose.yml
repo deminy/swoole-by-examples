@@ -12,6 +12,14 @@ services:
     environment:
       DISABLE_DEFAULT_SERVER: 1
     links:
+      - mysql
       - server
     volumes:
       - ./examples:/var/www
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: username

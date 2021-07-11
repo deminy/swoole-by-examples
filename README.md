@@ -61,7 +61,7 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
             * curl. There are two different ways to hook curl functions:
                 * [Option SWOOLE_HOOK_CURL](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/curl.php): This approach is implemented through [Swoole Library](https://github.com/swoole/library); however, it doesn't work for _curl_multi_*_ functions.
                 * [Option SWOOLE_HOOK_NATIVE_CURL](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/native-curl.php)
-            * hook _mysql_/_pdo_ functions
+            * [hook _MySQL_/_PDO_ functions](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo.php)
         * unit tests
 * server-side programming
     * application servers

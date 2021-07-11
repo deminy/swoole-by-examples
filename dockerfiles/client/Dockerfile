@@ -5,6 +5,7 @@ FROM phpswoole/swoole:4.6-php7.4
 RUN \
     pecl install redis-5.3.4 && \
     docker-php-ext-enable redis && \
+    docker-php-ext-install pdo_mysql && \
     apt-get update && \
     apt-get install -y netcat xxd --no-install-recommends && \
     curl -sfL -o websocat.deb https://github.com/vi/websocat/releases/download/v1.5.0/websocat_1.5.0_ssl1.1_amd64.deb && \
