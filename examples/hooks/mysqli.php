@@ -25,8 +25,8 @@ co\run(function () {
             $mysqli = new mysqli("mysql", "username", "password", "test");
             $stmt = $mysqli->prepare("SELECT SLEEP(3)");
             $stmt->execute();
-            $stmt = null;
-            $pdo = null;
+            $stmt->close();
+            $mysqli->close();
         });
     }
 });
