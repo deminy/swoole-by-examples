@@ -4,18 +4,24 @@
 /**
  * In this example, we implement the classic hand game Rock Paper Scissors.
  *
- * Assuming there are three players A, B, and C, they choose their shapes separately by making a selection on the
- * web form and submitting their choices. Once everyone has their choices submitted, there will be three HTTP POST
- * requests made to the server, kind of like the following:
+ * Assuming there are three players A, B, and C, they choose their shapes separately by making a selection on the web
+ * form and submitting their choices through following pages. Once everyone has their choices submitted, there will be
+ * three HTTP POST requests made to the server.
  *
- *   docker exec -t $(docker ps -qf "name=client") curl -d "shape=Rock"     "http://server:9801?name=A"
- *   docker exec -t $(docker ps -qf "name=client") curl -d "shape=Paper"    "http://server:9801?name=B"
- *   docker exec -t $(docker ps -qf "name=client") curl -d "shape=Scissors" "http://server:9801?name=C"
+ *   * http://127.0.0.1:9801?name=A
+ *   * http://127.0.0.1:9801?name=B
+ *   * http://127.0.0.1:9801?name=C
  *
- * What happens on the server side?
+ * What happens next on the server side?
  *   1. The first two HTTP POST requests won't get responses immediately.
- *   2. Once all three HTTP requests were processed, they get responses simultaneously.
+ *   2. Once all three HTTP requests are processed, they get responses simultaneously.
  *   3. All the responses are sent by the server when processing the third quest (the last request).
+ *
+ * For backend developers, instead of trying it using a web browser, you can execute following CLI commands in different
+ * terminals and check the outputs:
+ *   docker exec -ti $(docker ps -qf "name=client") curl -d "shape=Rock"     "http://server:9801?name=A"
+ *   docker exec -ti $(docker ps -qf "name=client") curl -d "shape=Paper"    "http://server:9801?name=B"
+ *   docker exec -ti $(docker ps -qf "name=client") curl -d "shape=Scissors" "http://server:9801?name=C"
  */
 
 use Swoole\Http\Server;
