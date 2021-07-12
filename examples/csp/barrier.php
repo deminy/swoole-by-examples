@@ -8,8 +8,9 @@
  * Class \Swoole\Coroutine\Barrier is defined in this file:
  *     https://github.com/swoole/library/blob/master/src/core/Coroutine/Barrier.php
  *
- * This example uses class \Swoole\Coroutine\Barrier, which is implemented using destruct methods in PHP.
- * It works similar to class \Swoole\Coroutine\WaitGroup, which is implemented using channels (class \Swoole\Coroutine\Channel).
+ * This example uses class \Swoole\Coroutine\Barrier, which is implemented using destruct methods in PHP. Class
+ * \Swoole\Coroutine\Barrier works similar to class \Swoole\Coroutine\WaitGroup, which is implemented using channels
+ * (class \Swoole\Coroutine\Channel).
  * @see https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/waitgroup.php
  *
  * How to run this script:

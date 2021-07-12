@@ -8,8 +8,9 @@
  * Class \Swoole\Coroutine\WaitGroup is defined in this file:
  *     https://github.com/swoole/library/blob/master/src/core/Coroutine/WaitGroup.php
  *
- * This example uses class \Swoole\Coroutine\WaitGroup, which is implemented using channels (class \Swoole\Coroutine\Channel).
- * It works similar to class \Swoole\Coroutine\Barrier, which doesn't use channels at all.
+ * This example uses class \Swoole\Coroutine\WaitGroup, which is implemented using channels (class
+ * \Swoole\Coroutine\Channel). Class \Swoole\Coroutine\WaitGroup works similar to class \Swoole\Coroutine\Barrier, which
+ * doesn't use channels at all.
  * @see https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/barrier.php
  *
  * How to run this script:
