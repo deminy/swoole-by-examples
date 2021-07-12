@@ -18,8 +18,6 @@
  *   3. All the responses are sent by the server when processing the third quest (the last request).
  */
 
-use Swoole\Constant;
-use Swoole\Coroutine;
 use Swoole\Http\Server;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
