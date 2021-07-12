@@ -5,6 +5,7 @@ services:
     image: deminy/swoole-by-examples:server
     environment:
       AUTORELOAD_PROGRAMS: "http1 http1-integrated http2 keepalive mixed-protocols-1 pool-msgqueue pool-tcp-socket pool-unix-socket redis rock-paper-scissors tcp1 tcp2 udp websocket"
+      DISABLE_DEFAULT_SERVER: 1
     ports:
       - 9801
     volumes:
