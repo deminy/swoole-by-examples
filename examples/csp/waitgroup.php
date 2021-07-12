@@ -5,11 +5,15 @@
  * This example shows how to wait for a collection of coroutines to finish in PHP applications. It has 3 coroutines
  * executed, and takes about 3 seconds to finish.
  *
+ * Class \Swoole\Coroutine\WaitGroup is defined in this file:
+ *     https://github.com/swoole/library/blob/master/src/core/Coroutine/WaitGroup.php
+ *
+ * This example uses class \Swoole\Coroutine\WaitGroup, which is implemented using channels (class \Swoole\Coroutine\Channel).
+ * It works similar to class \Swoole\Coroutine\Barrier, which doesn't use channels at all.
+ * @see https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/barrier.php
+ *
  * How to run this script:
  *     docker exec -t $(docker ps -qf "name=client") bash -c "time ./csp/waitgroup.php"
- *
- * Class \Swoole\Coroutine\WaitGroup is defined in this file:
- *     https://github.com/swoole/swoole-src/blob/master/library/core/Coroutine/WaitGroup.php
  */
 
 use Swoole\Coroutine\WaitGroup;
