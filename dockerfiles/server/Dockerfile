@@ -5,7 +5,7 @@ FROM phpswoole/swoole:4.6-php7.4
 COPY ./rootfilesystem /
 
 RUN \
-    set -ex \
+    set -ex && \
     apt-get update && \
     apt-get install -y net-tools --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
