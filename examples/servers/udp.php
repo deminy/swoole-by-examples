@@ -3,18 +3,15 @@
 
 /**
  * In this example we start a UDP server on port 9506. Please check next section to see how to test the example.
+ *
+ * To test the UDP server, you can execute a netcat command in the client container to talk to the UDP server:
+ *     docker exec -ti $(docker ps -qf "name=client") nc -u server 9506
+ *
+ * Now you can start typing something and hit the return button to send it to the UDP server. Whatever you type, the UDP
+ * server echos it back.
+ *
+ * Once done, you can press CTRL+C to stop.
  */
-
-$comments = <<<EOT
-This dummy variable is only for documenting purpose.
-
-To test the UDP server, you can create a new Bash session in the client container first using following command:
-    docker exec -ti $(docker ps -qf "name=client") bash
-Then execute a netcat command in the Bash session to talk to the UDP server:
-    nc -u server 9506
-Now you can start typing something and hit the return button to send it to the UDP server. Whatever you type, the UDP
-server echos it back.
-EOT;
 
 use Swoole\Server;
 
