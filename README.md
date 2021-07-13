@@ -38,6 +38,7 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
     * from blocking I/O to non-blocking I/O
         * The blocking version can be found [here](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/blocking-io.php).
         * The non-blocking version of the same script can be found [here](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/non-blocking-io.php). You can also check [this script](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/non-blocking-io-debug.php) to see how the non-blocking version is executed in order.
+        * [This example](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/blocking-vs-non-blocking.php) shows how the _return_ statement is treated differently in Swoole. As you can see in the example, a function call could return a value back first before finishing its execution.
     * coroutines
         * enable coroutines
         * [create coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/creation.php)
