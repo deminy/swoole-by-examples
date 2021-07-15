@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<ruleset name="Coding Standard">
-    <rule ref="PSR12">
-        <exclude name="PSR1.Files.SideEffects" />
-    </rule>
-    <rule ref="Generic.WhiteSpace.ScopeIndent">
-        <exclude-pattern>csp/coroutines/exit.php</exclude-pattern>
-    </rule>
-</ruleset>

@@ -10,11 +10,5 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install dependencies
-        uses: php-actions/composer@v6
-        with:
-          args: --ignore-platform-reqs
-          version: 2
-
       - name: Run Coding Style Checks
-        run: ./vendor/bin/phpcs -v --standard=ruleset.xml examples
+        run: docker run --rm -v "$(pwd):/project" -w /project -i jakzal/phpqa:php7.4 php-cs-fixer fix --dry-run
