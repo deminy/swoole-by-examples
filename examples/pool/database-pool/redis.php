@@ -2,7 +2,7 @@
 <?php
 
 /**
- * In this example we create a Redis connection pool with a maximum number of connections of 64 (the default pool size).
+ * In this example we create a Redis connection pool with maximally 11 connections (default pool size is 64).
  * We then repeatedly get a connection from the pool, execute a Redis set and Redis get command, and put back the
  * connection.
  *
@@ -18,7 +18,7 @@ use Swoole\Database\RedisConfig;
 use Swoole\Database\RedisPool;
 
 co\run(function () {
-    $pool = new RedisPool((new RedisConfig())->withHost(System::gethostbyname("server")));
+    $pool = new RedisPool((new RedisConfig())->withHost(System::gethostbyname("server")), 11);
     for ($n = 1024; $n--;) {
         go(function () use ($pool) {
             $redis = $pool->get();
