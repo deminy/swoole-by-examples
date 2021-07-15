@@ -7,20 +7,19 @@
  * How to run this script:
  *     docker exec -t $(docker ps -qf "name=client") bash -c "./csp/defer.php"
  */
-
 go(function () {
-    echo "1";
+    echo '1';
     defer(function () {
         echo "7\n";
     });
 
-    echo "2";
+    echo '2';
     defer(function () {
-        echo "6";
+        echo '6';
     });
 
-    echo "3";
+    echo '3';
     co::sleep(1);
-    echo "5";
+    echo '5';
 });
-echo "4";
+echo '4';

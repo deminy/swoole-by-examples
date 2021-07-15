@@ -12,14 +12,13 @@
  * How to run this script:
  *     docker exec -t $(docker ps -qf "name=client") bash -c "time ./csp/coroutines/creation.php"
  */
-
 function test(int $i)
 {
     co::sleep(1);
     echo "Coroutine #{$i} is finishing execution.\n";
 }
 
-swoole_coroutine_create("test", 1);
-Swoole\Coroutine::create("test", 2);
-co::create("test", 3);
-go("test", 4);
+swoole_coroutine_create('test', 1);
+Swoole\Coroutine::create('test', 2);
+co::create('test', 3);
+go('test', 4);

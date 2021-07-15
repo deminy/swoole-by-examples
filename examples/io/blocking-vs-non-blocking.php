@@ -17,25 +17,24 @@
  * How to run this script:
  *     docker exec -t $(docker ps -qf "name=client") bash -c "./io/blocking-vs-non-blocking.php"
  */
-
 function blocking()
 {
     go(function () {
-        echo "1";
+        echo '1';
         sleep(2);
-        echo "2";
+        echo '2';
     });
-    return "3";
+    return '3';
 }
 
 function nonBlocking()
 {
     go(function () {
-        echo "4";
+        echo '4';
         co::sleep(2);
-        echo "6", "\n";
+        echo '6', "\n";
     });
-    return "5";
+    return '5';
 }
 
 echo blocking(), nonBlocking();

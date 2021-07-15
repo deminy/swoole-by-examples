@@ -14,7 +14,6 @@
  * To get better understanding on how the code is executed in order, please check script "nested-debug.php" under the
  * same directory.
  */
-
 go(function () {
     go(function () {
         co::sleep(3);

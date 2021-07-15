@@ -21,7 +21,7 @@
 use Swoole\Constant;
 use Swoole\Server;
 
-$server = new Server("0.0.0.0", 9602);
+$server = new Server('0.0.0.0', 9602);
 $server->set(
     [
         Constant::OPTION_OPEN_TCP_KEEPALIVE => 1,
@@ -34,7 +34,7 @@ $server->set(
     ]
 );
 $server->on(
-    "receive",
+    'receive',
     function (Server $server, int $fd, int $reactorId, string $data) {
         $server->send($fd, $data);
     }

@@ -24,11 +24,11 @@
  *   docker exec -ti $(docker ps -qf "name=client") curl -d "shape=Scissors" "http://server:9801?name=C"
  */
 
-use Swoole\Http\Server;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
+use Swoole\Http\Server;
 
-$form = <<<EOT
+$form = <<<'EOT'
     <form method="post" action="">
         <input type="radio" value="Rock"     name="shape">Rock
         <input type="radio" value="Paper"    name="shape">Paper
@@ -41,7 +41,7 @@ $exchanges = [];
 $server = new Server('0.0.0.0', 9801, SWOOLE_BASE);
 
 $server->on(
-    "request",
+    'request',
     function (Request $request, Response $response) use ($form, &$exchanges) {
         $response->header('Content-Type', 'text/html; charset=UTF-8');
         if ($request->server['request_method'] == 'GET') {
@@ -51,12 +51,12 @@ $server->on(
 
             if (count($exchanges) == 3) {
                 $result = '';
-                foreach ($exchanges as list($request ,)) {
+                foreach ($exchanges as [$request]) {
                     $result .= "{$request->get['name']}: {$request->post['shape']}; ";
                 }
                 $result = substr($result, 0, -2) . ".\n";
 
-                foreach ($exchanges as list(, $response)) { // Send responses back.
+                foreach ($exchanges as [, $response]) { // Send responses back.
                     $response->end($result);
                 }
 

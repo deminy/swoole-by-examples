@@ -8,8 +8,7 @@
  * You can use following command to run this script:
  *     docker exec -t $(docker ps -qf "name=client") bash -c "./clients/redis/phpredis.php"
  */
-
 $client = new Redis();
-$client->connect("server");
-echo $client->set("foo", "bar"), "\n";
-echo $client->get("foo"), "\n";
+$client->connect('server');
+echo $client->set('foo', 'bar'), "\n";
+echo $client->get('foo'), "\n";

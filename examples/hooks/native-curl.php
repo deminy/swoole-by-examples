@@ -31,7 +31,7 @@ co\run(function () {
             $handlers = [];
             for ($j = 0; $j < 2; $j++) {
                 $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, "http://server:9501?sleep=2");
+                curl_setopt($ch, CURLOPT_URL, 'http://server:9501?sleep=2');
                 curl_setopt($ch, CURLOPT_HEADER, false);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
@@ -50,7 +50,7 @@ co\run(function () {
                 $statusCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
                 curl_multi_remove_handle($mh, $ch);
                 if ($statusCode !== 234) {
-                    throw new Exception("Status code returned from the built-in HTTP/1 server should be 234.");
+                    throw new Exception('Status code returned from the built-in HTTP/1 server should be 234.');
                 }
             }
             curl_multi_close($mh);

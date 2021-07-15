@@ -11,13 +11,12 @@
  *
  * In general, a best way to to exit from a coroutine is to throw out an exception and catch it at parent level.
  */
-
 go(function () {
     try {
         exit();
     } catch (Swoole\ExitException $e) {
         echo <<<EOT
-        Calling exit() inside a coroutine throws out a \Swoole\ExitException exception instead
+        Calling exit() inside a coroutine throws out a \\Swoole\\ExitException exception instead
         of terminating code execution directly.\n
         EOT;
     }

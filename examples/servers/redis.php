@@ -20,15 +20,15 @@
 
 use Swoole\Redis\Server;
 
-$server = new Server("0.0.0.0", 6379, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
+$server       = new Server('0.0.0.0', 6379, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
 $server->data = [];
 
-$server->setHandler("SET", function (int $fd, array $data) use ($server) {
+$server->setHandler('SET', function (int $fd, array $data) use ($server) {
     $server->data[$data[0]] = $data[1];
-    $server->send($fd, Server::format(Server::STATUS, "OK"));
+    $server->send($fd, Server::format(Server::STATUS, 'OK'));
 });
 
-$server->setHandler("GET", function (int $fd, array $data) use ($server) {
+$server->setHandler('GET', function (int $fd, array $data) use ($server) {
     $key = $data[0];
     if (array_key_exists($key, $server->data)) {
         $server->send($fd, Server::format(Server::STRING, $server->data[$key]));

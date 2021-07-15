@@ -12,16 +12,15 @@
  *
  * For a simple version of this script, please check script "non-blocking-io.php".
  */
-
 go(function () {
-    echo "1";
+    echo '1';
     co::sleep(2);
-    echo "6";
+    echo '6';
 });
-echo "2";
+echo '2';
 go(function () {
-    echo "3";
+    echo '3';
     co::sleep(1);
-    echo "5";
+    echo '5';
 });
-echo "4";
+echo '4';

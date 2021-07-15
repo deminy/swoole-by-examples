@@ -15,9 +15,9 @@
 
 use Swoole\Server;
 
-$server = new Server("0.0.0.0", 9505);
+$server = new Server('0.0.0.0', 9505);
 $server->on(
-    "receive",
+    'receive',
     function (Server $server, int $fd, int $reactorId, string $data) {
         $server->send($fd, $data);
     }

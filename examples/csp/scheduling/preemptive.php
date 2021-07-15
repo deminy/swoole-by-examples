@@ -8,8 +8,7 @@
  * How to run this script:
  *     docker exec -t $(docker ps -qf "name=client") bash -c "./csp/scheduling/preemptive.php"
  */
-
-ini_set("swoole.enable_preemptive_scheduler", 1);
+ini_set('swoole.enable_preemptive_scheduler', 1);
 
 co\run(
     function () {
@@ -21,7 +20,7 @@ co\run(
         });
 
         go(function () {
-            throw new Exception("Quitting.");
+            throw new Exception('Quitting.');
         });
     }
 );

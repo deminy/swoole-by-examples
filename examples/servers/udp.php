@@ -15,11 +15,11 @@
 
 use Swoole\Server;
 
-$server = new Server("0.0.0.0", 9506, SWOOLE_BASE, SWOOLE_SOCK_UDP);
+$server = new Server('0.0.0.0', 9506, SWOOLE_BASE, SWOOLE_SOCK_UDP);
 $server->on(
-    "packet",
+    'packet',
     function (Server $server, string $data, array $clientInfo) {
-        $server->sendto($clientInfo["address"], $clientInfo["port"], $data);
+        $server->sendto($clientInfo['address'], $clientInfo['port'], $data);
     }
 );
 $server->start();

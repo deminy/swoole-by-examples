@@ -39,10 +39,10 @@
 use Swoole\Constant;
 use Swoole\Coroutine;
 
-ini_set("memory_limit", -1);
+ini_set('memory_limit', -1);
 
 $totalCoroutines = 1000000;
-$startTime = microtime(true);
+$startTime       = microtime(true);
 co::set(
     [
         Constant::OPTION_MAX_COROUTINE => $totalCoroutines,

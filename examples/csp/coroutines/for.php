@@ -11,7 +11,6 @@
  * You can run following command to see how much time it takes to run the script:
  *     docker exec -t $(docker ps -qf "name=client") bash -c "time ./csp/coroutines/for.php"
  */
-
 Swoole\Runtime::enableCoroutine();
 
 for ($i = 1; $i <= 2000; $i++) {

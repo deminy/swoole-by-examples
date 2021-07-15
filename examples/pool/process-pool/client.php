@@ -17,7 +17,7 @@ use Swoole\MsgQueue;
 
 $settings = [
     Constant::OPTION_OPEN_LENGTH_CHECK     => 1,
-    Constant::OPTION_PACKAGE_LENGTH_TYPE   => "N",
+    Constant::OPTION_PACKAGE_LENGTH_TYPE   => 'N',
     Constant::OPTION_PACKAGE_LENGTH_OFFSET => 0,
     Constant::OPTION_PACKAGE_BODY_OFFSET   => 4,
 ];
@@ -39,11 +39,11 @@ if (class_exists(MsgQueue::class)) {
 go(function () use ($settings) {
     $client = new Client(SWOOLE_SOCK_TCP);
     $client->set($settings);
-    $client->connect("server", 9701);
-    $requestMessage = "TCP socket";
-    $client->send(pack("N", strlen($requestMessage)) . $requestMessage);
+    $client->connect('server', 9701);
+    $requestMessage = 'TCP socket';
+    $client->send(pack('N', strlen($requestMessage)) . $requestMessage);
     $responseMessage = $client->recv();
-    $responseMessage = substr($responseMessage, 4, unpack("N", substr($responseMessage, 0, 4))[1]);
+    $responseMessage = substr($responseMessage, 4, unpack('N', substr($responseMessage, 0, 4))[1]);
     echo $responseMessage, "\n";
     $client->close();
 });
@@ -53,11 +53,11 @@ go(function () use ($settings) {
 go(function () use ($settings) {
     $client = new Client(SWOOLE_SOCK_UNIX_STREAM);
     $client->set($settings);
-    $client->connect("/var/run/pool-unix-socket.sock");
-    $requestMessage = "Unix socket";
-    $client->send(pack("N", strlen($requestMessage)) . $requestMessage);
+    $client->connect('/var/run/pool-unix-socket.sock');
+    $requestMessage = 'Unix socket';
+    $client->send(pack('N', strlen($requestMessage)) . $requestMessage);
     $responseMessage = $client->recv();
-    $responseMessage = substr($responseMessage, 4, unpack("N", substr($responseMessage, 0, 4))[1]);
+    $responseMessage = substr($responseMessage, 4, unpack('N', substr($responseMessage, 0, 4))[1]);
     echo $responseMessage, "\n";
     $client->close();
 });

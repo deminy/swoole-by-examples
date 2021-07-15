@@ -8,22 +8,21 @@
  * How to run this script:
  *     docker exec -t $(docker ps -qf "name=client") bash -c "./csp/coroutines/nested-debug.php"
  */
-
 go(function () {
-    echo "1";
+    echo '1';
     go(function () {
-        echo "2";
+        echo '2';
         co::sleep(3);
-        echo "6";
+        echo '6';
         go(function () {
-            echo "7";
+            echo '7';
             co::sleep(2);
             echo "9\n";
         });
-        echo "8";
+        echo '8';
     });
-    echo "3";
+    echo '3';
     co::sleep(1);
-    echo "5";
+    echo '5';
 });
-echo "4";
+echo '4';

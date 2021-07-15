@@ -23,7 +23,7 @@ co\run(function () {
     for ($i = 0; $i < 5; $i++) {
         go(function () {
             $pdo = new PDO('mysql:host=mysql;dbname=test', 'username', 'password');
-            $stmt = $pdo->prepare("SELECT SLEEP(3)");
+            $stmt = $pdo->prepare('SELECT SLEEP(3)');
             $stmt->execute();
             $stmt = null;
             $pdo = null;

@@ -8,8 +8,7 @@
  * You can use following command to run this script:
  *     docker exec -t $(docker ps -qf "name=client") bash -c "./clients/redis/predis.php"
  */
-
-require_once "{$_ENV["HOME"]}/vendor/autoload.php";
-$client = new Predis\Client(["scheme" => "tcp", "host" => "server", "port" => 6379]);
-echo $client->set("foo", "bar"), "\n";
-echo $client->get("foo"), "\n";
+require_once "{$_ENV['HOME']}/vendor/autoload.php";
+$client = new Predis\Client(['scheme' => 'tcp', 'host' => 'server', 'port' => 6379]);
+echo $client->set('foo', 'bar'), "\n";
+echo $client->get('foo'), "\n";

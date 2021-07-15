@@ -17,26 +17,26 @@ co\run(function () {
     // For the 1st one, we make an HTTPS request to download an image file from GitHub. Once this script
     // finishes execution, you should see an image file "mascot.png" under same directory of this script.
     go(function () {
-        $client = new Client("raw.githubusercontent.com", 443, true);
+        $client = new Client('raw.githubusercontent.com', 443, true);
         $client->set(
             [
-                "timeout" => -1,
+                'timeout' => -1,
             ]
         );
         $client->setHeaders(
             [
-                "Accept-Encoding" => "gzip",
+                'Accept-Encoding' => 'gzip',
             ]
         );
-        $client->download("/swoole/swoole-src/master/mascot.png", __DIR__ . "/mascot.png");
+        $client->download('/swoole/swoole-src/master/mascot.png', __DIR__ . '/mascot.png');
 
         echo "Done executing the first HTTP/1 request.\n";
     });
 
     // For the 2nd one, we make an HTTP request to the HTTP/1 server started in the "server" container.
     go(function () {
-            $client = new Client("server", 9501);
-        $client->get("/");
+        $client = new Client('server', 9501);
+        $client->get('/');
 
         // You can uncomment following code to print out the HTTP response headers and body.
         //foreach ($client->getHeaders() as $key => $value) {

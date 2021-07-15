@@ -30,11 +30,11 @@
 
 use Swoole\Constant;
 use Swoole\Coroutine;
-use Swoole\Http\Server;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
+use Swoole\Http\Server;
 
-$server = new Server("0.0.0.0", 9501);
+$server = new Server('0.0.0.0', 9501);
 
 // All the options set here are optional.
 $server->set(
@@ -47,14 +47,14 @@ $server->set(
         Constant::OPTION_DOCUMENT_ROOT            => dirname(__DIR__),
         Constant::OPTION_ENABLE_STATIC_HANDLER    => true,
         Constant::OPTION_STATIC_HANDLER_LOCATIONS => [
-            "/clients",
-            "/servers",
+            '/clients',
+            '/servers',
         ],
     ]
 );
 
 $server->on(
-    "request",
+    'request',
     function (Request $request, Response $response) {
         if (!empty($request->get['sleep'])) {
             Coroutine::sleep($request->get['sleep']); // Sleep for a while if HTTP query parameter "sleep" presents.
@@ -64,7 +64,7 @@ $server->on(
         $response->status(234, 'Test');
 
         $response->end(
-            <<<EOT
+            <<<'EOT'
                 <pre>
                 In this example we start an HTTP/1 server.
 

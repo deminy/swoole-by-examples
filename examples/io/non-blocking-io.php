@@ -12,13 +12,12 @@
  *
  * To see how the code is executed in order, please check script "non-blocking-io-debug.php".
  */
-
 go(function () {
     co::sleep(2);
-    echo "1";
+    echo '1';
 });
 
 go(function () {
     co::sleep(1);
-    echo "2";
+    echo '2';
 });

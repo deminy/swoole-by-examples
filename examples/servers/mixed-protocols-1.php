@@ -12,17 +12,16 @@
  * 3. To test WebSocket:
  *   docker exec -ti $(docker ps -qf "name=client") bash -c "websocat ws://server:9511"
  */
-
-$server = new Swoole\WebSocket\Server("0.0.0.0", 9511, SWOOLE_BASE);
+$server = new Swoole\WebSocket\Server('0.0.0.0', 9511, SWOOLE_BASE);
 $server->set(
     [
-        "open_http2_protocol" => true,
+        'open_http2_protocol' => true,
     ]
 );
 
 // HTTP/1 and HTTP/2
 $server->on(
-    "request",
+    'request',
     function (Swoole\Http\Request $request, Swoole\Http\Response $response) {
         $response->end("Hello, {$request->rawContent()}\n");
     }
@@ -30,7 +29,7 @@ $server->on(
 
 // WebSocket
 $server->on(
-    "message",
+    'message',
     function (Swoole\WebSocket\Server $server, Swoole\WebSocket\Frame $frame) {
         $server->push($frame->fd, "Hello, {$frame->data}");
     }

@@ -18,7 +18,7 @@ use Swoole\Coroutine\Client;
 foreach ([9505, 9507] as $port) {
     go(function () use ($port) {
         $client = new Client(SWOOLE_TCP);
-        $client->connect("server", $port);
+        $client->connect('server', $port);
         $client->send("client side message to port {$port}");
         echo $client->recv(), "\n";
         $client->close();

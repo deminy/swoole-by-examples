@@ -8,7 +8,6 @@
  * How to run this script:
  *     docker exec -ti $(docker ps -qf "name=client") bash -c "./csp/scheduling/non-preemptive.php"
  */
-
 co\run(
     function () {
         go(function () {
@@ -19,7 +18,7 @@ co\run(
         });
 
         go(function () {
-            throw new Exception("Quitting.");
+            throw new Exception('Quitting.');
         });
     }
 );

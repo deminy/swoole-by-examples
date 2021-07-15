@@ -4,8 +4,7 @@
 /**
  * In this example we start a WebSocket server on port 9504. Please check next section to see how to test the example.
  */
-
-$comments = <<<EOT
+$comments = <<<'EOT'
 This dummy variable is only for documenting purpose.
 
 If you hit the WebSocket port with a curl command like following (using the HTTP/1 protocol), you will get an HTTP 400
@@ -31,9 +30,9 @@ Now you can start typing something and hit the return button to send it to the W
 WebSocket server will send a hello message back.
 EOT;
 
-$server = new Swoole\WebSocket\Server("0.0.0.0", 9504, SWOOLE_BASE);
+$server = new Swoole\WebSocket\Server('0.0.0.0', 9504, SWOOLE_BASE);
 $server->on(
-    "message",
+    'message',
     function (Swoole\WebSocket\Server $server, Swoole\WebSocket\Frame $frame) {
         $server->push($frame->fd, "Hello, {$frame->data}");
     }
