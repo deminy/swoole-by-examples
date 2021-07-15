@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * In this example, we make five concurrent MySQL connection/queries using the PDO MYSQL extension.
  * Each query takes three seconds to finish. In non-blocking mode, it takes 15 seconds to make the five queries.

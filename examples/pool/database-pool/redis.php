@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * In this example we create a Redis connection pool with maximally 11 connections (default pool size is 64).
  * We then repeatedly get a connection from the pool, execute a Redis set and Redis get command, and put back the

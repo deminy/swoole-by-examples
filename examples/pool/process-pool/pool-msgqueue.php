@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * This example shows how to create a process pool to communicate through message queue. Please check script
  * "client.php" under the same directory to see how to communicate with the pool.

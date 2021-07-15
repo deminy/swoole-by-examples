@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * In this example, six non-blocking HTTP/1 requests are made by enabling option "SWOOLE_HOOK_NATIVE_CURL" and using
  * curl_multi_* functions.

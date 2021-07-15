@@ -1,5 +1,8 @@
 #!/usr/bin/env php
 <?php
+
+declare(strict_types=1);
+
 /**
  * This example is to show how to create coroutines in four different ways:
  *     1. use procedural function.

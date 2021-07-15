@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * This client-side script is to use phpredis to test the Redis server created in this repository. For details, please
  * check comments in script https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/redis.php.

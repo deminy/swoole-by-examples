@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * In this example we start an HTTP/1 server to demonstrate some advanced usages, where we have:
  *     * multiple worker processes started to handle HTTP requests and sync/async tasks.

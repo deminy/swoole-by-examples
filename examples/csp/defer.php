@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * The example is to show how defer works in Swoole. It takes about 1 second to finish, and prints out "1234567".
  *

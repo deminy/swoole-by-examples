@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * This script creates 1,000,000 coroutines in a single process; each coroutine sleeps for 5 seconds.
  * WARNING: This example requires better CPU/memory to run; it may not work on your laptop/desktop.

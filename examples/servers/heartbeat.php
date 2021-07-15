@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * In this example we show how to detect dead TCP connections with heartbeats.
  *

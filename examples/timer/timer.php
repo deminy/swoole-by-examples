@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * How to run this script:
  *     docker exec -t $(docker ps -qf "name=server") bash -c "./timer/timer.php"

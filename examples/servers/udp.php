@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * In this example we start a UDP server on port 9506. Please check next section to see how to test the example.
  *

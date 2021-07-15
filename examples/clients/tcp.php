@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * In this example two TCP requests are made in non-blocking mode to two different TCP servers. In most cases it should
  * receive a response from the 2nd TCP server first (since the 2nd one should be faster).

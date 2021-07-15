@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * In this example we start a server to support HTTP/1, HTTP/2, and WebSocket on same port.
  *

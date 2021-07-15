@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * In this example, we set PHP option "swoole.enable_preemptive_scheduler" to 1 at line 14, allowing different
  * coroutines to share the CPU. However, when the first coroutine is started, it immediately disables the scheduler

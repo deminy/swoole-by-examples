@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * This script creates 3 coroutines and takes about 5 seconds to finish.
  * the sleep() methods are to simulate some IO operations in PHP. In blocking mode, it should take about 6 seconds to

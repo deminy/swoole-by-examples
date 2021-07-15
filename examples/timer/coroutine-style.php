@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /**
  * The script is to show how to implement timer using coroutines only. Please check script "timer.php" to see the
  * original implementation where class \Swoole\Timer is used.
