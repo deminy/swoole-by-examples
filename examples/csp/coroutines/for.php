@@ -4,7 +4,7 @@
 declare(strict_types=1);
 
 /**
- * This script takes about 1 second to finish, with 2,000 coroutines created. Without coroutine enabled (in line 14),
+ * This script takes about 1 second to finish, with 2,000 coroutines created. Without coroutine enabled (in line 16),
  * this script takes about 2,000 seconds to finish.
  *
  * How to run this script:
