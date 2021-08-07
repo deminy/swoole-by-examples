@@ -103,7 +103,7 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
             * [support HTTP/1, HTTP/2, and WebSocket on same port](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/mixed-protocols-1.php)
             * support multiple protocols on same server
         * multiple ports listening
-        * event listeners
+        * [How are different server events triggered?](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/server-events.php)
 * client-side programming
     * [HTTP/1 client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/http1.php)
     * HTTP/2 client
