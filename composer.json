@@ -1,6 +1,7 @@
 {
   "name": "deminy/swoole-by-examples",
   "description": "Go through different features in Swoole by examples.",
+  "type": "project",
   "homepage": "https://github.com/deminy/swoole-by-examples",
   "license": "CC-BY-NC-ND-4.0",
   "require-dev": {

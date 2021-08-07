@@ -4,7 +4,7 @@
 declare(strict_types=1);
 
 /**
- * In this example we start a UDP server on port 9506. Please check next section to see how to test the example.
+ * In this example we start a UDP server on port 9506.
  *
  * To test the UDP server, you can execute a netcat command in the client container to talk to the UDP server:
  *     docker exec -ti $(docker ps -qf "name=client") nc -u server 9506
