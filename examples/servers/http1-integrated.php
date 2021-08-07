@@ -6,7 +6,7 @@ declare(strict_types=1);
 /**
  * In this example we start an HTTP/1 server to demonstrate some advanced usages, where we have:
  *     * multiple worker processes started to handle HTTP requests and sync/async tasks.
- *     * a cronjob setup to run every 20 seconds.
+ *     * Two cron jobs. One runs every 61 seconds, and the other runs every 63 seconds.
  *     * HTTP endpoints to deploy sync/async tasks.
  *
  * You can run following curl commands to see different outputs:
@@ -18,6 +18,7 @@ declare(strict_types=1);
  */
 
 use Swoole\Constant;
+use Swoole\Coroutine;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Http\Server;
@@ -36,11 +37,11 @@ $server->on(
     function (Server $server) {
         echo '[HTTP1-ADVANCED]: # of CPU units: ', swoole_cpu_num(), "\n";
 
-        // Here we start a cron job to run every 20 seconds.
+        // Here we start the first cron job that runs every 61 seconds.
         Timer::tick(
-            1000 * 20,
+            1000 * 61,
             function () {
-                echo '[HTTP1-ADVANCED]: This message is printed out every 20 seconds. (', date('H:i:s'), ")\n";
+                echo '[HTTP1-ADVANCED]: This message is printed out every 61 seconds. (', date('H:i:s'), ")\n";
             }
         );
     }
@@ -49,6 +50,15 @@ $server->on(
     'workerStart',
     function (Server $server, int $workerId) {
         echo "[HTTP1-ADVANCED] Worker #{$workerId} is started.", "\n";
+        if ($workerId === 0) {
+            // Here we start the second cron job that runs every 63 seconds.
+            Coroutine::create(function () {
+                while (true) {
+                    Coroutine::sleep(63);
+                    echo '[HTTP1-ADVANCED]: This message is printed out every 63 seconds. (', date('H:i:s'), ")\n";
+                }
+            });
+        }
     }
 );
 $server->on(

@@ -62,7 +62,7 @@ $server->on('start', function (Server $server) {
 $server->on('managerStart', function (Server $server) {
     printMessage('Event "onManagerStart" is triggered.');
 
-    // To make an HTTP request to the sever itself.
+    // To make an HTTP request to the sever itself 50 milliseconds later.
     Timer::after(50, function () {
         printMessage("Make an HTTP request to the server.\n", true);
         $ch = curl_init();
@@ -72,13 +72,13 @@ $server->on('managerStart', function (Server $server) {
         curl_close($ch);
     });
 
-    // To reload the HTTP server.
+    // To reload the HTTP server 100 milliseconds later.
     Timer::after(100, function () use ($server) {
         printMessage("Reload the server.\n", true);
         $server->reload();
     });
 
-    // To shutdown the HTTP server.
+    // To shutdown the HTTP server 150 milliseconds later.
     Timer::after(150, function () use ($server) {
         printMessage("Shutdown the server.\n", true);
         $server->shutdown();
