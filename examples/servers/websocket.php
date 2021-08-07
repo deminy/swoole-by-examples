@@ -9,7 +9,6 @@ declare(strict_types=1);
  * To test the WebSocket server, you can run following command to get a hello message back from the WebSocket server:
  *     docker exec -ti $(docker ps -qf "name=client") bash -c "echo Swoole | websocat ws://server:9504"
  */
-
 $server = new Swoole\WebSocket\Server('0.0.0.0', 9504, SWOOLE_BASE);
 $server->on(
     'message',
