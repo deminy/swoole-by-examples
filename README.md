@@ -69,8 +69,6 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
 * server-side programming
     * application servers
         * [HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1.php): support gzip compression, serving static content, customizing status code, etc.
-            * [integrated HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1-integrated.php): an HTTP/1 server that supports cronjobs and synchronous/asynchronous tasks.
-            * [Rock Paper Scissors](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/rock-paper-scissors.php): implement the hand game Rock Paper Scissors using Swoole.
         * [HTTP/2 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http2.php)
             * HTTP/2 server push
         * [WebSocket server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/websocket.php)
@@ -99,11 +97,15 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
     * benchmark
         * single-process mode vs multi-process mode
     * advanced topics
+        * [Rock Paper Scissors](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/rock-paper-scissors.php): implement the hand game Rock Paper Scissors using Swoole.
+        * [How are different server events triggered?](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/server-events.php)
+        * Server Combo (two different implementations)
+            * [integrated HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1-integrated.php): an HTTP/1 server that supports cron jobs and synchronous/asynchronous tasks.
+            * [integrated WebSocket server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/websocket-integrated.php): a WebSocket server that supports cron jobs and asynchronous tasks. This implementation use separate processes to handle cron jobs and task queues.
         * mixed protocols
             * [support HTTP/1, HTTP/2, and WebSocket on same port](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/mixed-protocols-1.php)
             * support multiple protocols on same server
         * multiple ports listening
-        * [How are different server events triggered?](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/server-events.php)
 * client-side programming
     * [HTTP/1 client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/http1.php)
     * HTTP/2 client
