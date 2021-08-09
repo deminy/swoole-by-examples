@@ -23,10 +23,10 @@ declare(strict_types=1);
  *    happen after event "onConnect" but before event "onClose".
  * 5. Event "onRequest" is only to process HTTP/1, HTTP/2, and WebSocket requests.
  * 6. Event "onTask" is triggered in task worker processes only, while event "onFinish" is triggered in worker processes
- *    only. Event "onFinish" is triggered only when both conditions are met in the callback function of the "onTask"
- *    event:
- *    a) Method call "$task->finish()" is executed;
- *    b) No return statement executed.
+ *    only. Event "onFinish" is triggered only when both conditions are met:
+ *    a) The task is triggered by method call "$server->task()".
+ *    b) Inside the callback function of the "onTask" event, either method call "$task->finish()" is executed, or a
+ *       return statement is used to return something back.
  * 7. There are some events not triggered in this example:
  *    a) Event "onPacket". It is triggered in UDP servers only.
  *    b) Event "onHandshake", "onOpen", "onMessage", and "onDisconnect". They are to process WebSocket requests.
@@ -124,13 +124,18 @@ $server->on('request', function (Request $request, Response $response) use ($ser
 });
 
 $server->on('task', function (Server $server, int $taskId, int $srcWorkerId, $data) {
-    printMessage("Event \"onTask\" is triggered from worker #{$srcWorkerId}.");
+    printMessage('Event "onTask" is triggered.');
+
+    // This is to trigger the "onFinish" event.
+    // Please note that "onTask" events are processed in task worker processes, while "onFinish" events are processed
+    // in worker processes (where method call $server->task*() was made to trigger the "onTask" events).
+    $server->finish('Hello World!');
 });
 $server->on('finish', function (Server $server, int $taskId, $data) {
     printMessage('Event "onFinish" is triggered.');
 });
 $server->on('pipeMessage', function (Server $server, int $srcWorkerId, $message) {
-    printMessage("Event \"onPipeMessage\" is triggered from worker #{$srcWorkerId}.");
+    printMessage('Event "onPipeMessage" is triggered.');
     return $message;
 });
 
