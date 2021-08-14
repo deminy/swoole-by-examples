@@ -43,7 +43,7 @@ use Swoole\Coroutine;
 
 ini_set('memory_limit', -1);
 
-$totalCoroutines = 1000000;
+$totalCoroutines = 1_000_000;
 $startTime       = microtime(true);
 co::set(
     [
@@ -55,7 +55,7 @@ for ($i = $totalCoroutines; $i--;) {
         co::sleep(5);
     });
 
-    if (($i % 100000) === 0) {
+    if (($i % 100_000) === 0) {
         printf(
             "%07d active coroutines; total time: %f seconds; memory usage: %d.\n",
             count(Coroutine::listCoroutines()),

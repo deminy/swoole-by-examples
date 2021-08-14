@@ -18,7 +18,7 @@ use Swoole\Coroutine;
 
 Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_ALL]);
 
-for ($i = 1; $i <= 2000; $i++) {
+for ($i = 1; $i <= 2_000; $i++) {
     Coroutine::create(function () {
         sleep(1);
     });
