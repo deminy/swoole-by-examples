@@ -1,6 +1,6 @@
 # This Dockerfile is to build Docker image "deminy/swoole-by-examples:server".
 # @see https://hub.docker.com/r/deminy/swoole-by-examples
-FROM phpswoole/swoole:4.7-php7.4
+FROM phpswoole/swoole:5.0-php8.0
 
 COPY ./rootfilesystem /
 

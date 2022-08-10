@@ -2,7 +2,7 @@ version: '3'
 
 services:
   server:
-    image: deminy/swoole-by-examples:server
+    image: deminy/swoole-by-examples:server-5.0
     environment:
       AUTORELOAD_PROGRAMS: "http1 http1-integrated http2 keepalive mixed-protocols-1 pool-msgqueue pool-tcp-socket pool-unix-socket redis rock-paper-scissors tcp1 tcp2 udp websocket websocket-integrated"
       DISABLE_DEFAULT_SERVER: 1
@@ -11,7 +11,7 @@ services:
     volumes:
       - ./examples:/var/www
   client:
-    image: deminy/swoole-by-examples:client
+    image: deminy/swoole-by-examples:client-5.0
     environment:
       DISABLE_DEFAULT_SERVER: 1
     links:
