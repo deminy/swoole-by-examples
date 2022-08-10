@@ -15,7 +15,7 @@ declare(strict_types=1);
  */
 go(function () {
     try {
-        exit();
+        exit;
     } catch (Swoole\ExitException $e) {
         echo <<<EOT
         Calling exit() inside a coroutine throws out a \\Swoole\\ExitException exception instead

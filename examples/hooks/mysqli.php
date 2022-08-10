@@ -25,7 +25,7 @@ co\run(function () {
     for ($i = 0; $i < 5; $i++) {
         go(function () {
             $mysqli = new mysqli('mysql', 'username', 'password', 'test');
-            $stmt = $mysqli->prepare('SELECT SLEEP(3)');
+            $stmt   = $mysqli->prepare('SELECT SLEEP(3)');
             $stmt->execute();
             $stmt->close();
             $mysqli->close();

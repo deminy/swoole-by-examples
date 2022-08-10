@@ -5,7 +5,7 @@
   "homepage": "https://github.com/deminy/swoole-by-examples",
   "license": "CC-BY-NC-ND-4.0",
   "require": {
-    "php": ">=7.4"
+    "php": ">=8.0"
   },
   "require-dev": {
     "swoole/ide-helper": "@dev"

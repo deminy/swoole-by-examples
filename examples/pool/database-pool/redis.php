@@ -23,7 +23,7 @@ co\run(function () {
     $pool = new RedisPool((new RedisConfig())->withHost(System::gethostbyname('server')), 11);
     for ($n = 1024; $n--;) {
         go(function () use ($pool) {
-            $redis = $pool->get();
+            $redis  = $pool->get();
             $result = $redis->set('foo', 'bar');
             if (!$result) {
                 throw new Exception('failed to set a value in Redis.');

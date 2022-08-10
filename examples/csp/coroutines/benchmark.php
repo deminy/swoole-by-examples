@@ -59,7 +59,7 @@ for ($i = $totalCoroutines; $i--;) {
         printf(
             "%07d active coroutines; total time: %f seconds; memory usage: %d.\n",
             count(Coroutine::listCoroutines()),
-            (microtime(true) - $startTime),
+            microtime(true) - $startTime,
             memory_get_usage()
         );
     }

@@ -41,10 +41,10 @@ co\run(function () {
         $client->get('/');
 
         // You can uncomment following code to print out the HTTP response headers and body.
-        //foreach ($client->getHeaders() as $key => $value) {
+        // foreach ($client->getHeaders() as $key => $value) {
         //    echo "{$key}: $value\n";
-        //}
-        //echo "\n" . $client->body;
+        // }
+        // echo "\n" . $client->body;
 
         echo "Done executing the second HTTP/1 request.\n";
     });

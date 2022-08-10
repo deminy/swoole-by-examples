@@ -49,7 +49,7 @@ $serverProcess = new Process(
         );
         $server->start();
 
-        exit();
+        exit;
     },
     false
 );
