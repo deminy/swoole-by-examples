@@ -16,6 +16,7 @@ services:
       DISABLE_DEFAULT_SERVER: 1
     links:
       - mysql
+      - postgresql
       - server
     volumes:
       - ./examples:/var/www
@@ -26,3 +27,9 @@ services:
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: password
       MYSQL_USER: username
+  postgresql:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password

@@ -112,6 +112,7 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
     * WebSocket client
     * [TCP client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/tcp.php)
     * [UDP client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/udp.php)
+    * [PostgreSQL client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/postgresql.php)
 * Swoole extensions
     * async
     * orm
