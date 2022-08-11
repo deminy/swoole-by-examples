@@ -12,10 +12,10 @@ declare(strict_types=1);
  * The PostgreSQL client is added to Swoole in 5.0.0. This example won't work with old versions of Swoole.
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./clients/postgresql.php"
+ *     docker compose exec -t client bash -c "./clients/postgresql.php"
  *
  * You can run following command to see how much time it takes to run the script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "time ./clients/postgresql.php"
+ *     docker compose exec -t client bash -c "time ./clients/postgresql.php"
  */
 
 use Swoole\Coroutine;

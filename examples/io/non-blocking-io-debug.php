@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 /**
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "time ./io/non-blocking-io-debug.php"
+ *     docker compose exec -t client bash -c "time ./io/non-blocking-io-debug.php"
  *
  * This script takes about 2 seconds to finish, and prints out "123456".
  *

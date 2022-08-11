@@ -7,7 +7,7 @@ declare(strict_types=1);
  * The example is to show how defer works in Swoole. It takes about 1 second to finish, and prints out "1234567".
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./csp/defer.php"
+ *     docker compose exec -t client bash -c "./csp/defer.php"
  */
 go(function () {
     echo '1';

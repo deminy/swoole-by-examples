@@ -7,7 +7,7 @@ declare(strict_types=1);
  * In this example we start an HTTP/2 server.
  *
  * You can run following curl command to check HTTP/2 response headers and body:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "curl -i --http2-prior-knowledge http://server:9503"
+ *     docker compose exec -t client bash -c "curl -i --http2-prior-knowledge http://server:9503"
  */
 
 use Swoole\Http\Request;

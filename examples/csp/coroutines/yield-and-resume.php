@@ -8,7 +8,7 @@ declare(strict_types=1);
  * "1234567".
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./csp/coroutines/yield-and-resume.php"
+ *     docker compose exec -t client bash -c "./csp/coroutines/yield-and-resume.php"
  */
 $cid = go(function () {
     echo '1';

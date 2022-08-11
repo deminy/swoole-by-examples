@@ -8,7 +8,7 @@ declare(strict_types=1);
  * receive a response from the 2nd TCP server first (since the 2nd one should be faster).
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./clients/tcp.php"
+ *     docker compose exec -t client bash -c "./clients/tcp.php"
  *
  * Here are the source code of the two TCP servers created:
  * 1. event-driven style (port 9505): https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp1.php

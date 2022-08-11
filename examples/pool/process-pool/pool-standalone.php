@@ -9,7 +9,7 @@ declare(strict_types=1);
  *
  * This example creates a pool to run the worker process 3 times.
  * To run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./pool/process-pool/pool-standalone.php"
+ *     docker compose exec -t client bash -c "./pool/process-pool/pool-standalone.php"
  */
 
 use Swoole\Atomic;

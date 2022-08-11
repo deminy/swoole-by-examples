@@ -10,7 +10,7 @@ declare(strict_types=1);
  * executed only after the scheduler is enabled at line 24.
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./csp/scheduling/mixed.php"
+ *     docker compose exec -t client bash -c "./csp/scheduling/mixed.php"
  */
 ini_set('swoole.enable_preemptive_scheduler', 1);
 

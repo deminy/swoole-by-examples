@@ -21,9 +21,9 @@ declare(strict_types=1);
  *
  * For backend developers, instead of trying it using a web browser, you can execute following CLI commands in different
  * terminals and check the outputs:
- *   docker exec -ti $(docker ps -qf "name=client") curl -d "shape=Rock"     "http://server:9801?name=A"
- *   docker exec -ti $(docker ps -qf "name=client") curl -d "shape=Paper"    "http://server:9801?name=B"
- *   docker exec -ti $(docker ps -qf "name=client") curl -d "shape=Scissors" "http://server:9801?name=C"
+ *   docker compose exec -ti client curl -d "shape=Rock"     "http://server:9801?name=A"
+ *   docker compose exec -ti client curl -d "shape=Paper"    "http://server:9801?name=B"
+ *   docker compose exec -ti client curl -d "shape=Scissors" "http://server:9801?name=C"
  */
 
 use Swoole\Http\Request;

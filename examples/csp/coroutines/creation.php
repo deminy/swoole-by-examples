@@ -13,7 +13,7 @@ declare(strict_types=1);
  * This script creates 4 coroutines; each takes about 1 second to finish. The script takes about 1 second to finish.
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "time ./csp/coroutines/creation.php"
+ *     docker compose exec -t client bash -c "time ./csp/coroutines/creation.php"
  */
 function test(int $i)
 {

@@ -9,9 +9,9 @@ declare(strict_types=1);
  * finish; in non-blocking mode, it takes about 5 second to finish.
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./csp/coroutines/nested.php"
+ *     docker compose exec -t client bash -c "./csp/coroutines/nested.php"
  *     # You can run following command to see how much time it takes to run the script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "time ./csp/coroutines/nested.php"
+ *     docker compose exec -t client bash -c "time ./csp/coroutines/nested.php"
  *
  * To get better understanding on how the code is executed in order, please check script "nested-debug.php" under the
  * same directory.

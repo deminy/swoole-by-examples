@@ -10,7 +10,7 @@ declare(strict_types=1);
  *     Done executing the first HTTP/1 request.
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./clients/http1.php"
+ *     docker compose exec -t client bash -c "./clients/http1.php"
  */
 
 use Swoole\Coroutine\Http\Client;

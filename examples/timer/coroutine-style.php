@@ -8,7 +8,7 @@ declare(strict_types=1);
  * original implementation where class \Swoole\Timer is used.
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=server") bash -c "./timer/coroutine-style.php"
+ *     docker compose exec -t server bash -c "./timer/coroutine-style.php"
  */
 go(function () {
     $i = 0;

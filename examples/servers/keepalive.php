@@ -12,9 +12,9 @@ declare(strict_types=1);
  * cable on the server side (or on the client side), but in our Docker environment we are unable to do that. However,
  * you can still check network connection status to see if it works:
  * 1. In the client container, make a TCP connection to the server:
- *        docker exec -ti $(docker ps -qf "name=client") bash -c "nc server 9602"
+ *        docker compose exec -ti client bash -c "nc server 9602"
  * 2. In the server container, monitor network connection status:
- *        docker exec -t $(docker ps -qf "name=server") bash -c "watch -n 1 'netstat -a -n -o | grep :9602'"
+ *        docker compose exec -t server bash -c "watch -n 1 'netstat -a -n -o | grep :9602'"
  *    From the output you will see an "ESTABLISHED keepalive" line, which is the TCP connection from the client
  *    container. The first number in brackets is the number of seconds left before a keepalive probe will be sent. You
  *    will see this number getting smaller and smaller.
@@ -29,7 +29,7 @@ $server->set(
         Constant::OPTION_OPEN_TCP_KEEPALIVE => 1,
 
         // Following 3 parameters are to adjust timeout. Run this command to check default values in the container:
-        //     docker exec -t $(docker ps -qf "name=server") bash -c "tail -n +1 /proc/sys/net/ipv4/tcp_keepalive_*"
+        //     docker compose exec -t server bash -c "tail -n +1 /proc/sys/net/ipv4/tcp_keepalive_*"
         Constant::OPTION_TCP_KEEPIDLE       => 7200,
         Constant::OPTION_TCP_KEEPCOUNT      => 9,
         Constant::OPTION_TCP_KEEPINTERVAL   => 75,

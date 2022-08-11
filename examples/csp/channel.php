@@ -15,7 +15,7 @@ declare(strict_types=1);
  *       available in the channel (or timeout happens).
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./csp/channel.php"
+ *     docker compose exec -t client bash -c "./csp/channel.php"
  */
 
 use Swoole\Coroutine\Channel;

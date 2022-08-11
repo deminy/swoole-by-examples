@@ -8,7 +8,7 @@ declare(strict_types=1);
  * getting executed after a while, which throws an exception out and terminates the execution.
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./csp/scheduling/preemptive.php"
+ *     docker compose exec -t client bash -c "./csp/scheduling/preemptive.php"
  */
 ini_set('swoole.enable_preemptive_scheduler', 1);
 

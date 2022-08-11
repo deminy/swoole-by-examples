@@ -7,7 +7,7 @@ declare(strict_types=1);
  * This example shows how to establish a UDP connection.
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./clients/udp.php"
+ *     docker compose exec -t client bash -c "./clients/udp.php"
  *
  * Here is the source code of the UDP server:
  * @see https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/udp.php

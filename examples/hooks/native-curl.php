@@ -13,10 +13,10 @@ declare(strict_types=1);
  *     * This feature works under Swoole 4.6.0+.
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./hooks/native-curl.php"
+ *     docker compose exec -t client bash -c "./hooks/native-curl.php"
  *
  * You can run following command to see how much time it takes to run the script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "time ./hooks/native-curl.php"
+ *     docker compose exec -t client bash -c "time ./hooks/native-curl.php"
  */
 
 use Swoole\Constant;

@@ -10,10 +10,10 @@ declare(strict_types=1);
  * the queries.
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./hooks/pdo_mysql.php"
+ *     docker compose exec -t client bash -c "./hooks/pdo_mysql.php"
  *
  * You can run following command to see how much time it takes to run the script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "time ./hooks/pdo_mysql.php"
+ *     docker compose exec -t client bash -c "time ./hooks/pdo_mysql.php"
  */
 
 use Swoole\Constant;

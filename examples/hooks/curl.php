@@ -15,10 +15,10 @@ declare(strict_types=1);
  *       example in file "./hooks/native-curl.php".
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./hooks/curl.php"
+ *     docker compose exec -t client bash -c "./hooks/curl.php"
  *
  * You can run following command to see how much time it takes to run the script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "time ./hooks/curl.php"
+ *     docker compose exec -t client bash -c "time ./hooks/curl.php"
  */
 
 use Swoole\Constant;

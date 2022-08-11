@@ -8,11 +8,11 @@ declare(strict_types=1);
  *
  * You can use following commands to test different protocols:
  * 1. To test HTTP/1:
- *   docker exec -t $(docker ps -qf "name=client") bash -c "curl -i -d World http://server:9511"
+ *   docker compose exec -t client bash -c "curl -i -d World http://server:9511"
  * 2. To test HTTP/2:
- *   docker exec -t $(docker ps -qf "name=client") bash -c "curl -i -d World --http2-prior-knowledge http://server:9511"
+ *   docker compose exec -t client bash -c "curl -i -d World --http2-prior-knowledge http://server:9511"
  * 3. To test WebSocket:
- *   docker exec -ti $(docker ps -qf "name=client") bash -c "websocat ws://server:9511"
+ *   docker compose exec -ti client bash -c "websocat ws://server:9511"
  */
 $server = new Swoole\WebSocket\Server('0.0.0.0', 9511, SWOOLE_BASE);
 $server->set(

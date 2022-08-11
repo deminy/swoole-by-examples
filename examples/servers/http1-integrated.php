@@ -10,11 +10,11 @@ declare(strict_types=1);
  *     * HTTP endpoints to deploy sync/async tasks.
  *
  * You can run following curl commands to see different outputs:
- *   docker exec -t $(docker ps -qf "name=client") bash -c "curl -i http://server:9502"
- *   docker exec -t $(docker ps -qf "name=client") bash -c "curl -i http://server:9502?type=task"
- *   docker exec -t $(docker ps -qf "name=client") bash -c "curl -i http://server:9502?type=taskwait"
- *   docker exec -t $(docker ps -qf "name=client") bash -c "curl -i http://server:9502?type=taskWaitMulti"
- *   docker exec -t $(docker ps -qf "name=client") bash -c "curl -i http://server:9502?type=taskCo"
+ *   docker compose exec -t client bash -c "curl -i http://server:9502"
+ *   docker compose exec -t client bash -c "curl -i http://server:9502?type=task"
+ *   docker compose exec -t client bash -c "curl -i http://server:9502?type=taskwait"
+ *   docker compose exec -t client bash -c "curl -i http://server:9502?type=taskWaitMulti"
+ *   docker compose exec -t client bash -c "curl -i http://server:9502?type=taskCo"
  */
 
 use Swoole\Constant;

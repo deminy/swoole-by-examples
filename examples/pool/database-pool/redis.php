@@ -12,7 +12,7 @@ declare(strict_types=1);
  * built-in classes in Swoole since 4.4.13+.
  *
  * You can use following command to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./pool/database-pool/redis.php"
+ *     docker compose exec -t client bash -c "./pool/database-pool/redis.php"
  */
 
 use Swoole\Coroutine\System;

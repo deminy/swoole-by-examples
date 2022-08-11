@@ -17,7 +17,7 @@ declare(strict_types=1);
  *       finishing executing the nested coroutine inside it.
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./io/blocking-vs-non-blocking.php"
+ *     docker compose exec -t client bash -c "./io/blocking-vs-non-blocking.php"
  */
 function blocking()
 {

@@ -10,10 +10,10 @@ declare(strict_types=1);
  * the queries.
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./hooks/mysqli.php"
+ *     docker compose exec -t client bash -c "./hooks/mysqli.php"
  *
  * You can run following command to see how much time it takes to run the script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "time ./hooks/mysqli.php"
+ *     docker compose exec -t client bash -c "time ./hooks/mysqli.php"
  */
 
 use Swoole\Constant;

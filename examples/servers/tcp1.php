@@ -7,7 +7,7 @@ declare(strict_types=1);
  * In this example we start a TCP server in event-driven style on port 9505.
  *
  * To test the TCP server, you can execute a netcat command in the client container to talk to the TCP server:
- *     docker exec -ti $(docker ps -qf "name=client") nc server 9505
+ *     docker compose exec -ti client nc server 9505
  *
  * Now you can start typing something and hit the return button to send it to the TCP server. Whatever you type, the TCP
  * server echos it back.

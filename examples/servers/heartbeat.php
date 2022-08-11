@@ -7,7 +7,7 @@ declare(strict_types=1);
  * In this example we show how to detect dead TCP connections with heartbeats.
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=server") bash -c "./servers/heartbeat.php"
+ *     docker compose exec -t server bash -c "./servers/heartbeat.php"
  */
 
 use Swoole\Constant;

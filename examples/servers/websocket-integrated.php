@@ -10,7 +10,7 @@ declare(strict_types=1);
  *     * A dedicated process to process task queues asynchronously.
  *
  * To test the WebSocket server, you can run following command to get a hello message back from the WebSocket server:
- *     docker exec -ti $(docker ps -qf "name=client") bash -c "echo Swoole | websocat ws://server:9508"
+ *     docker compose exec -ti client bash -c "echo Swoole | websocat ws://server:9508"
  * To check logs created by the cron job and the asynchronous task queue process, you can run following command in the
  * console:
  *     docker-compose logs -f

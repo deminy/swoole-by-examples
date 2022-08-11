@@ -16,7 +16,7 @@ declare(strict_types=1);
  * @see https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/waitgroup.php
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "time ./csp/barrier.php"
+ *     docker compose exec -t client bash -c "time ./csp/barrier.php"
  */
 
 use Swoole\Coroutine\Barrier;

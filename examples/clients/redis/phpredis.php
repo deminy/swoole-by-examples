@@ -8,7 +8,7 @@ declare(strict_types=1);
  * check comments in script https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/redis.php.
  *
  * You can use following command to run this script:
- *     docker exec -t $(docker ps -qf "name=client") bash -c "./clients/redis/phpredis.php"
+ *     docker compose exec -t client bash -c "./clients/redis/phpredis.php"
  */
 $client = new Redis();
 $client->connect('server');

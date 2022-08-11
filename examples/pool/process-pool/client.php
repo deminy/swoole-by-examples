@@ -10,7 +10,7 @@ declare(strict_types=1);
  *     * through Unix socket.
  *
  * How to run this script:
- *     docker exec -t $(docker ps -qf "name=server") bash -c "./pool/process-pool/client.php"
+ *     docker compose exec -t server bash -c "./pool/process-pool/client.php"
  */
 
 use Swoole\Constant;

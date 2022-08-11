@@ -8,7 +8,7 @@ declare(strict_types=1);
  * executed. The script will keep printing out integers.
  *
  * How to run this script:
- *     docker exec -ti $(docker ps -qf "name=client") bash -c "./csp/scheduling/non-preemptive.php"
+ *     docker compose exec -ti client bash -c "./csp/scheduling/non-preemptive.php"
  */
 co\run(
     function () {
