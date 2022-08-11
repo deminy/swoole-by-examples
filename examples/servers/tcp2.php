@@ -18,7 +18,7 @@ declare(strict_types=1);
 use Swoole\Coroutine\Server;
 use Swoole\Coroutine\Server\Connection;
 
-co\run(function () {
+Co\run(function () {
     $server = new Server('0.0.0.0', 9507);
     $server->handle(function (Connection $conn) {
         while (true) {

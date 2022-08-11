@@ -21,7 +21,7 @@ use Swoole\Coroutine;
 
 Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_TCP]);
 
-co\run(function () {
+Co\run(function () {
     for ($i = 0; $i < 5; $i++) {
         go(function () {
             $mysqli = new mysqli('mysql', 'username', 'password', 'test');
