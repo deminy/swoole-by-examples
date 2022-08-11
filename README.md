@@ -109,7 +109,7 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
 * client-side programming
     * [HTTP/1 client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/http1.php)
     * HTTP/2 client
-    * WebSocket client
+    * [WebSocket client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/websocket.php)
     * [TCP client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/tcp.php)
     * [UDP client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/udp.php)
     * [PostgreSQL client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/postgresql.php)
