@@ -15,11 +15,16 @@ declare(strict_types=1);
  */
 Co\run(function () {
     try {
-        exit;
+        exit(911);
     } catch (Swoole\ExitException $e) {
         echo <<<EOT
-        Calling exit() inside a coroutine throws out a \\Swoole\\ExitException exception instead
-        of terminating code execution directly.\n
+        Calling exit() inside a coroutine throws out a \\Swoole\\ExitException exception instead of terminating code execution
+        directly.
+        
+        There are two extra methods in class \\Swoole\\ExitException::
+        1. \\Swoole\\ExitException::getFlags(): The exit flags. In this example, the flags is {$e->getFlags()} (SWOOLE_EXIT_IN_COROUTINE).
+        2. \\Swoole\\ExitException::getStatus(): The status as defined in PHP function exit(). In this example, the status is {$e->getStatus()}.
+
         EOT;
     }
 });
