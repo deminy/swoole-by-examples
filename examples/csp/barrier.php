@@ -21,7 +21,7 @@ declare(strict_types=1);
 
 use Swoole\Coroutine\Barrier;
 
-go(function () {
+Co\run(function () {
     $barrier = Barrier::make();
 
     go(function () use ($barrier) {

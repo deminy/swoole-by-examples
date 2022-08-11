@@ -25,3 +25,5 @@ swoole_coroutine_create('test', 1);
 Swoole\Coroutine::create('test', 2);
 co::create('test', 3);
 go('test', 4);
+
+Swoole\Event::wait();

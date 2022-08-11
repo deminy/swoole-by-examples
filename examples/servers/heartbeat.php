@@ -88,7 +88,7 @@ go(function () {
 
 // Stop the TCP server and the process created once PHP code finishes execution.
 register_shutdown_function(function () use ($serverProcess) {
-    Process::kill(shell_exec('cat /var/run/sw-heartbeat.pid'), SIGTERM);
+    Process::kill(intval(shell_exec('cat /var/run/sw-heartbeat.pid')), SIGTERM);
     sleep(1);
     Process::kill($serverProcess->pid);
 });

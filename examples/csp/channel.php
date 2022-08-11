@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use Swoole\Coroutine\Channel;
 use Swoole\Coroutine\Http\Client;
+use Swoole\Event;
 
 $channel = new Channel(2);
 
@@ -43,3 +44,5 @@ go(function () use ($channel) {
     $channel->push((int) $cli->statusCode);
 });
 // At this point, all three coroutines are paused.
+
+Event::wait();

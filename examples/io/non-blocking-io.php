@@ -23,3 +23,5 @@ go(function () {
     co::sleep(1);
     echo '2';
 });
+
+Swoole\Event::wait();

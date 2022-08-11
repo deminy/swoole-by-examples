@@ -11,12 +11,10 @@ declare(strict_types=1);
  *
  * You can run following curl commands to check HTTP/1 response headers and body:
  *   # To check customized status code and reason in HTTP response headers.
- *   docker compose exec -t client bash -c \
- *       "curl -i http://server:9501"
+ *   docker compose exec -t client bash -c "curl -i http://server:9501"
  *
  *   # To test gzip support by hitting the same URL with HTTP header "Accept-Encoding: gzip" included.
- *   docker compose exec -t client bash -c \
- *       "curl -i -H 'Accept-Encoding: gzip' --compressed http://server:9501"
+ *   docker compose exec -t client bash -c "curl -i -H 'Accept-Encoding: gzip' --compressed http://server:9501"
  *
  *   # To fetch an existing file under one of the specified static file locations in the web server.
  *   docker compose exec -t client bash -c "curl -i http://server:9501/servers/http1-static-content.txt"

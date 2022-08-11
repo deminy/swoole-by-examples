@@ -16,7 +16,7 @@ declare(strict_types=1);
  * To get better understanding on how the code is executed in order, please check script "nested-debug.php" under the
  * same directory.
  */
-go(function () {
+Co\run(function () {
     go(function () {
         co::sleep(3);
         go(function () {

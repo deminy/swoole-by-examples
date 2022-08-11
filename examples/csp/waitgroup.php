@@ -21,7 +21,7 @@ declare(strict_types=1);
 
 use Swoole\Coroutine\WaitGroup;
 
-go(function () {
+Co\run(function () {
     $wg = new WaitGroup();
 
     go(function () use ($wg) {

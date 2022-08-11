@@ -40,6 +40,7 @@ declare(strict_types=1);
 
 use Swoole\Constant;
 use Swoole\Coroutine;
+use Swoole\Event;
 
 ini_set('memory_limit', -1);
 
@@ -64,3 +65,4 @@ for ($i = $totalCoroutines; $i--;) {
         );
     }
 }
+Event::wait();

@@ -15,10 +15,12 @@ declare(strict_types=1);
  * 2. coroutine style (port 9507):    https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp2.php
  */
 
+use Swoole\Coroutine;
 use Swoole\Coroutine\Client;
+use Swoole\Event;
 
 foreach ([9505, 9507] as $port) {
-    go(function () use ($port) {
+    Coroutine::create(function () use ($port) {
         $client = new Client(SWOOLE_TCP);
         $client->connect('server', $port);
         $client->send("client side message to port {$port}");
@@ -26,3 +28,4 @@ foreach ([9505, 9507] as $port) {
         $client->close();
     });
 }
+Event::wait();

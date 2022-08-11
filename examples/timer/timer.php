@@ -13,6 +13,7 @@ declare(strict_types=1);
  * "coroutine-style.php" for details.
  */
 
+use Swoole\Event;
 use Swoole\Timer;
 
 $id = Timer::tick(100, function () {
@@ -27,3 +28,5 @@ Timer::after(1000, function () use ($id) {
         echo "The timer should not exist at the 1,000th millisecond.\n";
     }
 });
+
+Event::wait();

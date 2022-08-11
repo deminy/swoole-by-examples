@@ -63,3 +63,5 @@ go(function () use ($settings) {
     echo $responseMessage, "\n";
     $client->close();
 });
+
+Swoole\Event::wait();

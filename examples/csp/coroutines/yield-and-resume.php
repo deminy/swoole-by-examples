@@ -27,3 +27,5 @@ go(function () use ($cid) {
 });
 
 echo '4';
+
+Swoole\Event::wait();

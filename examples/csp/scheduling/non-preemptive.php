@@ -10,7 +10,7 @@ declare(strict_types=1);
  * How to run this script:
  *     docker compose exec -ti client bash -c "./csp/scheduling/non-preemptive.php"
  */
-co\run(
+Co\run(
     function () {
         go(function () {
             $i = 0;

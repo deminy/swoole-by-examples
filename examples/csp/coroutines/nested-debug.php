@@ -28,3 +28,5 @@ go(function () {
     echo '5';
 });
 echo '4';
+
+Swoole\Event::wait();

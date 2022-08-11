@@ -40,3 +40,5 @@ function nonBlocking()
 }
 
 echo blocking(), nonBlocking();
+
+Swoole\Event::wait();

@@ -10,7 +10,7 @@ declare(strict_types=1);
  * How to run this script:
  *     docker compose exec -t server bash -c "./timer/coroutine-style.php"
  */
-go(function () {
+Co\run(function () {
     $i = 0;
     while (true) {
         co::sleep(0.1);

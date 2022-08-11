@@ -7,5 +7,5 @@ COPY ./rootfilesystem /
 RUN \
     set -ex && \
     apt-get update && \
-    apt-get install -y net-tools --no-install-recommends && \
+    apt-get install -y net-tools watch --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
