@@ -116,6 +116,5 @@ docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the cl
 * Swoole extensions
     * async
     * orm
-    * postgresql
     * serialize
     * zookeeper
