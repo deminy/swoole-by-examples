@@ -9,7 +9,7 @@ RUN \
     docker-php-ext-enable redis && \
     docker-php-ext-install mysqli pdo_mysql && \
     apt-get update && \
-    apt-get install -y netcat xxd --no-install-recommends && \
+    apt-get install -y apache2-utils netcat xxd --no-install-recommends && \
     curl -sfL -o websocat.deb https://github.com/vi/websocat/releases/download/v1.5.0/websocat_1.5.0_ssl1.1_amd64.deb && \
     dpkg -i websocat.deb && \
     rm -rf websocat.deb /var/lib/apt/lists/* && \

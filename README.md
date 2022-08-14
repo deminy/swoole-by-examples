@@ -28,8 +28,8 @@ executed from either container. Once the containers are running, you can use one
 in the containers:
 
 ```bash
-docker exec -ti $(docker ps -qf "name=server") bash # Get a Bash shell in the server container.
-docker exec -ti $(docker ps -qf "name=client") bash # Get a Bash shell in the client container.
+docker compose exec -ti server bash # Get a Bash shell in the server container.
+docker compose exec -ti client bash # Get a Bash shell in the client container.
 ```
 
 ## List of Examples
