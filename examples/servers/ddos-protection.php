@@ -39,6 +39,8 @@ $server->set(
     ]
 );
 
+// In this example, 1/3 of the traffic is processed at a later time, but not in real time. In reality,
+// there are different ways to enable DDoS protection, like rate limiting, blocking IP address, etc.
 $server->on('connect', function (Server $server, int $fd, int $reactorId) {
     if (($fd % 3) === 0) {
         // 1/3 of all HTTP requests have to wait for two seconds before being processed.
