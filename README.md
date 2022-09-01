@@ -64,6 +64,8 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
             * MySQL
                 * [hook _mysqli_ functions](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/mysqli.php)
                 * [hook _PDO MySQL_ functions](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_mysql.php)
+        * deadlocks: examples about deadlocks and how to detect/handle them.
+            * [push data to a full channel](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/channel-is-full.php)
         * [class \Swoole\Coroutine\Barrier](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/barrier.php)
         * unit tests
 * server-side programming
