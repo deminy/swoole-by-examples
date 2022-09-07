@@ -59,8 +59,8 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
             3. [mixed scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/mixed.php)
         * runtime hooks
             * curl. There are two different ways to hook curl functions:
+                * [Option SWOOLE_HOOK_NATIVE_CURL](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/native-curl.php) (recommended)
                 * [Option SWOOLE_HOOK_CURL](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/curl.php): This approach is implemented through [Swoole Library](https://github.com/swoole/library); however, it doesn't work for _curl_multi_*_ functions.
-                * [Option SWOOLE_HOOK_NATIVE_CURL](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/native-curl.php)
             * MySQL
                 * [hook _mysqli_ functions](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/mysqli.php)
                 * [hook _PDO MySQL_ functions](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_mysql.php)
