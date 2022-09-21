@@ -5,10 +5,10 @@ declare(strict_types=1);
 
 /**
  * This example is to show how to create coroutines in four different ways:
- *     1. use procedural function.
- *     2. use method in OOP.
- *     3. use short name.
- *     4. use alias.
+ *     1. use the procedural function swoole_coroutine_create().
+ *     2. use the method in OOP style: Swoole\Coroutine::create().
+ *     3. use the short name of class \Swoole\Coroutine to call the create() method: Co::create().
+ *     4. use the short name go().
  *
  * This script creates 4 coroutines; each takes about 1 second to finish. The script takes about 1 second to finish.
  *
@@ -21,9 +21,9 @@ function test(int $i)
     echo "Coroutine #{$i} is finishing execution.\n";
 }
 
-swoole_coroutine_create('test', 1);
-Swoole\Coroutine::create('test', 2);
-co::create('test', 3);
-go('test', 4);
-
-Swoole\Event::wait();
+Co\run(function () {
+    swoole_coroutine_create('test', 1);
+    Swoole\Coroutine::create('test', 2);
+    co::create('test', 3);
+    go('test', 4);
+});

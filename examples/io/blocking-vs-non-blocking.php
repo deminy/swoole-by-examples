@@ -23,7 +23,7 @@ function blocking()
 {
     go(function () {
         echo '1';
-        sleep(2);
+        sleep(2); // Although running inside a coroutine, the sleep() function call is still executed in blocking mode (when not hooked).
         echo '2';
     });
     return '3';
@@ -33,7 +33,7 @@ function nonBlocking()
 {
     go(function () {
         echo '4';
-        co::sleep(2);
+        co::sleep(2); // This is the non-blocking version of the sleep() function call.
         echo '6', "\n";
     });
     return '5';
@@ -41,4 +41,6 @@ function nonBlocking()
 
 echo blocking(), nonBlocking();
 
+// NOTE: In most cases it's not necessary nor recommended to use method `Swoole\Event::wait()` directly in your code.
+// The example in this file is just for demonstration purpose.
 Swoole\Event::wait();

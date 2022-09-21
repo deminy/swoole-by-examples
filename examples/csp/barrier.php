@@ -25,14 +25,14 @@ Co\run(function () {
     $barrier = Barrier::make();
 
     go(function () use ($barrier) {
-        Co::sleep(1);
+        co::sleep(1);
     });
 
     go(function () use ($barrier) {
-        Co::sleep(2);
+        co::sleep(2);
     });
     go(function () use ($barrier) {
-        Co::sleep(3);
+        co::sleep(3);
     });
 
     Barrier::wait($barrier); // Wait those 3 coroutines to finish.

@@ -21,7 +21,7 @@ Co\run(function () {
 
     go(function () use ($cid) {
         echo '3';
-        Co::sleep(1);
+        co::sleep(1);
         echo '5';
         co::resume($cid);
         echo '7';

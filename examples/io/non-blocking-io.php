@@ -14,14 +14,14 @@ declare(strict_types=1);
  *
  * To see how the code is executed in order, please check script "non-blocking-io-debug.php".
  */
-go(function () {
-    co::sleep(2);
-    echo '1';
-});
+Co\run(function () {
+    go(function () {
+        co::sleep(2);
+        echo '1';
+    });
 
-go(function () {
-    co::sleep(1);
-    echo '2';
+    go(function () {
+        co::sleep(1);
+        echo '2';
+    });
 });
-
-Swoole\Event::wait();

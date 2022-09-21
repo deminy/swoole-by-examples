@@ -4,8 +4,8 @@
 declare(strict_types=1);
 
 /**
- * This script takes about 1 second to finish, with 2,000 coroutines created. Without coroutine enabled (in line 19),
- * this script takes about 2,000 seconds to finish.
+ * This script takes about 1 second to finish, with 2,000 coroutines created in a for loop. Without coroutine enabled
+ * (in line 19), this script takes about 2,000 seconds to finish.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/coroutines/for.php"
@@ -19,11 +19,13 @@ use Swoole\Coroutine;
 Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_ALL]);
 
 Co\run(function () {
-    for ($i = 1; $i <= 2_000; $i++) {
+    for ($i = 0; $i < 2_000; $i++) {
         Coroutine::create(function () {
+            // Note that we use the PHP function sleep() directly.
             sleep(1);
         });
     }
 
+    // Note that there are 2_001 coroutines created, including the main coroutine created by function call Co\run().
     echo count(Coroutine::listCoroutines()), " active coroutines when reaching the end of the PHP script.\n";
 });

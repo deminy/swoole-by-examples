@@ -93,4 +93,6 @@ register_shutdown_function(function () use ($serverProcess) {
     Process::kill($serverProcess->pid);
 });
 
+// NOTE: In most cases it's not necessary nor recommended to use method `Swoole\Event::wait()` directly in your code.
+// The example in this file is just for demonstration purpose.
 Event::wait();

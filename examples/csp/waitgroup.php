@@ -26,17 +26,17 @@ Co\run(function () {
 
     go(function () use ($wg) {
         $wg->add();
-        Co::sleep(1);
+        co::sleep(1);
         $wg->done();
     });
 
     $wg->add(2); // You don't have to increase the counter one by one.
     go(function () use ($wg) {
-        Co::sleep(2);
+        co::sleep(2);
         $wg->done();
     });
     go(function () use ($wg) {
-        Co::sleep(3);
+        co::sleep(3);
         $wg->done();
     });
 

@@ -14,17 +14,17 @@ declare(strict_types=1);
  *
  * For a simple version of this script, please check script "non-blocking-io.php".
  */
-go(function () {
-    echo '1';
-    co::sleep(2);
-    echo '6';
+Co\run(function () {
+    go(function () {
+        echo '1';
+        co::sleep(2);
+        echo '6';
+    });
+    echo '2';
+    go(function () {
+        echo '3';
+        co::sleep(1);
+        echo '5';
+    });
+    echo '4';
 });
-echo '2';
-go(function () {
-    echo '3';
-    co::sleep(1);
-    echo '5';
-});
-echo '4';
-
-Swoole\Event::wait();

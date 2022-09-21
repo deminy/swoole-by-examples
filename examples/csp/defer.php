@@ -22,7 +22,7 @@ Co\run(function () {
         });
 
         echo '3';
-        Co::sleep(1);
+        co::sleep(1);
         echo '5';
     });
     echo '4';

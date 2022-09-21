@@ -40,7 +40,6 @@ declare(strict_types=1);
 
 use Swoole\Constant;
 use Swoole\Coroutine;
-use Swoole\Event;
 
 ini_set('memory_limit', -1);
 
@@ -51,18 +50,20 @@ co::set(
         Constant::OPTION_MAX_COROUTINE => $totalCoroutines,
     ]
 );
-for ($i = $totalCoroutines; $i--;) {
-    go(function () {
-        co::sleep(5);
-    });
 
-    if (($i % 100_000) === 0) {
-        printf(
-            "%07d active coroutines; total time: %f seconds; memory usage: %d.\n",
-            count(Coroutine::listCoroutines()),
-            microtime(true) - $startTime,
-            memory_get_usage()
-        );
+Co\run(function () {
+    for ($i = $totalCoroutines; $i--;) {
+        go(function () {
+            co::sleep(5);
+        });
+
+        if (($i % 100_000) === 0) {
+            printf(
+                "%07d active coroutines; total time: %f seconds; memory usage: %d.\n",
+                count(Coroutine::listCoroutines()),
+                microtime(true) - $startTime,
+                memory_get_usage()
+            );
+        }
     }
-}
-Event::wait();
+});
