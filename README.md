@@ -98,7 +98,7 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
             * There is [a 2nd example](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer/coroutine-style.php) included to show how to implement timer using coroutines only.
             * To see how to setup cronjobs using the _\Swoole\Timer_ class in an application server, please check [integrated HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1-integrated.php).
     * benchmark
-        * single-process mode vs multi-process mode
+        * base mode vs multi-process mode
     * advanced topics
         * [Rock Paper Scissors](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/rock-paper-scissors.php): implement the hand game Rock Paper Scissors using Swoole.
         * [How are different server events triggered?](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/server-events.php)

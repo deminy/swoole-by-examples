@@ -18,10 +18,10 @@ declare(strict_types=1);
  */
 Co\run(function () {
     go(function () {
-        co::sleep(3);
+        Co::sleep(3);
         go(function () {
-            co::sleep(2);
+            Co::sleep(2);
         });
     });
-    co::sleep(1);
+    Co::sleep(1);
 });

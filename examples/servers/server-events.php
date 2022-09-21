@@ -128,7 +128,7 @@ $server->on('task', function (Server $server, int $taskId, int $srcWorkerId, $da
 
     // This is to trigger the "onFinish" event.
     // Please note that "onTask" events are processed in task worker processes, while "onFinish" events are processed
-    // in worker processes (where method call $server->task*() was made to trigger the "onTask" events).
+    // in event worker processes (where method call $server->task*() was made to trigger the "onTask" events).
     $server->finish('Hello World!');
 });
 $server->on('finish', function (Server $server, int $taskId, $data) {

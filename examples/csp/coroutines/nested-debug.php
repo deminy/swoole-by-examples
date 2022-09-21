@@ -5,28 +5,29 @@ declare(strict_types=1);
 
 /**
  * This script is to help to understand how nested coroutines are executed in order; it works similarly to script
- * "nested.php" under the same directory. Once executed, it prints out "123456789".
+ * "nested.php" under the same directory. Once executed, it prints out "1234567890".
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/coroutines/nested-debug.php"
  */
-go(function () {
-    echo '1';
+Co\run(function () {
     go(function () {
-        echo '2';
-        co::sleep(3);
-        echo '6';
+        echo '1';
         go(function () {
-            echo '7';
-            co::sleep(2);
-            echo "9\n";
+            echo '2';
+            Co::sleep(3);
+            echo '6';
+            go(function () {
+                echo '7';
+                Co::sleep(2);
+                echo '9';
+            });
+            echo '8';
         });
-        echo '8';
+        echo '3';
+        Co::sleep(1);
+        echo '5';
     });
-    echo '3';
-    co::sleep(1);
-    echo '5';
+    echo '4';
 });
-echo '4';
-
-Swoole\Event::wait();
+echo "0\n";
