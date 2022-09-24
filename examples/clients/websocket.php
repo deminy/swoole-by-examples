@@ -10,10 +10,11 @@ declare(strict_types=1);
  *     docker compose exec -t client bash -c "./clients/websocket.php"
  */
 
+use Swoole\Coroutine;
 use Swoole\Coroutine\Http\Client;
 
 Co\run(function () {
-    Swoole\Coroutine::create(function () {
+    Coroutine::create(function () {
         $client = new Client('server', 9504);
         $client->upgrade('/');
         $client->push('Swoole');
