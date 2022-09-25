@@ -33,7 +33,7 @@ declare(strict_types=1);
 use Swoole\Coroutine;
 
 Co\run(function () {
-    $class = new class {
+    $class = new class() {
         public string $name;
 
         public function __construct(string $name = '')
