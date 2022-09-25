@@ -41,7 +41,9 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
         * [This example](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/blocking-vs-non-blocking.php) shows how the _return_ statement is treated differently in Swoole. As you can see in the example, a function call could return a value back first before finishing its execution.
     * coroutines
         * enable coroutines
-        * [create coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/creation.php)
+        * create coroutines
+            * [use different functions/methods to create coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/creation-1.php)
+            * use different callbacks to create coroutines
         * [yield and resume coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/yield-and-resume.php)
         * [coroutines in a for loop](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/for.php)
         * [nested coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/nested.php)
@@ -52,8 +54,15 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
         * [basic usage](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/channel.php)
         * [class \Swoole\Coroutine\WaitGroup](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/waitgroup.php) (like [the WaitGroup type in Golang](https://golang.org/pkg/sync/#WaitGroup))
     * [defer](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/defer.php)
+    * runtime hooks
+        * curl. There are two different ways to hook curl functions:
+            * [Option SWOOLE_HOOK_NATIVE_CURL](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/native-curl.php) (recommended)
+            * [Option SWOOLE_HOOK_CURL](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/curl.php): This approach is implemented through [Swoole Library](https://github.com/swoole/library); however, it doesn't work for _curl_multi_*_ functions.
+        * MySQL
+            * [hook _mysqli_ functions](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/mysqli.php)
+            * [hook _PDO MySQL_ functions](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_mysql.php)
     * deadlocks
-        * examples about deadlocks
+        * examples on deadlocks
             * [pop data from an empty channel](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/an-empty-channel.php)
             * [push data to a full channel](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/channel-is-full.php)
             * When the only coroutine yields its execution. The examples are shown in the next section when we talk about `How to detect/handle deadlocks`.
@@ -66,13 +75,6 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
             1. [non-preemptive scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/non-preemptive.php)
             2. [preemptive scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/preemptive.php)
             3. [mixed scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/mixed.php)
-        * runtime hooks
-            * curl. There are two different ways to hook curl functions:
-                * [Option SWOOLE_HOOK_NATIVE_CURL](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/native-curl.php) (recommended)
-                * [Option SWOOLE_HOOK_CURL](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/curl.php): This approach is implemented through [Swoole Library](https://github.com/swoole/library); however, it doesn't work for _curl_multi_*_ functions.
-            * MySQL
-                * [hook _mysqli_ functions](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/mysqli.php)
-                * [hook _PDO MySQL_ functions](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_mysql.php)
         * [class \Swoole\Coroutine\Barrier](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/barrier.php)
         * unit tests
 * server-side programming
