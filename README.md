@@ -48,7 +48,7 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
         * [nested coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/nested.php)
         * [exit from coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/exit.php)
         * [yield and resume coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/yield-and-resume.php)
-        * [context](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/context.php): How to use the [Context](https://github.com/swoole/ide-helper/blob/master/src/swoole/Swoole/Coroutine/Context.php) objects in coroutines.
+        * [context](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/context.php): How to use the [Context](https://github.com/swoole/ide-helper/blob/master/src/swoole/Swoole/Coroutine/Context.php) objects in coroutines.
         * [benchmark](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/benchmark.php): In this example we create 1,000,000 coroutines in a single process; each coroutine sleeps for 5 seconds.
     * channels
         * [basic usage](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/channel.php)
@@ -65,6 +65,7 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
         * examples on deadlocks
             * [pop data from an empty channel](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/an-empty-channel.php)
             * [push data to a full channel](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/channel-is-full.php)
+            * [try to lock a locked file while the existing lock never gets released](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/file-locking.php)
             * When the only coroutine yields its execution. The examples are shown in the next section when we talk about `How to detect/handle deadlocks`.
         * How to detect/handle deadlocks. In the following examples, we trigger deadlocks by yielding the execution of the only coroutine in the program.
             * [show deadlock information (the default behavior)](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/coroutine-yielded-1.php)
