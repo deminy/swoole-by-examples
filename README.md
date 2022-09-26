@@ -69,8 +69,8 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
             * When the only coroutine yields its execution. The examples are shown in the next section when we talk about `How to detect/handle deadlocks`.
         * How to detect/handle deadlocks. In the following examples, we trigger deadlocks by yielding the execution of the only coroutine in the program.
             * [show deadlock information (the default behavior)](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/coroutine-yielded-1.php)
-            * [hide deadlock information](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/coroutine-yielded-1.php)
-            * [set a customized exit condition](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/coroutine-yielded-1.php)
+            * [hide deadlock information](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/coroutine-yielded-2.php)
+            * [set a customized exit condition](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/coroutine-yielded-3.php)
     * advanced topics
         * CPU-intensive job scheduling
             1. [non-preemptive scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/non-preemptive.php)
