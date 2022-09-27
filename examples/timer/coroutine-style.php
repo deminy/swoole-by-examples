@@ -10,13 +10,14 @@ declare(strict_types=1);
  * How to run this script:
  *     docker compose exec -t server bash -c "./timer/coroutine-style.php"
  */
+use Swoole\Coroutine;
 
 use function Swoole\Coroutine\run;
 
 run(function () {
     $i = 0;
     while (true) {
-        co::sleep(0.1);
+        Coroutine::sleep(0.1);
         echo "Print out this message every 100 milliseconds.\n";
         if (++$i === 5) {
             echo "Stop printing out messages at the 500th millisecond.\n";

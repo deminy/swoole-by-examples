@@ -28,14 +28,14 @@ run(function () {
     $barrier = Barrier::make();
 
     go(function () use ($barrier) {
-        co::sleep(1);
+        sleep(1);
     });
 
     go(function () use ($barrier) {
-        co::sleep(2);
+        sleep(2);
     });
     go(function () use ($barrier) {
-        co::sleep(3);
+        sleep(3);
     });
 
     Barrier::wait($barrier); // Wait those 3 coroutines to finish.

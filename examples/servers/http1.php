@@ -57,7 +57,7 @@ $server->on(
     'request',
     function (Request $request, Response $response) {
         if (!empty($request->get['sleep'])) {
-            Coroutine::sleep($request->get['sleep']); // Sleep for a while if HTTP query parameter "sleep" presents.
+            Coroutine::sleep((float) $request->get['sleep']); // Sleep for a while if HTTP query parameter "sleep" presents.
         }
 
         // Next method call is to show how to change HTTP status code from the default one (200) to something else.

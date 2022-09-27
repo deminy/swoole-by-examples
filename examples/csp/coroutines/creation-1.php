@@ -18,7 +18,7 @@ declare(strict_types=1);
  *     4. Function go() is a short name of function swoole_coroutine_create().
  *     5. "co" is a short name of class \Swoole\Coroutine (thus method co::create() works the same as method Swoole\Coroutine::create()).
  *
- * The script creates 4 coroutines; each takes about 1 second to finish. The script takes about 1 second to finish.
+ * The script creates 5 coroutines; each takes about 1 second to finish. The script takes about 1 second to finish.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "time ./csp/coroutines/creation-1.php"

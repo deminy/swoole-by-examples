@@ -16,13 +16,9 @@ declare(strict_types=1);
  * To get better understanding on how the code is executed in order, please check script "nested-debug.php" under the
  * same directory.
  */
-use Swoole\Constant;
-use Swoole\Coroutine;
 
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
-
-Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_ALL]);
 
 run(function () {
     go(function () {

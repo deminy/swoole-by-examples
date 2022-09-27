@@ -59,7 +59,7 @@ $serverProcess->start();
 
 go(function () {
     // Sleep for 1 second waiting for the TCP server to start.
-    co::sleep(1);
+    sleep(1);
 
     // After the TCP server is started, we make a connection to the server, and send messages to the server every 2
     // seconds for 2 times. Both should receive a valid response from the server.
@@ -73,12 +73,12 @@ go(function () {
         } else {
             echo "ERROR: Server side should have sent message \"pong\" back.\n";
         }
-        co::sleep(2);
+        sleep(2);
     }
 
     // Then we wait 2 second and send a last message to the server. This message is sent 4 seconds after last message,
     // thus the server has closed the connection due to inactivity and we should receive nothing from the server.
-    co::sleep(2);
+    sleep(2);
     $client->send('ping');
     $data = $client->recv();
     if ($data == 'pong') {

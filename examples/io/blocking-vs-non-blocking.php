@@ -19,6 +19,7 @@ declare(strict_types=1);
  * How to run this script:
  *     docker compose exec -t client bash -c "./io/blocking-vs-non-blocking.php"
  */
+use Swoole\Coroutine;
 
 use function Swoole\Coroutine\go;
 
@@ -36,7 +37,7 @@ function nonBlocking()
 {
     go(function () {
         echo '4';
-        co::sleep(2); // This is the non-blocking version of the sleep() function call.
+        Coroutine::sleep(2); // This is the non-blocking version of the sleep() function call.
         echo '6', "\n";
     });
     return '5';

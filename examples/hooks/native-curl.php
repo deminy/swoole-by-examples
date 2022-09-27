@@ -19,14 +19,10 @@ declare(strict_types=1);
  *     docker compose exec -t client bash -c "time ./hooks/native-curl.php"
  */
 
-use Swoole\Constant;
-use Swoole\Coroutine;
 use Swoole\Coroutine\Http\Client;
 
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
-
-Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_NATIVE_CURL]);
 
 run(function () {
     for ($i = 0; $i < 3; $i++) {

@@ -10,13 +10,9 @@ declare(strict_types=1);
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/coroutines/nested-debug.php"
  */
-use Swoole\Constant;
-use Swoole\Coroutine;
 
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
-
-Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_ALL]);
 
 run(function () {
     go(function () {
@@ -28,7 +24,7 @@ run(function () {
             go(function () {
                 echo '7';
                 sleep(2);
-                echo '9';
+                echo "9\n";
             });
             echo '8';
         });

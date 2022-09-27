@@ -14,13 +14,9 @@ declare(strict_types=1);
  *
  * For a simple version of this script, please check script "non-blocking-io.php".
  */
-use Swoole\Constant;
-use Swoole\Coroutine;
 
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
-
-Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_ALL]);
 
 run(function () {
     go(function () {
