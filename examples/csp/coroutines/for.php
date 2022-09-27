@@ -16,9 +16,11 @@ declare(strict_types=1);
 use Swoole\Constant;
 use Swoole\Coroutine;
 
+use function Swoole\Coroutine\run;
+
 Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_ALL]);
 
-Co\run(function () {
+run(function () {
     for ($i = 0; $i < 2_000; $i++) {
         Coroutine::create(function () {
             // Note that we use the PHP function sleep() directly.
@@ -26,6 +28,6 @@ Co\run(function () {
         });
     }
 
-    // Note that there are 2_001 coroutines created, including the main coroutine created by function call Co\run().
+    // Note that there are 2_001 coroutines created, including the main coroutine created by function call run().
     echo count(Coroutine::listCoroutines()), " active coroutines when reaching the end of the PHP script.\n";
 });

@@ -15,7 +15,10 @@ declare(strict_types=1);
 
 use Swoole\Coroutine\Http\Client;
 
-Co\run(function () {
+use function Swoole\Coroutine\go;
+use function Swoole\Coroutine\run;
+
+run(function () {
     // For the 1st one, we make an HTTPS request to download an image file from GitHub. Once this script
     // finishes execution, you should see an image file "mascot.png" under same directory of this script.
     go(function () {

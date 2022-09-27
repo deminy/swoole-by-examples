@@ -13,7 +13,9 @@ declare(strict_types=1);
 use Swoole\Coroutine;
 use Swoole\Coroutine\Http\Client;
 
-Co\run(function () {
+use function Swoole\Coroutine\run;
+
+run(function () {
     Coroutine::create(function () {
         $client = new Client('server', 9504);
         $client->upgrade('/');

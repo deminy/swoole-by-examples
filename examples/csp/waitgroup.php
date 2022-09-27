@@ -18,25 +18,28 @@ declare(strict_types=1);
  * How to run this script:
  *     docker compose exec -t client bash -c "time ./csp/waitgroup.php"
  */
-
+use Swoole\Coroutine;
 use Swoole\Coroutine\WaitGroup;
 
-Co\run(function () {
+use function Swoole\Coroutine\go;
+use function Swoole\Coroutine\run;
+
+run(function () {
     $wg = new WaitGroup();
 
     go(function () use ($wg) {
         $wg->add();
-        co::sleep(1);
+        Coroutine::sleep(1);
         $wg->done();
     });
 
     $wg->add(2); // You don't have to increase the counter one by one.
     go(function () use ($wg) {
-        co::sleep(2);
+        Coroutine::sleep(2);
         $wg->done();
     });
     go(function () use ($wg) {
-        co::sleep(3);
+        Coroutine::sleep(3);
         $wg->done();
     });
 

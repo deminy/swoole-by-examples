@@ -13,7 +13,10 @@ declare(strict_types=1);
  *
  * In general, the best way to exit from a coroutine is to throw out an exception and catch it at parent level.
  */
-Co\run(function () {
+
+use function Swoole\Coroutine\run;
+
+run(function () {
     try {
         exit(911);
     } catch (Swoole\ExitException $e) {

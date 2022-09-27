@@ -41,6 +41,9 @@ declare(strict_types=1);
 use Swoole\Constant;
 use Swoole\Coroutine;
 
+use function Swoole\Coroutine\go;
+use function Swoole\Coroutine\run;
+
 ini_set('memory_limit', -1);
 
 $totalCoroutines = 1_000_000;
@@ -51,10 +54,10 @@ co::set(
     ]
 );
 
-Co\run(function () {
+run(function () {
     for ($i = $totalCoroutines; $i--;) {
         go(function () {
-            co::sleep(5);
+            Coroutine::sleep(5);
         });
 
         if (($i % 100_000) === 0) {

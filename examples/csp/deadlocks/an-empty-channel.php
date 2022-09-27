@@ -19,13 +19,15 @@ use Swoole\Constant;
 use Swoole\Coroutine;
 use Swoole\Coroutine\Channel;
 
+use function Swoole\Coroutine\run;
+
 Coroutine::set(
     [
         Constant::OPTION_ENABLE_DEADLOCK_CHECK => (bool) ($argv[1] ?? true),
     ]
 );
 
-Co\run(function () {
+run(function () {
     Coroutine::create(function () {
         echo "1\n"; // This will be printed out.
         (new Channel(1))->pop();

@@ -32,7 +32,9 @@ declare(strict_types=1);
 
 use Swoole\Coroutine;
 
-Co\run(function () {
+use function Swoole\Coroutine\run;
+
+run(function () {
     $class = new class() {
         public string $name;
 

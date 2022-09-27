@@ -15,7 +15,9 @@ declare(strict_types=1);
 
 use Swoole\Timer;
 
-Co\run(function () {
+use function Swoole\Coroutine\run;
+
+run(function () {
     $id = Timer::tick(100, function () {
         echo "Function call is triggered every 100 milliseconds by the timer.\n";
     });

@@ -16,6 +16,8 @@ use Swoole\Event;
 use Swoole\Process;
 use Swoole\Server;
 
+use function Swoole\Coroutine\go;
+
 // In this example, we start a TCP server first. When a client is connected, the server checks activities from the
 // client every second. If there is no data received from the client within 3 seconds, the server closes the connection.
 $serverProcess = new Process(

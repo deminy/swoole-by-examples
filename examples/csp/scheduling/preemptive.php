@@ -10,9 +10,13 @@ declare(strict_types=1);
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/scheduling/preemptive.php"
  */
+
+use function Swoole\Coroutine\go;
+use function Swoole\Coroutine\run;
+
 ini_set('swoole.enable_preemptive_scheduler', '1');
 
-Co\run(
+run(
     function () {
         go(function () {
             $i = 0;

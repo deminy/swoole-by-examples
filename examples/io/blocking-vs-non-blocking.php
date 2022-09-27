@@ -19,6 +19,9 @@ declare(strict_types=1);
  * How to run this script:
  *     docker compose exec -t client bash -c "./io/blocking-vs-non-blocking.php"
  */
+
+use function Swoole\Coroutine\go;
+
 function blocking()
 {
     go(function () {

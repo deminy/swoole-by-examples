@@ -25,9 +25,12 @@ use Swoole\Constant;
 use Swoole\Coroutine;
 use Swoole\Coroutine\Http\Client;
 
+use function Swoole\Coroutine\go;
+use function Swoole\Coroutine\run;
+
 Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_CURL]);
 
-Co\run(function () {
+run(function () {
     for ($i = 0; $i < 6; $i++) {
         go(function () {
             $ch = curl_init();

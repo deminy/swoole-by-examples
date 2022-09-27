@@ -17,7 +17,10 @@ use Swoole\Constant;
 use Swoole\Coroutine\Client;
 use Swoole\MsgQueue;
 
-Co\run(function () {
+use function Swoole\Coroutine\go;
+use function Swoole\Coroutine\run;
+
+run(function () {
     $settings = [
         Constant::OPTION_OPEN_LENGTH_CHECK     => 1,
         Constant::OPTION_PACKAGE_LENGTH_TYPE   => 'N',

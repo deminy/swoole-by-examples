@@ -6,7 +6,7 @@ declare(strict_types=1);
 /**
  * This script creates 3 coroutines and takes about 5 seconds to finish.
  * the sleep() methods are to simulate some IO operations in PHP. In blocking mode, it should take about 6 seconds to
- * finish; in non-blocking mode, it takes about 5 second to finish.
+ * finish; in non-blocking mode, it takes about 5 seconds to finish.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/coroutines/nested.php"
@@ -16,12 +16,20 @@ declare(strict_types=1);
  * To get better understanding on how the code is executed in order, please check script "nested-debug.php" under the
  * same directory.
  */
-Co\run(function () {
+use Swoole\Constant;
+use Swoole\Coroutine;
+
+use function Swoole\Coroutine\go;
+use function Swoole\Coroutine\run;
+
+Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_ALL]);
+
+run(function () {
     go(function () {
-        co::sleep(3);
+        sleep(3);
         go(function () {
-            co::sleep(2);
+            sleep(2);
         });
     });
-    co::sleep(1);
+    sleep(1);
 });

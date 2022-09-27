@@ -19,7 +19,10 @@ use Swoole\Coroutine\System;
 use Swoole\Database\RedisConfig;
 use Swoole\Database\RedisPool;
 
-Co\run(function () {
+use function Swoole\Coroutine\go;
+use function Swoole\Coroutine\run;
+
+run(function () {
     $pool = new RedisPool((new RedisConfig())->withHost(System::gethostbyname('server')), 11);
     for ($n = 1024; $n--;) {
         go(function () use ($pool) {

@@ -19,7 +19,9 @@ declare(strict_types=1);
 
 use Swoole\Coroutine;
 
-Co\run(function () {
+use function Swoole\Coroutine\run;
+
+run(function () {
     echo "1\n"; // This will be printed out.
 
     $filename = sys_get_temp_dir() . '/swoole-file-locking-' . uniqid() . '.tmp';

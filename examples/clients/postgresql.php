@@ -21,7 +21,9 @@ declare(strict_types=1);
 use Swoole\Coroutine;
 use Swoole\Coroutine\PostgreSQL;
 
-Co\run(function () {
+use function Swoole\Coroutine\run;
+
+run(function () {
     $connections = [];
     for ($i = 0; $i < 5; $i++) {
         $connection = new PostgreSQL();

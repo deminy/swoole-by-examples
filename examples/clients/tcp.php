@@ -18,7 +18,9 @@ declare(strict_types=1);
 use Swoole\Coroutine;
 use Swoole\Coroutine\Client;
 
-Co\run(function () {
+use function Swoole\Coroutine\run;
+
+run(function () {
     foreach ([9505, 9507] as $port) {
         Coroutine::create(function () use ($port) {
             $client = new Client(SWOOLE_TCP);

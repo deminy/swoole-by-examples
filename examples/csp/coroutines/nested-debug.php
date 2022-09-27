@@ -10,22 +10,30 @@ declare(strict_types=1);
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/coroutines/nested-debug.php"
  */
-Co\run(function () {
+use Swoole\Constant;
+use Swoole\Coroutine;
+
+use function Swoole\Coroutine\go;
+use function Swoole\Coroutine\run;
+
+Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_ALL]);
+
+run(function () {
     go(function () {
         echo '1';
         go(function () {
             echo '2';
-            co::sleep(3);
+            sleep(3);
             echo '6';
             go(function () {
                 echo '7';
-                co::sleep(2);
+                sleep(2);
                 echo '9';
             });
             echo '8';
         });
         echo '3';
-        co::sleep(1);
+        sleep(1);
         echo '5';
     });
     echo '4';

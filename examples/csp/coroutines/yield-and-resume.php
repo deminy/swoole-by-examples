@@ -10,10 +10,15 @@ declare(strict_types=1);
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/coroutines/yield-and-resume.php"
  */
-Co\run(function () {
+use Swoole\Coroutine;
+
+use function Swoole\Coroutine\go;
+use function Swoole\Coroutine\run;
+
+run(function () {
     $cid = go(function () {
         echo '1';
-        co::yield();
+        Coroutine::yield();
         echo '6';
     });
 
@@ -21,9 +26,9 @@ Co\run(function () {
 
     go(function () use ($cid) {
         echo '3';
-        co::sleep(1);
+        Coroutine::sleep(1);
         echo '5';
-        co::resume($cid);
+        Coroutine::resume($cid);
         echo '7';
     });
 

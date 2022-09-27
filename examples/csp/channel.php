@@ -21,7 +21,10 @@ declare(strict_types=1);
 use Swoole\Coroutine\Channel;
 use Swoole\Coroutine\Http\Client;
 
-Co\run(function () {
+use function Swoole\Coroutine\go;
+use function Swoole\Coroutine\run;
+
+run(function () {
     $channel = new Channel(2);
 
     go(function () use ($channel) {

@@ -9,7 +9,12 @@ declare(strict_types=1);
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/defer.php"
  */
-Co\run(function () {
+use Swoole\Coroutine;
+
+use function Swoole\Coroutine\go;
+use function Swoole\Coroutine\run;
+
+run(function () {
     go(function () {
         echo '1';
         defer(function () {
@@ -22,7 +27,7 @@ Co\run(function () {
         });
 
         echo '3';
-        co::sleep(1);
+        Coroutine::sleep(1);
         echo '5';
     });
     echo '4';
