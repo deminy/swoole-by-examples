@@ -22,8 +22,8 @@ declare(strict_types=1);
 
 use Swoole\Redis\Server;
 
-$server       = new Server('0.0.0.0', 6379, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
-$server->data = [];
+$server       = new Server('0.0.0.0', 6379);
+$server->data = []; // We use an array as the data storage for the Redis server.
 
 $server->setHandler('SET', function (int $fd, array $data) use ($server) {
     $server->data[$data[0]] = $data[1];

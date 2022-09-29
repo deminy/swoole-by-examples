@@ -48,7 +48,7 @@ ini_set('memory_limit', -1);
 
 $totalCoroutines = 1_000_000;
 $startTime       = microtime(true);
-co::set(
+Coroutine::set(
     [
         Constant::OPTION_MAX_COROUTINE => $totalCoroutines,
     ]
@@ -57,7 +57,7 @@ co::set(
 run(function () {
     for ($i = $totalCoroutines; $i--;) {
         go(function () {
-            Coroutine::sleep(5);
+            sleep(5);
         });
 
         if (($i % 100_000) === 0) {

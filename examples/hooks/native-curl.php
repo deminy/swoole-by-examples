@@ -11,6 +11,7 @@ declare(strict_types=1);
  *
  * Notes:
  *     * This feature works under Swoole 4.6.0+.
+ *     * This approach works only if Swoole is installed with option "--enable-swoole-curl" included.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./hooks/native-curl.php"
@@ -19,10 +20,16 @@ declare(strict_types=1);
  *     docker compose exec -t client bash -c "time ./hooks/native-curl.php"
  */
 
+use Swoole\Constant;
+use Swoole\Coroutine;
 use Swoole\Coroutine\Http\Client;
 
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
+
+// This statement is optional because hook flags are set to SWOOLE_HOOK_ALL by default, and flag SWOOLE_HOOK_ALL has
+// flag SWOOLE_HOOK_NATIVE_CURL included already.
+Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_NATIVE_CURL]);
 
 run(function () {
     for ($i = 0; $i < 3; $i++) {

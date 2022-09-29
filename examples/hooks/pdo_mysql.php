@@ -16,8 +16,15 @@ declare(strict_types=1);
  *     docker compose exec -t client bash -c "time ./hooks/pdo_mysql.php"
  */
 
+use Swoole\Constant;
+use Swoole\Coroutine;
+
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
+
+// This statement is optional because hook flags are set to SWOOLE_HOOK_ALL by default, and flag SWOOLE_HOOK_ALL has
+// flag SWOOLE_HOOK_TCP included already.
+Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_TCP]);
 
 run(function () {
     for ($i = 0; $i < 5; $i++) {
