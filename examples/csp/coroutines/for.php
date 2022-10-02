@@ -26,6 +26,6 @@ run(function () {
         });
     }
 
-    // Note that there are 2_001 coroutines created, including the main coroutine created by function call run().
+    // Note that there are 2,001 coroutines created, including the main coroutine created by function call run().
     echo count(Coroutine::listCoroutines()), " active coroutines when reaching the end of the PHP script.\n";
 });

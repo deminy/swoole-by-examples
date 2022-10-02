@@ -126,8 +126,8 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
     * [TCP client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/tcp.php)
     * [UDP client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/udp.php)
     * [PostgreSQL client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/postgresql.php)
-* Swoole extensions
-    * async
-    * orm
-    * serialize
-    * zookeeper
+* miscellaneous topics
+    * atomic counters
+    * multiprocessing
+        * wait-and-wakeup
+        * process pool: Please check previous section `resource pooling` for details.
