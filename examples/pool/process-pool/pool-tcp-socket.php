@@ -16,10 +16,10 @@ $pool->on('message', function (Pool $pool, string $message) {
     $pool->write("Hello, {$message}!");
 });
 $pool->on('workerStart', function (Pool $pool, int $workerId) {
-    echo "Process #{$workerId} started. (TCP SOCKET)\n";
+    echo "Process #{$workerId} started. (TCP SOCKET)", PHP_EOL;
 });
 $pool->on('workerStop', function (Pool $pool, int $workerId) {
-    echo "Process #{$workerId} stopped. (TCP SOCKET)\n";
+    echo "Process #{$workerId} stopped. (TCP SOCKET)", PHP_EOL;
 });
 
 $pool->listen('0.0.0.0', 9701);

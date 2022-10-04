@@ -35,7 +35,7 @@ run(function () {
         );
         $client->download('/swoole/swoole-src/master/mascot.png', __DIR__ . '/mascot.png');
 
-        echo "Done executing the first HTTP/1 request.\n";
+        echo 'Done executing the first HTTP/1 request.', PHP_EOL;
     });
 
     // For the 2nd one, we make an HTTP request to the HTTP/1 server started in the "server" container.
@@ -45,10 +45,10 @@ run(function () {
 
         // You can uncomment following code to print out the HTTP response headers and body.
         // foreach ($client->getHeaders() as $key => $value) {
-        //    echo "{$key}: $value\n";
+        //    echo "{$key}: $value", PHP_EOL;
         // }
-        // echo "\n" . $client->body;
+        // echo PHP_EOL, $client->body;
 
-        echo "Done executing the second HTTP/1 request.\n";
+        echo 'Done executing the second HTTP/1 request.', PHP_EOL;
     });
 });

@@ -30,11 +30,11 @@ Coroutine::set(
 run(function () {
     Coroutine::create(function () {
         $channel = new Channel(1); // Size of the channel is 1.
-        echo "1\n"; // This will be printed out.
+        echo '1', PHP_EOL; // This will be printed out.
         $channel->push('foo');
-        echo "2\n"; // This will be printed out.
+        echo '2', PHP_EOL; // This will be printed out.
         $channel->push('bar'); // No room to store it in the channel.
-        echo "4\n"; // This will never be printed out.
+        echo '4', PHP_EOL; // This will never be printed out.
     });
-    echo "3\n"; // This will be printed out.
+    echo '3', PHP_EOL; // This will be printed out.
 });

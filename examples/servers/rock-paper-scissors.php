@@ -56,7 +56,7 @@ $server->on(
                 foreach ($exchanges as [$request]) {
                     $result .= "{$request->get['name']}: {$request->post['shape']}; ";
                 }
-                $result = substr($result, 0, -2) . ".\n";
+                $result = substr($result, 0, -2) . '.' . PHP_EOL;
 
                 foreach ($exchanges as [, $response]) { // Send responses back.
                     $response->end($result);

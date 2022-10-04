@@ -35,13 +35,13 @@ $server->set(
 $server->on(
     'start',
     function (Server $server) {
-        echo '[HTTP1-ADVANCED]: # of CPU units: ', swoole_cpu_num(), "\n";
+        echo '[HTTP1-ADVANCED]: # of CPU units: ', swoole_cpu_num(), PHP_EOL;
 
         // Here we start the first cron job that runs every 61 seconds.
         Timer::tick(
             1000 * 61,
             function () {
-                echo '[HTTP1-ADVANCED]: This message is printed out every 61 seconds. (', date('H:i:s'), ")\n";
+                echo '[HTTP1-ADVANCED]: This message is printed out every 61 seconds. (', date('H:i:s'), ')', PHP_EOL;
             }
         );
     }
@@ -49,13 +49,13 @@ $server->on(
 $server->on(
     'workerStart',
     function (Server $server, int $workerId) {
-        echo "[HTTP1-ADVANCED] Worker #{$workerId} is started.", "\n";
+        echo "[HTTP1-ADVANCED] Worker #{$workerId} is started.", PHP_EOL;
         if ($workerId === 0) {
             // Here we start the second cron job that runs every 63 seconds.
             Coroutine::create(function () {
                 while (true) {
                     Coroutine::sleep(63);
-                    echo '[HTTP1-ADVANCED]: This message is printed out every 63 seconds. (', date('H:i:s'), ")\n";
+                    echo '[HTTP1-ADVANCED]: This message is printed out every 63 seconds. (', date('H:i:s'), ')', PHP_EOL;
                 }
             });
         }
@@ -69,17 +69,17 @@ $server->on(
             case 'task':
                 // To deploy an asynchronous task.
                 $server->task((object) ['type' => 'task']);
-                $response->end("{$type}\n");
+                $response->end($type . PHP_EOL);
                 break;
             case 'taskwait':
                 // To deploy an asynchronous task, and wait until it finishes.
                 $result = $server->taskwait(['type' => 'taskwait']);
-                $response->end("{$type}\n");
+                $response->end($type . PHP_EOL);
                 break;
             case 'taskWaitMulti':
                 // To deploy multiple asynchronous tasks, and wait until they finish. (legacy implementation)
                 $server->taskWaitMulti(['taskWaitMulti #0', 'taskWaitMulti #1', 'taskWaitMulti #2']);
-                $response->end("{$type}\n");
+                $response->end($type . PHP_EOL);
                 break;
             case 'taskCo':
                 // To deploy multiple asynchronous tasks, and wait until they finish.
@@ -95,7 +95,7 @@ $server->on(
             default:
                 // To deploy an asynchronous task, and process the response through a callback function.
                 $server->task('taskCallback', -1, function (Server $server, int $taskId, $data) use ($response) {
-                    $response->end("{$data}\n");
+                    $response->end($data . PHP_EOL);
                 });
                 break;
         }
@@ -104,7 +104,7 @@ $server->on(
 $server->on(
     'task',
     function (Server $server, int $taskId, int $reactorId, $data) {
-        echo 'Task received with incoming data (serialized already): ', serialize($data), "\n";
+        echo 'Task received with incoming data (serialized already): ', serialize($data), PHP_EOL;
 
         return $data;
     }
@@ -112,7 +112,7 @@ $server->on(
 $server->on(
     'finish',
     function (Server $server, int $taskId, $data) {
-        echo 'Task returned with data (serialized already): ', serialize($data), "\n";
+        echo 'Task returned with data (serialized already): ', serialize($data), PHP_EOL;
 
         return $data;
     }

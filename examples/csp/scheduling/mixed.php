@@ -24,7 +24,7 @@ run(
             $i = 0;
             Swoole\Coroutine::disableScheduler();
             while ($i < 100000) {
-                echo $i++, "\n";
+                echo $i++, PHP_EOL;
             }
             Swoole\Coroutine::enableScheduler();
         });

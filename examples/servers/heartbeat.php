@@ -46,7 +46,7 @@ $serverProcess = new Process(
             function (Server $server, int $fd) {
                 // In this example we only have one client created, and this client will be closed by the server due to
                 // timeout.
-                echo "\nTCP client #{$fd} is closed due to timeout.\n";
+                echo PHP_EOL, "TCP client #{$fd} is closed due to timeout.", PHP_EOL;
             }
         );
         $server->start();
@@ -69,9 +69,9 @@ go(function () {
         $client->send('ping');
         $data = $client->recv();
         if ($data == 'pong') {
-            echo "INFO: Successfully received message \"pong\" from server side.\n";
+            echo 'INFO: Successfully received message "pong" from server side.', PHP_EOL;
         } else {
-            echo "ERROR: Server side should have sent message \"pong\" back.\n";
+            echo 'ERROR: Server side should have sent message "pong" back.', PHP_EOL;
         }
         sleep(2);
     }
@@ -82,9 +82,9 @@ go(function () {
     $client->send('ping');
     $data = $client->recv();
     if ($data == 'pong') {
-        echo "\nERROR: Server side should have closed the connection and no message received.\n";
+        echo PHP_EOL, 'ERROR: Server side should have closed the connection and no message received.', PHP_EOL;
     } else {
-        echo "\nINFO: Server side has successfully closed the connection and no message received.\n";
+        echo PHP_EOL, 'INFO: Server side has successfully closed the connection and no message received.', PHP_EOL;
     }
 });
 

@@ -18,11 +18,11 @@ run(function () {
     $i = 0;
     while (true) {
         Coroutine::sleep(0.1);
-        echo "Print out this message every 100 milliseconds.\n";
+        echo 'Print out this message every 100 milliseconds.', PHP_EOL;
         if (++$i === 5) {
-            echo "Stop printing out messages at the 500th millisecond.\n";
+            echo 'Stop printing out messages at the 500th millisecond.', PHP_EOL;
             break;
         }
     }
-    echo "No more messages should be printed out after the 500th millisecond.\n";
+    echo 'No more messages should be printed out after the 500th millisecond.', PHP_EOL;
 });

@@ -25,7 +25,7 @@ $server->set(
 $server->on(
     'request',
     function (Swoole\Http\Request $request, Swoole\Http\Response $response) {
-        $response->end("Hello, {$request->rawContent()}\n");
+        $response->end("Hello, {$request->rawContent()}" . PHP_EOL);
     }
 );
 

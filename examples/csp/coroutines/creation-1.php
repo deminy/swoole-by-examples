@@ -47,7 +47,7 @@ run(function () {
 
     co::create('test', 5);
 
-    echo "\n";
+    echo PHP_EOL;
 });
 
-echo "\n";
+echo PHP_EOL;

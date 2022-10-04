@@ -32,4 +32,4 @@ run(function () {
     });
     echo '4';
 });
-echo "8\n";
+echo '8', PHP_EOL;

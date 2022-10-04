@@ -44,7 +44,7 @@ use Swoole\Timer;
 
 function printMessage(string $message, bool $newLine = false)
 {
-    echo($newLine ? "\n" : ''), 'INFO (', date('H:i:s'), "): {$message}\n";
+    echo($newLine ? PHP_EOL : ''), 'INFO (', date('H:i:s'), "): {$message}", PHP_EOL;
 }
 
 $server = new Server('0.0.0.0', 9509);
@@ -64,7 +64,7 @@ $server->on('managerStart', function (Server $server) {
 
     // To make an HTTP request to the sever itself 50 milliseconds later.
     Timer::after(50, function () {
-        printMessage("Make an HTTP request to the server.\n", true);
+        printMessage('Make an HTTP request to the server.' . PHP_EOL, true);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:9509');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -74,13 +74,13 @@ $server->on('managerStart', function (Server $server) {
 
     // To reload the HTTP server 100 milliseconds later.
     Timer::after(100, function () use ($server) {
-        printMessage("Reload the server.\n", true);
+        printMessage('Reload the server.' . PHP_EOL, true);
         $server->reload();
     });
 
     // To shutdown the HTTP server 150 milliseconds later.
     Timer::after(150, function () use ($server) {
-        printMessage("Shutdown the server.\n", true);
+        printMessage('Shutdown the server.' . PHP_EOL, true);
         $server->shutdown();
     });
 });
@@ -108,12 +108,12 @@ $server->on('receive', function (Server $server, int $fd, int $reactorId, string
     printMessage('Event "onReceive" is triggered.');
 });
 $server->on('close', function (Server $server, int $fd, int $reactorId) {
-    printMessage("Event \"onClose\" is triggered.\n");
+    printMessage('Event "onClose" is triggered.' . PHP_EOL);
 });
 
 $server->on('request', function (Request $request, Response $response) use ($server) {
     printMessage('Event "onRequest" is triggered.');
-    $response->end("OK\n");
+    $response->end('OK' . PHP_EOL);
     Coroutine::create(function () use ($server) {
         Coroutine::sleep(0.01);
         $server->task('Hello, World!');
@@ -147,8 +147,8 @@ $server->on('afterReload', function (Server $server) {
 });
 
 $server->on('shutdown', function (Server $server) {
-    printMessage("Event \"onShutdown\" is triggered.\n");
+    printMessage('Event "onShutdown" is triggered.' . PHP_EOL);
 });
 
-printMessage("Start the server.\n", true);
+printMessage('Start the server.' . PHP_EOL, true);
 $server->start();

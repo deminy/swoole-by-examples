@@ -36,7 +36,7 @@ $process = new Process(
         //      another source;
         //   2. In the task processing processes, get tasks from the storage system, process them, then remove them once
         //      done.
-        echo 'Task processed (in file ',  __FILE__, ").\n";
+        echo 'Task processed (in file ',  __FILE__, ').', PHP_EOL;
         sleep(29);
     }
 );
@@ -46,7 +46,7 @@ $process = new Process(
     function () {
         while (true) {
             sleep(31);
-            echo 'Cron executed (in file ',  __FILE__, ").\n"; // To simulate cron executions.
+            echo 'Cron executed (in file ',  __FILE__, ').', PHP_EOL; // To simulate cron executions.
         }
     }
 );

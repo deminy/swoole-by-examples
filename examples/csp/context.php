@@ -46,7 +46,7 @@ run(function () {
         public function __destruct()
         {
             if (!empty($this->name)) {
-                printf("Object \"%s\" is destroyed.\n", $this->name);
+                echo 'Object "', $this->name, '" is destroyed.' . PHP_EOL;
             }
         }
     };
@@ -60,11 +60,11 @@ run(function () {
         Coroutine::getContext()['co2_obj1']                  = new $class('co2_obj1');
         Coroutine::getContext(Coroutine::getCid())->co2_obj2 = new $class('co2_obj2'); // Coroutine::getCid() returns 2.
 
-        echo 'Name of the 1st object in the Context object of coroutine #1: ', Coroutine::getContext(1)['co1_obj1']->name, "\n";
-        echo 'Name of the 2nd object in the Context object of coroutine #2: ', Coroutine::getContext(2)->co2_obj2->name, "\n";
+        echo 'Name of the 1st object in the Context object of coroutine #1: ', Coroutine::getContext(1)['co1_obj1']->name, PHP_EOL;
+        echo 'Name of the 2nd object in the Context object of coroutine #2: ', Coroutine::getContext(2)->co2_obj2->name, PHP_EOL;
 
-        echo "\nCoroutine #2 is exiting. The context object of it will be destroyed.\n";
+        echo PHP_EOL, 'Coroutine #2 is exiting. The context object of it will be destroyed.', PHP_EOL;
     });
 
-    echo "\nCoroutine #1 is exiting. The context object of it will be destroyed.\n";
+    echo PHP_EOL, 'Coroutine #1 is exiting. The context object of it will be destroyed.', PHP_EOL;
 });

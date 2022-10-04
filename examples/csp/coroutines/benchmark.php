@@ -62,7 +62,7 @@ run(function () {
 
         if (($i % 100_000) === 0) {
             printf(
-                "%07d active coroutines; total time: %f seconds; memory usage: %d.\n",
+                '%07d active coroutines; total time: %f seconds; memory usage: %d.' . PHP_EOL,
                 count(Coroutine::listCoroutines()),
                 microtime(true) - $startTime,
                 memory_get_usage()

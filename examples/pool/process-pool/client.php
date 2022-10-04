@@ -50,7 +50,7 @@ run(function () {
         $client->send(pack('N', strlen($requestMessage)) . $requestMessage);
         $responseMessage = $client->recv();
         $responseMessage = substr($responseMessage, 4, unpack('N', substr($responseMessage, 0, 4))[1]);
-        echo $responseMessage, "\n";
+        echo $responseMessage, PHP_EOL;
         $client->close();
     });
 
@@ -64,7 +64,7 @@ run(function () {
         $client->send(pack('N', strlen($requestMessage)) . $requestMessage);
         $responseMessage = $client->recv();
         $responseMessage = substr($responseMessage, 4, unpack('N', substr($responseMessage, 0, 4))[1]);
-        echo $responseMessage, "\n";
+        echo $responseMessage, PHP_EOL;
         $client->close();
     });
 });

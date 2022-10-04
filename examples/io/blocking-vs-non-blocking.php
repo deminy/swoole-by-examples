@@ -38,7 +38,7 @@ function nonBlocking()
     go(function () {
         echo '4';
         Coroutine::sleep(2); // This is the non-blocking version of the sleep() function call.
-        echo '6', "\n";
+        echo '6', PHP_EOL;
     });
     return '5';
 }

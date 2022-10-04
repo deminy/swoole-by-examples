@@ -19,7 +19,7 @@ run(
         go(function () {
             $i = 0;
             while (true) {
-                echo $i++, "\n";
+                echo $i++, PHP_EOL;
             }
         });
 

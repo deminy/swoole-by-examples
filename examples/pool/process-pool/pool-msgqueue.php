@@ -16,13 +16,13 @@ $pool = new Pool(swoole_cpu_num(), SWOOLE_IPC_MSGQUEUE, 0x7000001);
 $pool->on('message', function (Pool $pool, string $message) {
     /** @var Process $process */
     $process = $pool->getProcess();
-    echo "Process #{$process->id} received message \"{$message}\". (MSGQUEUE)\n";
+    echo "Process #{$process->id} received message \"{$message}\". (MSGQUEUE)", PHP_EOL;
 });
 $pool->on('workerStart', function (Pool $pool, int $workerId) {
-    echo "Process #{$workerId} started. (MSGQUEUE)\n";
+    echo "Process #{$workerId} started. (MSGQUEUE)", PHP_EOL;
 });
 $pool->on('workerStop', function (Pool $pool, int $workerId) {
-    echo "Process #{$workerId} stopped. (MSGQUEUE)\n";
+    echo "Process #{$workerId} stopped. (MSGQUEUE)", PHP_EOL;
 });
 
 $pool->start();

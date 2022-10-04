@@ -12,5 +12,5 @@ declare(strict_types=1);
  */
 require_once "{$_ENV['HOME']}/vendor/autoload.php";
 $client = new Predis\Client(['scheme' => 'tcp', 'host' => 'server', 'port' => 6379]);
-echo $client->set('foo', 'bar'), "\n";
-echo $client->get('foo'), "\n";
+echo $client->set('foo', 'bar'), PHP_EOL;
+echo $client->get('foo'), PHP_EOL;

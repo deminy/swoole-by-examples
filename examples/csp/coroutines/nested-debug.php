@@ -24,7 +24,7 @@ run(function () {
             go(function () {
                 echo '7';
                 sleep(2);
-                echo "9\n";
+                echo '9', PHP_EOL;
             });
             echo '8';
         });

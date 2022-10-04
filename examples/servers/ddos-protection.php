@@ -53,7 +53,7 @@ $server->on('connect', function (Server $server, int $fd, int $reactorId) {
     }
 });
 $server->on('request', function (Request $request, Response $response) {
-    $response->end("OK\n");
+    $response->end('OK' . PHP_EOL);
 });
 
 $server->start();

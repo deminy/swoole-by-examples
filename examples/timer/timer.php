@@ -19,15 +19,15 @@ use function Swoole\Coroutine\run;
 
 run(function () {
     $id = Timer::tick(100, function () {
-        echo "Function call is triggered every 100 milliseconds by the timer.\n";
+        echo 'Function call is triggered every 100 milliseconds by the timer.', PHP_EOL;
     });
     Timer::after(500, function () use ($id) {
         Timer::clear($id);
-        echo "The timer is cleared at the 500th millisecond.\n";
+        echo 'The timer is cleared at the 500th millisecond.', PHP_EOL;
     });
     Timer::after(1000, function () use ($id) {
         if (!Timer::exists($id)) {
-            echo "The timer should not exist at the 1,000th millisecond.\n";
+            echo 'The timer should not exist at the 1,000th millisecond.', PHP_EOL;
         }
     });
 });

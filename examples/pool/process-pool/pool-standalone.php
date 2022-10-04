@@ -20,11 +20,11 @@ $counter = new Atomic(0);
 
 $pool->on('workerStart', function (Pool $pool, int $workerId) use ($counter) {
     # For standalone process pool, business logic should be implemented inside this "workerStart" callback.
-    echo "Process #{$workerId} started. (STANDALONE)\n";
+    echo "Process #{$workerId} started. (STANDALONE)", PHP_EOL;
     $counter->add(1);
 });
 $pool->on('workerStop', function (Pool $pool, int $workerId) use ($counter) {
-    echo "Process #{$workerId} stopped. (STANDALONE)\n";
+    echo "Process #{$workerId} stopped. (STANDALONE)", PHP_EOL;
     if ($counter->get() >= 3) {
         $pool->shutdown();
     }
