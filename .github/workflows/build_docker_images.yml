@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-docker-images:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: ${{ github.repository == 'deminy/swoole-by-examples' }}
     strategy:
       fail-fast: true
