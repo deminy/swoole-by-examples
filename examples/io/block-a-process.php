@@ -30,6 +30,11 @@ run(function () use ($lock) {
     go(function () use ($lock) { // A second coroutine is created to block the whole process.
         echo date('H:i:s'), '(coroutine ID: 2)', PHP_EOL;
 
+        // WARNING:
+        //    1. Don't keep creating new locks in callback functions of server events (e.g., onReceive, onConnect,
+        //       onRequest, etc.). It could lead to memory leak.
+        //    2. Avoid using the same lock across different coroutines. It could lead to deadlock. e.g.,
+        //       https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/swoole-lock.php
         $lock->lock();
         if ($lock->lockwait(2.0) !== true) {
             $lock->unlock();

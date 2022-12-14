@@ -78,7 +78,7 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
             2. [preemptive scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/preemptive.php)
             3. [mixed scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/mixed.php)
         * [class \Swoole\Coroutine\Barrier](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/barrier.php)
-        * blocking coroutines/processes
+        * block coroutines/processes
           * [block a coroutine](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/block-a-coroutine.php)
           * [block a whole process](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/block-a-process.php)
         * unit tests

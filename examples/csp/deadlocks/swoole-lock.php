@@ -17,12 +17,13 @@ declare(strict_types=1);
  */
 
 use Swoole\Coroutine;
+use Swoole\Lock;
 
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
 run(function () {
-    $lock = new Swoole\Lock();
+    $lock = new Lock();
 
     go(function () use ($lock) {
         $lock->lock();       // 1. The lock is acquired.
