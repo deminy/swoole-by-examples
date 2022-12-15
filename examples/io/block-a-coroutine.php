@@ -4,7 +4,7 @@
 declare(strict_types=1);
 
 /**
- * In this example, we will show how to block a coroutine using a channel. Please note that it only blocks current
+ * In this example, we will show how to block a coroutine in different ways. Please note that it only blocks current
  * coroutine but not the whole process.
  *
  * How to run this script:
@@ -14,9 +14,6 @@ declare(strict_types=1);
  *     docker compose exec -t client bash -c "time ./io/block-a-coroutine.php"
  *
  * This script takes about 4 seconds to finish.
- *
- * Please note that the easiest way to block a coroutine is to use method \Swoole\Coroutine::sleep(). e.g.,
- *     \Swoole\Coroutine::sleep(2.0); // To block current coroutine for 2 seconds.
  */
 
 use Swoole\Coroutine;
@@ -26,15 +23,16 @@ use function Swoole\Coroutine\run;
 
 // When function Swoole\Coroutine\run() is called, it automatically creates a main coroutine to run the code inside.
 run(function () {
+    // The easiest way to block a coroutine is to use method \Swoole\Coroutine::sleep(). e.g.,
+    Swoole\Coroutine::sleep(0.001); // To block current coroutine for 1 millisecond.
+
+    // Here we show another approach (to block a coroutine) by using a channel.
     $channel = new Channel(); // A channel of size 1 is created.
     for ($i = 0; $i < 2; $i++) {
         echo date('H:i:s'), " (round {$i})", PHP_EOL;
 
-        // There are two easy ways to block a coroutine. The easiest way is to use method \Swoole\Coroutine::sleep(). e.g.,
-        //     \Swoole\Coroutine::sleep(2.0);
-        //
-        // Here we show a second approach by using a channel. Method \Swoole\Coroutine\Channel::pop() is a blocking method,
-        // which means it will block the current coroutine until the channel is not empty or the timeout is reached.
+        // Method \Swoole\Coroutine\Channel::pop() is a blocking method, which means it will block the current coroutine
+        // until the channel is not empty or the timeout is reached.
         //
         // In our case, the pop() method call will block the current coroutine for 2 seconds, and then the coroutine will
         // be resumed. The method call will return false back and an error code is set on property $channel->errCode.

@@ -7,7 +7,7 @@ declare(strict_types=1);
  * This example shows how to interact with PostgreSQL.
  *
  * In this example, we make five PostgreSQL connections, and perform a three-second query in each connection. It takes
- * barely over three-second to run this script.
+ * barely over three seconds to run this script.
  *
  * The PostgreSQL client is added to Swoole in 5.0.0. This example won't work with old versions of Swoole.
  *

@@ -4,16 +4,18 @@
 declare(strict_types=1);
 
 /**
- * In this example, we will show how to block a process using a lock. There are other ways to block a process, e.g.,
- * using method \Swoole\Atomic::wait() and method \Swoole\Atomic::wakeup() together in a multiprocessing environment.
+ * In this example, we will show how to block a process using a lock.
  *
  * How to run this script:
- *     docker compose exec -t client bash -c "./io/block-a-process.php"
+ *     docker compose exec -t client bash -c "./io/block-a-process-2.php"
  *
  * You can run following command to see how much time it takes to run the script:
- *     docker compose exec -t client bash -c "time ./io/block-a-process.php"
+ *     docker compose exec -t client bash -c "time ./io/block-a-process-2.php"
  *
  * This script takes about 2 seconds to finish.
+ *
+ * There are other ways to block a process. Check the following example to see how to use class \Swoole\Atomic to do it:
+ * @see https://github.com/deminy/swoole-by-examples/blob/master/examples/io/block-a-process-1.php
  */
 
 use Swoole\Coroutine;
@@ -45,7 +47,7 @@ run(function () use ($lock) {
 
     // Everything blow is blocked due to the lock acquired by the second coroutine.
 
-    go(function () use ($lock) { // A third coroutine is created, which has to wait until the second coroutine releases the lock.
+    go(function () { // A third coroutine is created, which has to wait until the second coroutine releases the lock.
         echo date('H:i:s'), '(coroutine ID: 3)', PHP_EOL;
     });
 
