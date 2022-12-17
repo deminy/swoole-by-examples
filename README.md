@@ -80,8 +80,9 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
         * [class \Swoole\Coroutine\Barrier](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/barrier.php)
         * block coroutines/processes
             * [block a coroutine](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/block-a-coroutine.php)
-            * [block a process using class \Swoole\Atomic](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/block-a-process-1.php)
-            * [block a process using class \Swoole\Lock](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/block-a-process-2.php)
+            * [block a process using class \Swoole\Lock](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/block-a-process-using-swoole-lock.php)
+            * [block processes using class \Swoole\Lock](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/block-processes-using-swoole-lock.php)
+            * [block processes using class \Swoole\Atomic](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/block-processes-using-swoole-atomic.php)
         * unit tests
 * server-side programming
     * application servers
