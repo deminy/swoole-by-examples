@@ -7,15 +7,10 @@ declare(strict_types=1);
  * In this example, we will show how to block a process using a lock.
  *
  * How to run this script:
- *     docker compose exec -t client bash -c "./io/block-a-process-2.php"
- *
- * You can run following command to see how much time it takes to run the script:
- *     docker compose exec -t client bash -c "time ./io/block-a-process-2.php"
- *
- * This script takes about 2 seconds to finish.
+ *     docker compose exec -t client bash -c "./io/block-a-process-using-swoole-lock.php"
  *
  * There are other ways to block a process. Check the following example to see how to use class \Swoole\Atomic to do it:
- * @see https://github.com/deminy/swoole-by-examples/blob/master/examples/io/block-a-process-1.php
+ * @see https://github.com/deminy/swoole-by-examples/blob/master/examples/io/block-processes-using-swoole-atomic.php
  */
 
 use Swoole\Coroutine;
@@ -38,7 +33,7 @@ run(function () use ($lock) {
         //    2. Avoid using the same lock across different coroutines. It could lead to deadlock. e.g.,
         //       https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/swoole-lock.php
         $lock->lock();
-        if ($lock->lockwait(2.0) !== true) {
+        if ($lock->lockwait(2.0) !== true) { // The lock is released after 2 seconds due to timeout.
             $lock->unlock();
         }
 
