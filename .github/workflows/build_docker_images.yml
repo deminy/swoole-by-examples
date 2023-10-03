@@ -43,8 +43,4 @@ jobs:
           context: ./dockerfiles/${{ matrix.type }}/
           platforms: linux/amd64
           push: true
-          tags: deminy/swoole-by-examples:${{ matrix.type }}-5.0
-
-      -
-        name: Image Digest of deminy/swoole-by-examples:${{ steps.params.outputs.docker_tag }}
-        run: echo ${{ steps.docker_build.outputs.digest }}
+          tags: deminy/swoole-by-examples:${{ matrix.type }}-5.1
