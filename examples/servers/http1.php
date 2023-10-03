@@ -17,12 +17,12 @@ declare(strict_types=1);
  *   docker compose exec -t client bash -c "curl -i -H 'Accept-Encoding: gzip' --compressed http://server:9501"
  *
  *   # To fetch an existing file under one of the specified static file locations in the web server.
- *   docker compose exec -t client bash -c "curl -i http://server:9501/servers/http1-static-content.txt"
+ *   docker compose exec -t client bash -c "curl -i http://server:9501/servers/http1-static-content.moc"
  *
  *   # To fetch a non-existing file under one of the specified static file locations in the web server.
  *   docker compose exec -t client bash -c "curl -i http://server:9501/servers/non-existing.txt"
  *
- *   # To fetch a non-existing file outside of the specified static file locations in the web server.
+ *   # To fetch a non-existing file outside the specified static file locations in the web server.
  *   docker compose exec -t client bash -c "curl -i http://server:9501/non-existing.txt"
  *
  * For advanced usages like integrated cronjob and job queue, please check script http1-integrated.php.
@@ -39,17 +39,15 @@ $server = new Server('0.0.0.0', 9501);
 // All the options set here are optional.
 $server->set(
     [
-        Constant::OPTION_HTTP_COMPRESSION       => true,
-        Constant::OPTION_HTTP_COMPRESSION_LEVEL => 5,
-
-        // For a list of file types that can be served as static content, please check
-        //     https://github.com/swoole/swoole-src/blob/master/src/protocol/mime_types.cc
         Constant::OPTION_DOCUMENT_ROOT            => dirname(__DIR__),
         Constant::OPTION_ENABLE_STATIC_HANDLER    => true,
         Constant::OPTION_STATIC_HANDLER_LOCATIONS => [
             '/clients',
             '/servers',
         ],
+
+        Constant::OPTION_HTTP_COMPRESSION       => true,
+        Constant::OPTION_HTTP_COMPRESSION_LEVEL => 5,
     ]
 );
 
@@ -76,4 +74,14 @@ $server->on(
         );
     }
 );
+
+// By default, Swoole sets MIME type of static content based on file extension. For example, for file "foo.txt", Swoole
+// sets HTTP header "Content-Type" to "text/plain". For a list of file types that can be recognized by Swoole
+// (as of 5.1.0), please check
+//     https://github.com/swoole/swoole-src/blob/v5.1.0/src/protocol/mime_type.cc#L27-L389
+//
+// For unknown file type, Swoole set HTTP header "Content-Type" to "application/octet-stream". The following code shows
+// how to customize MIME type for "*.moc" files.
+swoole_mime_type_add('moc', 'text/plain');
+
 $server->start();
