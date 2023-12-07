@@ -44,7 +44,7 @@ use Swoole\Timer;
 
 function printMessage(string $message, bool $newLine = false)
 {
-    echo($newLine ? PHP_EOL : ''), 'INFO (', date('H:i:s'), "): {$message}", PHP_EOL;
+    echo ($newLine ? PHP_EOL : ''), 'INFO (', date('H:i:s'), "): {$message}", PHP_EOL;
 }
 
 $server = new Server('0.0.0.0', 9509);
