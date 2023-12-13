@@ -52,7 +52,6 @@ run(function () {
             }
         });
     }
-    return;
 
     // This second example shows how to send messages (and deploy tasks) to a process pool through TCP socket.
     go(function () use ($settings) {
