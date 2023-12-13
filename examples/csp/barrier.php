@@ -27,14 +27,14 @@ use function Swoole\Coroutine\run;
 run(function () {
     $barrier = Barrier::make();
 
-    go(function () use ($barrier) {
+    go(function () use ($barrier) { // @phpstan-ignore closure.unusedUse
         sleep(1);
     });
 
-    go(function () use ($barrier) {
+    go(function () use ($barrier) { // @phpstan-ignore closure.unusedUse
         sleep(2);
     });
-    go(function () use ($barrier) {
+    go(function () use ($barrier) { // @phpstan-ignore closure.unusedUse
         sleep(3);
     });
 

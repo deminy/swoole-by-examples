@@ -42,7 +42,7 @@ use Swoole\Http\Response;
 use Swoole\Http\Server;
 use Swoole\Timer;
 
-function printMessage(string $message, bool $newLine = false)
+function printMessage(string $message, bool $newLine = false): void
 {
     echo ($newLine ? PHP_EOL : ''), 'INFO (', date('H:i:s'), "): {$message}", PHP_EOL;
 }

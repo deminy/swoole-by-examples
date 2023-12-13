@@ -44,7 +44,7 @@ $server->addProcess($process);
 
 $process = new Process(
     function () {
-        while (true) {
+        while (true) { // @phpstan-ignore while.alwaysTrue
             sleep(31);
             echo 'Cron executed (in file ',  __FILE__, ').', PHP_EOL; // To simulate cron executions.
         }

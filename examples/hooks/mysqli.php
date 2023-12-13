@@ -31,6 +31,11 @@ run(function () {
         go(function () {
             $mysqli = new mysqli('mysql', 'username', 'password', 'test');
             $stmt   = $mysqli->prepare('SELECT SLEEP(3)');
+            if ($stmt === false) {
+                echo 'Failed to prepare the statement.', PHP_EOL;
+                return;
+            }
+
             $stmt->execute();
             $stmt->close();
             $mysqli->close();

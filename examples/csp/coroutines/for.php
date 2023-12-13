@@ -27,5 +27,5 @@ run(function () {
     }
 
     // Note that there are 2,001 coroutines created, including the main coroutine created by function call run().
-    echo count(Coroutine::listCoroutines()), ' active coroutines when reaching the end of the PHP script.', PHP_EOL;
+    echo count(Coroutine::listCoroutines()), ' active coroutines when reaching the end of the PHP script.', PHP_EOL; // @phpstan-ignore argument.type
 });

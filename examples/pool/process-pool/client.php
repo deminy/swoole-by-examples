@@ -36,7 +36,7 @@ run(function () {
             for ($i = 0; $i < 3; $i++) {
                 // On the server side, you will see output messages like the following:
                 // Process #0 received message "s:35:"Message #0 via class Swoole\MsgQueue!";". (MSGQUEUE)
-                $mq->push(sprintf('Message #%d via class %s!', $i, MsgQueue::class)); // @phpstan-ignore class.notFound
+                $mq->push(sprintf('Message #%d via class %s!', $i, MsgQueue::class)); // @phpstan-ignore class.notFound,class.notFound
             }
         });
     }
@@ -45,6 +45,10 @@ run(function () {
     if (function_exists('msg_get_queue')) {
         go(function () {
             $mq = msg_get_queue(0x7000001);
+            if ($mq === false) {
+                echo 'Failed to get message queue.', PHP_EOL;
+                return;
+            }
             for ($i = 0; $i < 3; $i++) {
                 // On the server side, you will see output messages like the following:
                 // Process #0 received message "s:35:"Message #0 via function msg_send()!";". (MSGQUEUE)
@@ -61,7 +65,7 @@ run(function () {
         $requestMessage = 'TCP socket';
         $client->send(pack('N', strlen($requestMessage)) . $requestMessage);
         $responseMessage = $client->recv();
-        $responseMessage = substr($responseMessage, 4, unpack('N', substr($responseMessage, 0, 4))[1]);
+        $responseMessage = substr($responseMessage, 4, unpack('N', substr($responseMessage, 0, 4))[1]); // @phpstan-ignore-line
         echo $responseMessage, PHP_EOL;
         $client->close();
     });
@@ -75,7 +79,7 @@ run(function () {
         $requestMessage = 'Unix socket';
         $client->send(pack('N', strlen($requestMessage)) . $requestMessage);
         $responseMessage = $client->recv();
-        $responseMessage = substr($responseMessage, 4, unpack('N', substr($responseMessage, 0, 4))[1]);
+        $responseMessage = substr($responseMessage, 4, unpack('N', substr($responseMessage, 0, 4))[1]); // @phpstan-ignore-line
         echo $responseMessage, PHP_EOL;
         $client->close();
     });

@@ -20,7 +20,7 @@ run(function () {
         $client = new Client('server', 9504);
         $client->upgrade('/');
         $client->push('Swoole');
-        echo $client->recv()->data, PHP_EOL;
+        echo $client->recv()->data, PHP_EOL; // @phpstan-ignore property.nonObject
         $client->close();
     });
 });

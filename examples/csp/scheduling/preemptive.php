@@ -20,7 +20,7 @@ run(
     function () {
         go(function () {
             $i = 0;
-            while (true) {
+            while (true) { // @phpstan-ignore while.alwaysTrue
                 echo $i++, PHP_EOL;
             }
         });

@@ -22,8 +22,10 @@ declare(strict_types=1);
 
 use Swoole\Redis\Server;
 
-$server       = new Server('0.0.0.0', 6379);
-$server->data = []; // We use an array as the data storage for the Redis server.
+$server = new Server('0.0.0.0', 6379);
+
+// We use an array as the data storage for the Redis server.
+$server->data = []; // @phpstan-ignore property.notFound
 
 $server->setHandler('SET', function (int $fd, array $data) use ($server) {
     $server->data[$data[0]] = $data[1];

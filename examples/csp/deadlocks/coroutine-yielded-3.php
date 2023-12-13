@@ -21,7 +21,7 @@ use Swoole\Coroutine;
 Coroutine::set(
     [
         Constant::OPTION_EXIT_CONDITION => function () {
-            return Coroutine::stats()['coroutine_num'] === 0;
+            return Coroutine::stats()['coroutine_num'] === 0; // @phpstan-ignore offsetAccess.nonOffsetAccessible
         },
     ]
 );

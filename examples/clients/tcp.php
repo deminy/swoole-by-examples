@@ -26,7 +26,7 @@ run(function () {
             $client = new Client(SWOOLE_TCP);
             $client->connect('server', $port);
             $client->send("client side message to port {$port}");
-            echo $client->recv(), PHP_EOL;
+            echo $client->recv(), PHP_EOL; // @phpstan-ignore echo.nonString
             $client->close();
         });
     }

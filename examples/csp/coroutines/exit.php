@@ -19,7 +19,7 @@ use function Swoole\Coroutine\run;
 run(function () {
     try {
         exit(911);
-    } catch (Swoole\ExitException $e) {
+    } catch (Swoole\ExitException $e) { // @phpstan-ignore catch.neverThrown
         echo <<<EOT
         Calling exit() inside a coroutine throws out a \\Swoole\\ExitException exception instead of terminating code execution
         directly.

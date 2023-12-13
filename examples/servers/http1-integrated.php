@@ -53,7 +53,7 @@ $server->on(
         if ($workerId === 0) {
             // Here we start the second cron job that runs every 63 seconds.
             Coroutine::create(function () {
-                while (true) {
+                while (true) { // @phpstan-ignore while.alwaysTrue
                     Coroutine::sleep(63);
                     echo '[HTTP1-ADVANCED]: This message is printed out every 63 seconds. (', date('H:i:s'), ')', PHP_EOL;
                 }

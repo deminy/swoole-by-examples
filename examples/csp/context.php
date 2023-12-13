@@ -52,16 +52,18 @@ run(function () {
     };
 
     // The Context object of a coroutine works the same as an \ArrayObject object.
-    Coroutine::getContext()['co1_obj1']                  = new $class('co1_obj1');
-    Coroutine::getContext(Coroutine::getCid())->co1_obj2 = new $class('co1_obj2'); // Coroutine::getCid() returns 1.
+    Coroutine::getContext()['co1_obj1']   = new $class('co1_obj1'); // @phpstan-ignore offsetAccess.nonOffsetAccessible
+    $cid                                  = Coroutine::getCid();    // Coroutine::getCid() returns 1.
+    Coroutine::getContext($cid)->co1_obj2 = new $class('co1_obj2'); // @phpstan-ignore property.nonObject
 
     Coroutine::create(function () use ($class) {
         // The Context object of a coroutine works the same as an \ArrayObject object.
-        Coroutine::getContext()['co2_obj1']                  = new $class('co2_obj1');
-        Coroutine::getContext(Coroutine::getCid())->co2_obj2 = new $class('co2_obj2'); // Coroutine::getCid() returns 2.
+        Coroutine::getContext()['co2_obj1']   = new $class('co2_obj1'); // @phpstan-ignore offsetAccess.nonOffsetAccessible
+        $cid                                  = Coroutine::getCid();    // Coroutine::getCid() returns 2.
+        Coroutine::getContext($cid)->co2_obj2 = new $class('co2_obj2'); // @phpstan-ignore property.nonObject
 
-        echo 'Name of the 1st object in the Context object of coroutine #1: ', Coroutine::getContext(1)['co1_obj1']->name, PHP_EOL;
-        echo 'Name of the 2nd object in the Context object of coroutine #2: ', Coroutine::getContext(2)->co2_obj2->name, PHP_EOL;
+        echo 'Name of the 1st object in the Context object of coroutine #1: ', Coroutine::getContext(1)['co1_obj1']->name, PHP_EOL; // @phpstan-ignore-line
+        echo 'Name of the 2nd object in the Context object of coroutine #2: ', Coroutine::getContext(2)->co2_obj2->name, PHP_EOL; // @phpstan-ignore property.nonObject
 
         echo PHP_EOL, 'Coroutine #2 is exiting. The context object of it will be destroyed.', PHP_EOL;
     });

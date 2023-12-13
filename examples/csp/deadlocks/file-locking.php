@@ -27,11 +27,19 @@ run(function () {
     $filename = sys_get_temp_dir() . '/swoole-file-locking-' . uniqid() . '.tmp';
 
     $fp1 = fopen($filename, 'w');
+    if ($fp1 === false) {
+        throw new RuntimeException('Failed to open file.');
+    }
+
     flock($fp1, LOCK_EX); // To acquire an exclusive lock (writer).
 
     echo '2', PHP_EOL; // This will be printed out.
 
     $fp2 = fopen($filename, 'w');
+    if ($fp2 === false) {
+        throw new RuntimeException('Failed to open file.');
+    }
+
     flock($fp2, LOCK_EX); // Trying to acquire an exclusive lock (writer) again on the same file.
 
     // Whatever code you put here (within the coroutine) will never be executed.

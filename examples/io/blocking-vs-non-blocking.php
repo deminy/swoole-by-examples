@@ -23,7 +23,7 @@ use Swoole\Coroutine;
 
 use function Swoole\Coroutine\go;
 
-function blocking()
+function blocking(): string
 {
     go(function () {
         echo '1';
@@ -33,7 +33,7 @@ function blocking()
     return '3';
 }
 
-function nonBlocking()
+function nonBlocking(): string
 {
     go(function () {
         echo '4';

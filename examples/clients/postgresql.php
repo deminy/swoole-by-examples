@@ -35,6 +35,11 @@ run(function () {
     foreach ($connections as $connection) {
         Coroutine::create(function () use ($connection) {
             $stmt = $connection->prepare('SELECT pg_sleep(3)');
+            if ($stmt === false) {
+                echo 'Failed to prepare the statement.', PHP_EOL;
+                return;
+            }
+
             $stmt->execute(); // The query finishes in 3 seconds.
             $stmt->fetchAll();
             // The result array returned is:
