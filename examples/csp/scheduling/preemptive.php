@@ -25,7 +25,7 @@ run(
             }
         });
 
-        go(function () {
+        go(function (): never {
             throw new Exception('Quitting.');
         });
     }

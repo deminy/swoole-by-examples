@@ -36,11 +36,8 @@ use function Swoole\Coroutine\run;
 
 run(function () {
     $class = new class() {
-        public string $name;
-
-        public function __construct(string $name = '')
+        public function __construct(public string $name = '')
         {
-            $this->name = $name;
         }
 
         public function __destruct()
