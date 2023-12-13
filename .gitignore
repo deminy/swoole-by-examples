@@ -11,5 +11,8 @@
 /composer.lock
 /vendor/
 
+# Ignore PHPStan files.
+/phpstan.neon
+
 # Some examples will download files from Internet. This is to ignore those downloaded files.
 /examples/clients/*.png

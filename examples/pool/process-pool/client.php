@@ -30,16 +30,29 @@ run(function () {
 
     // This first example shows how to send messages (and deploy tasks) to a process pool through message queue.
     // Swoole extension "async" (https://github.com/swoole/ext-async) is needed to run this example.
-    // If your PHP is compiled to support System V semaphore, you can also use message queue functions msg_get_queue()
-    // and msg_send() to do that. Check PHP manual https://www.php.net/sem for details.
     if (class_exists(MsgQueue::class)) {
         go(function () {
-            $mq = new MsgQueue(0x7000001);
+            $mq = new MsgQueue(0x7000001); // @phpstan-ignore class.notFound
             for ($i = 0; $i < 3; $i++) {
-                $mq->push("Message #{$i}!");
+                // On the server side, you will see output messages like the following:
+                // Process #0 received message "s:35:"Message #0 via class Swoole\MsgQueue!";". (MSGQUEUE)
+                $mq->push(sprintf('Message #%d via class %s!', $i, MsgQueue::class)); // @phpstan-ignore class.notFound
             }
         });
     }
+    // If your PHP is compiled to support System V messages, you can also use message queue functions msg_get_queue()
+    // and msg_send() to do that. Check PHP manual https://www.php.net/sem for details.
+    if (function_exists('msg_get_queue')) {
+        go(function () {
+            $mq = msg_get_queue(0x7000001);
+            for ($i = 0; $i < 3; $i++) {
+                // On the server side, you will see output messages like the following:
+                // Process #0 received message "s:35:"Message #0 via function msg_send()!";". (MSGQUEUE)
+                msg_send($mq, 1, sprintf('Message #%d via function msg_send()!', $i));
+            }
+        });
+    }
+    return;
 
     // This second example shows how to send messages (and deploy tasks) to a process pool through TCP socket.
     go(function () use ($settings) {

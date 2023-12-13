@@ -4,8 +4,10 @@ FROM phpswoole/swoole:5.1
 
 COPY ./rootfilesystem /
 
+# The System V messages support is to run some example in script "./examples/pool/process-pool/client.php".
 RUN \
     set -ex && \
+    docker-php-ext-install sysvmsg && \
     apt-get update && \
     apt-get install -y net-tools watch --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
