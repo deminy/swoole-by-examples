@@ -47,7 +47,12 @@ class InvokableClass
 
 run(function () {
     // Type 1: A simple callback function defined directly within the code block.
-    Coroutine::create(function () {echo 1; });
+    Coroutine::create(
+        function (int $i): void {
+            echo $i;
+        },
+        1
+    );
 
     // Type 2: A simple callback function defined somewhere previously.
     Coroutine::create('callbackFunction', 2);
