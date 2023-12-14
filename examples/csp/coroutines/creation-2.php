@@ -6,6 +6,10 @@ declare(strict_types=1);
 /**
  * This example shows how to use different types of callbacks when creating coroutines.
  *
+ * In this example, each time when a new coroutine is created, we purposely make it sleep for 0.1 second. Thus, when
+ * executing the script, there will be execution switches between coroutines, and the numbers printed out could be in
+ * a different order. Give it a try and see what the output looks like.
+ *
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/coroutines/creation-2.php"
  *
@@ -19,6 +23,7 @@ use function Swoole\Coroutine\run;
 // Define a callback function.
 function callbackFunction(int $i): void
 {
+    Coroutine::sleep(0.1); // Sleep for 0.1 second.
     echo $i;
 }
 
@@ -27,11 +32,13 @@ class callbackClass
 {
     public function callbackMethod(int $i): void
     {
+        Coroutine::sleep(0.1); // Sleep for 0.1 second.
         echo $i;
     }
 
     public static function staticCallbackMethod(int $i): void
     {
+        Coroutine::sleep(0.1); // Sleep for 0.1 second.
         echo $i;
     }
 }
@@ -41,6 +48,7 @@ class InvokableClass
 {
     public function __invoke(int $i): void
     {
+        Coroutine::sleep(0.1); // Sleep for 0.1 second.
         echo $i;
     }
 }
@@ -49,6 +57,7 @@ run(function () {
     // Type 1: A simple callback function defined directly within the code block.
     Coroutine::create(
         function (int $i): void {
+            Coroutine::sleep(0.1); // Sleep for 0.1 second.
             echo $i;
         },
         1
