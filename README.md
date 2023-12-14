@@ -124,6 +124,7 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
             * [support HTTP/1, HTTP/2, and WebSocket on same port](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/mixed-protocols-1.php)
             * support multiple protocols on same server
         * [DDoS protection](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/ddos-protection.php): How to protect your Swoole-based application server from DDoS attacks.
+        * [interruptible sleep](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/interruptible-sleep.php): This example shows how to set up a cronjob in a web server, and allow the cronjob to execute at a last time when the server is shutting down.
         * multiple ports listening
 * client-side programming
     * [HTTP/1 client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/http1.php)
