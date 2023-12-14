@@ -41,7 +41,7 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
         * [This example](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/blocking-vs-non-blocking.php) shows how the _return_ statement is treated differently in Swoole. As you can see in the example, a function call could return a value back first before finishing its execution.
     * coroutines
         * create coroutines
-            * use different callbacks to create coroutines
+            * [use different types of callbacks when creating coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/creation-2.php)
             * [use different functions/methods to create coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/creation-1.php)
         * enable coroutines
         * [coroutines in a for loop](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/for.php)
