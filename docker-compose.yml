@@ -21,7 +21,7 @@ services:
     volumes:
       - ./examples:/var/www
   mysql:
-    image: mysql:5.7
+    image: mysql:8.0
     environment:
       MYSQL_DATABASE: test
       MYSQL_PASSWORD: password
