@@ -10,7 +10,7 @@ declare(strict_types=1);
  *   docker run --rm -v $(pwd):/var/www -ti phpswoole/swoole php ./examples/csp/deadlocks/server-shutdown.php
  * When the script is executed, it will print out the following error message:
  *   [FATAL ERROR]: all coroutines (count: 1) are asleep - deadlock!
- * To fix the deadlock, uncomment line 41 and line 32, then rerun the script.
+ * To fix the deadlock, uncomment line 40 and line 31, then rerun the script.
  */
 
 use Swoole\Coroutine;
@@ -27,7 +27,7 @@ $server->on('workerStart', function (Server $server, int $workerId) {
         $cid = Coroutine::create(function () {
             while (true) { // @phpstan-ignore while.alwaysTrue
                 if (Coroutine::isCanceled()) {
-                    // The deadlock can be resolved by uncommenting line 41 and line 32.
+                    // The deadlock can be resolved by uncommenting line 40 and line 31.
                     // break; #2: Quit the infinite loop after the coroutine is canceled.
                 }
                 Coroutine::sleep(0.01);
@@ -36,7 +36,7 @@ $server->on('workerStart', function (Server $server, int $workerId) {
 
         // Shutdown the server after 2 seconds.
         Timer::after(2_000, function () use ($server, $cid) { // @phpstan-ignore closure.unusedUse
-            // The deadlock can be resolved by uncommenting line 41 and line 32.
+            // The deadlock can be resolved by uncommenting line 40 and line 31.
             // Coroutine::cancel($cid); #1: Cancel the coroutine before shutting down the server.
 
             echo 'The server is shutting down.', PHP_EOL;
