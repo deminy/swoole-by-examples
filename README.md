@@ -67,6 +67,7 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
             * [push data to a full channel](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/channel-is-full.php)
             * [try to lock a locked file while the existing lock never gets released](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/file-locking.php)
             * [acquire a locked lock from another coroutine](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/swoole-lock.php)
+            * [improperly shutdown or reload a server](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/server-shutdown.php)
             * When the only coroutine yields its execution. The examples are shown in the next section when we talk about `How to detect/handle deadlocks`.
         * How to detect/handle deadlocks. In the following examples, we trigger deadlocks by yielding the execution of the only coroutine in the program.
             * [show deadlock information (the default behavior)](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/coroutine-yielded-1.php)
@@ -112,6 +113,7 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
         * [timer](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer/timer.php)
             * There is [a 2nd example](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer/coroutine-style.php) included to show how to implement timer using coroutines only.
             * To see how to setup cronjobs using the _\Swoole\Timer_ class in an application server, please check [integrated HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1-integrated.php).
+    * cronjobs
     * benchmark
         * base mode vs multi-process mode
     * advanced topics
