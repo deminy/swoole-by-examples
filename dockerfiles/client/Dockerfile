@@ -1,6 +1,6 @@
 # This Dockerfile is to build Docker image "deminy/swoole-by-examples:client".
 # @see https://hub.docker.com/r/deminy/swoole-by-examples
-FROM phpswoole/swoole:5.1
+FROM phpswoole/swoole:5.1-php8.2
 
 RUN \
     set -ex && \
