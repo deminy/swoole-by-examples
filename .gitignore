@@ -1,12 +1,3 @@
-# Ignore PhpStorm files
-/.idea/
-
-# Ignore NetBeans files
-/nbproject/
-
-# Ignore files under Mac
-.DS_Store
-
 # Ignore Composer files
 /composer.lock
 /vendor/
