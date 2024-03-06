@@ -136,6 +136,8 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
     * [UDP client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/udp.php)
     * [PostgreSQL client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/postgresql.php)
 * miscellaneous topics
+    * data management in Swoole: globals, persistence, and caching
+        * [APCu Caching]: APCu caching in Swoole works the same way as in other PHP CLI applications. This example explains it in details.
     * atomic counters
         * [implement atomic counters using unsigned 32-bit integers](https://github.com/deminy/swoole-by-examples/blob/master/examples/misc/atomic-counter-unsigned-32-bit.php)
         * [implement atomic counters using signed 64-bit integers](https://github.com/deminy/swoole-by-examples/blob/master/examples/misc/atomic-counter-signed-64-bit.php)
@@ -144,3 +146,5 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
         * process pool
             * pool creation and inter-process communication: Please check previous section `resource pooling` for details.
             * detach processes from a process pool
+
+[APCu Caching]: https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/apcu-caching.php

@@ -4,7 +4,7 @@ services:
   server:
     image: deminy/swoole-by-examples:server-5.1
     environment:
-      AUTORELOAD_PROGRAMS: "ddos-protection http1 http1-integrated http2 interruptible-sleep keepalive mixed-protocols-1 pool-msgqueue pool-tcp-socket pool-unix-socket redis rock-paper-scissors tcp1 tcp2 udp websocket websocket-integrated"
+      AUTORELOAD_PROGRAMS: "apcu-caching ddos-protection http1 http1-integrated http2 interruptible-sleep keepalive mixed-protocols-1 pool-msgqueue pool-tcp-socket pool-unix-socket redis rock-paper-scissors tcp1 tcp2 udp websocket websocket-integrated"
       DISABLE_DEFAULT_SERVER: 1
     ports:
       - 9801:9801
