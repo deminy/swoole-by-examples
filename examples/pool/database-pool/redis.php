@@ -23,7 +23,9 @@ use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
 run(function () {
-    $pool = new RedisPool((new RedisConfig())->withHost(System::gethostbyname('server')), 11);
+    /** @var string $host */
+    $host = System::gethostbyname('server');
+    $pool = new RedisPool((new RedisConfig())->withHost($host), 11);
     for ($n = 1024; $n--;) {
         go(function () use ($pool) {
             $redis  = $pool->get();

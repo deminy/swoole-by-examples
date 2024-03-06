@@ -24,7 +24,7 @@ use function Swoole\Coroutine\run;
 // When function Swoole\Coroutine\run() is called, it automatically creates a main coroutine to run the code inside.
 run(function () {
     // The easiest way to block a coroutine is to use method \Swoole\Coroutine::sleep(). e.g.,
-    Swoole\Coroutine::sleep(0.001); // To block current coroutine for 1 millisecond.
+    Coroutine::sleep(0.001); // To block current coroutine for 1 millisecond.
 
     // Here we show another approach (to block a coroutine) by using a channel.
     $channel = new Channel(); // A channel of size 1 is created.
