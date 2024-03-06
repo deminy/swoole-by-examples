@@ -8,6 +8,10 @@ declare(strict_types=1);
  * example, we can see that APCu caching in Swoole works the same way as in other PHP CLI applications, even when
  * multiple coroutines and multiple processes are involved.
  *
+ * Before using APCu with Swoole, we need to install the APCu extension, have it enabled, and have option
+ * "apc.enable_cli" set to "1". Dockerfile for the server contains the necessary commands to install and enable APCu:
+ *     https://github.com/deminy/swoole-by-examples/blob/master/dockerfiles/server/Dockerfile
+ *
  * Here is how to run this example:
  * 1. First, let's make 499 HTTP requests to the server concurrently:
  *        docker compose exec -t client ab -n 499 -c 499 http://server:9513/
@@ -24,8 +28,6 @@ use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Http\Server;
 
-apcu_clear_cache(); // Clear APCu caches.
-
 $server = new Server('0.0.0.0', 9513);
 $server->set(
     [
@@ -41,6 +43,7 @@ $server->on(
             foreach (apcu_cache_info()['cache_list'] as $item) { // @phpstan-ignore foreach.nonIterable
                 $output .= "{$item['info']}: " . apcu_fetch($item['info']) . PHP_EOL; // @phpstan-ignore-line
             }
+
             // The output will be like:
             //     counter_0: 46
             //     counter_1: 16
