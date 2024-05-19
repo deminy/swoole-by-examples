@@ -13,4 +13,4 @@ declare(strict_types=1);
 $client = new Redis();
 $client->connect('server');
 echo $client->set('foo', 'bar'), PHP_EOL;
-echo $client->get('foo'), PHP_EOL;
+echo $client->get('foo'), PHP_EOL; // @phpstan-ignore echo.nonString
