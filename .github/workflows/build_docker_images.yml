@@ -38,7 +38,7 @@ jobs:
       -
         name: Build and Publish Docker Image
         id: docker_build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./dockerfiles/${{ matrix.type }}/
           platforms: linux/amd64,linux/arm64/v8
