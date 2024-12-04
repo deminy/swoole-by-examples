@@ -41,7 +41,7 @@ run(function () {
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, 'http://server:9501?sleep=2');
                 curl_setopt($ch, CURLOPT_HEADER, false);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
                 curl_multi_add_handle($mh, $ch);
                 $handlers[] = $ch;

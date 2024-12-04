@@ -12,7 +12,7 @@ declare(strict_types=1);
  * Now you can use following command to run this script:
  *     docker compose exec -t client bash -c "./clients/redis/predis.php"
  */
-require_once "{$_ENV['HOME']}/.composer/vendor/autoload.php";
+require_once "{$_ENV['HOME']}/.composer/vendor/autoload.php"; // @phpstan-ignore encapsedStringPart.nonString
 $client = new Predis\Client(['scheme' => 'tcp', 'host' => 'server', 'port' => 6379]);
 echo $client->set('foo', 'bar'), PHP_EOL;
 echo $client->get('foo'), PHP_EOL;

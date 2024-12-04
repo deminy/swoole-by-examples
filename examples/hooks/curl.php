@@ -36,7 +36,7 @@ run(function () {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, 'http://server:9501?sleep=2');
             curl_setopt($ch, CURLOPT_HEADER, false);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_exec($ch);
             $statusCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
             curl_close($ch);

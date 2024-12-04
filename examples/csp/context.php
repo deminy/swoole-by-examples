@@ -35,7 +35,7 @@ use Swoole\Coroutine;
 use function Swoole\Coroutine\run;
 
 run(function () {
-    $class = new class() {
+    $class = new class {
         public function __construct(public string $name = '')
         {
         }
