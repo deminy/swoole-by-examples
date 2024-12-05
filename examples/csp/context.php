@@ -60,8 +60,8 @@ run(function () {
         Coroutine::getContext()['co2_obj'] = new $class('co2_obj'); // @phpstan-ignore offsetAccess.nonOffsetAccessible
         $cid                               = Coroutine::getCid();   // Coroutine::getCid() returns 2.
 
-        echo 'Name of the object in the Context object of coroutine #1: ', Coroutine::getContext(1)['co1_obj']->name, PHP_EOL; // @phpstan-ignore-line
-        echo 'Name of the object in the Context object of coroutine #2: ', Coroutine::getContext(2)['co2_obj']->name, PHP_EOL; // @phpstan-ignore property.nonObject
+        echo 'Name of the object in the Context object of coroutine #1: ', Coroutine::getContext(1)['co1_obj']->name, PHP_EOL; // @phpstan-ignore offsetAccess.nonOffsetAccessible,property.nonObject
+        echo 'Name of the object in the Context object of coroutine #2: ', Coroutine::getContext(2)['co2_obj']->name, PHP_EOL; // @phpstan-ignore offsetAccess.nonOffsetAccessible,property.nonObject
 
         echo PHP_EOL, 'Coroutine #2 is exiting. The context object of it will be destroyed.', PHP_EOL;
     });
