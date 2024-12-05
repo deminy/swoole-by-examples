@@ -12,7 +12,7 @@ declare(strict_types=1);
 $server = new Swoole\WebSocket\Server('0.0.0.0', 9504, SWOOLE_BASE);
 $server->on(
     'message',
-    function (Swoole\WebSocket\Server $server, Swoole\WebSocket\Frame $frame) {
+    function (Swoole\WebSocket\Server $server, Swoole\WebSocket\Frame $frame): void {
         $server->push($frame->fd, "Hello, {$frame->data}!");
     }
 );

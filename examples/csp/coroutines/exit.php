@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 use function Swoole\Coroutine\run;
 
-run(function () {
+run(function (): void {
     try {
         exit(911);
     } catch (Swoole\ExitException $e) { // @phpstan-ignore catch.neverThrown

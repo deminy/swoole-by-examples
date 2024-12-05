@@ -20,9 +20,9 @@ use Swoole\Coroutine\Server\Connection;
 
 use function Swoole\Coroutine\run;
 
-run(function () {
+run(function (): void {
     $server = new Server('0.0.0.0', 9507);
-    $server->handle(function (Connection $conn) {
+    $server->handle(function (Connection $conn): void {
         while (true) {
             if ($data = $conn->recv()) {
                 $conn->send($data);

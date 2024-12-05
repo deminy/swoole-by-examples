@@ -12,12 +12,12 @@ declare(strict_types=1);
  * Here the PHP function sleep() is used to simulate blocking I/O. The non-blocking version takes about 2 seconds to
  * finish, as you can see in script "non-blocking-io.php".
  */
-(function () {
+(function (): void {
     sleep(2);
     echo '1';
 })();
 
-(function () {
+(function (): void {
     sleep(1);
     echo '2';
 })();

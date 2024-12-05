@@ -23,8 +23,8 @@ use function Swoole\Coroutine\run;
 $lock = new Lock();
 
 // When function Swoole\Coroutine\run() is called, it automatically creates a main coroutine to run the code inside.
-run(function () use ($lock) {
-    go(function () use ($lock) { // A second coroutine is created to block the whole process.
+run(function () use ($lock): void {
+    go(function () use ($lock): void { // A second coroutine is created to block the whole process.
         echo date('H:i:s'), '(coroutine ID: 2)', PHP_EOL;
 
         // WARNING:
@@ -42,7 +42,7 @@ run(function () use ($lock) {
 
     // Everything blow is blocked due to the lock acquired by the second coroutine.
 
-    go(function () { // A third coroutine is created, which has to wait until the second coroutine releases the lock.
+    go(function (): void { // A third coroutine is created, which has to wait until the second coroutine releases the lock.
         echo date('H:i:s'), '(coroutine ID: 3)', PHP_EOL;
     });
 

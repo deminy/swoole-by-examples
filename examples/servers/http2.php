@@ -22,7 +22,7 @@ $server->set(
 );
 $server->on(
     'request',
-    function (Request $request, Response $response) {
+    function (Request $request, Response $response): void {
         $response->end(
             <<<'EOT'
                 In this example we start an HTTP/2 server.

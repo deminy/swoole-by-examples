@@ -27,8 +27,8 @@ Coroutine::set(
     ]
 );
 
-run(function () {
-    Coroutine::create(function () {
+run(function (): void {
+    Coroutine::create(function (): void {
         echo '1', PHP_EOL; // This will be printed out.
         (new Channel(1))->pop();
         echo '3', PHP_EOL; // This will never be printed out.

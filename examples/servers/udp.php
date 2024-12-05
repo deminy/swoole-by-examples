@@ -20,7 +20,7 @@ use Swoole\Server;
 $server = new Server('0.0.0.0', 9506, SWOOLE_BASE, SWOOLE_SOCK_UDP);
 $server->on(
     'packet',
-    function (Server $server, string $data, array $clientInfo) {
+    function (Server $server, string $data, array $clientInfo): void {
         $server->sendto($clientInfo['address'], $clientInfo['port'], $data);
     }
 );

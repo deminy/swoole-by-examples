@@ -21,7 +21,7 @@ use Swoole\Coroutine;
 
 use function Swoole\Coroutine\run;
 
-run(function () {
+run(function (): void {
     echo '1', PHP_EOL; // This will be printed out.
 
     $filename = sys_get_temp_dir() . '/swoole-file-locking-' . uniqid() . '.tmp';
@@ -56,6 +56,6 @@ run(function () {
 echo '3', PHP_EOL; // This will be printed out.
 
 // To clean up any temporary files created by this script.
-register_shutdown_function(function () {
+register_shutdown_function(function (): void {
     shell_exec('rm -f ' . sys_get_temp_dir() . '/swoole-file-locking-*.tmp');
 });

@@ -33,7 +33,7 @@ function test(int $i): void
     // echo $i; // Uncomment this line to see the difference: The numbers could be printed out in a different order.
 }
 
-run(function () {
+run(function (): void {
     swoole_coroutine_create('test', 1);
 
     // Recommended.

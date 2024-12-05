@@ -24,10 +24,10 @@ use Swoole\Coroutine\Http\Client;
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
-run(function () {
+run(function (): void {
     $channel = new Channel(2);
 
-    go(function () use ($channel) {
+    go(function () use ($channel): void {
         $result = [];
         for ($i = 0; $i < 2; $i++) {
             $result[] = $channel->pop();
@@ -35,13 +35,13 @@ run(function () {
         var_dump($result);
     });
 
-    go(function () use ($channel) {
+    go(function () use ($channel): void {
         $cli = new Client('php.net');
         $cli->get('/');
         $channel->push("{$cli->statusCode}");
     });
 
-    go(function () use ($channel) {
+    go(function () use ($channel): void {
         $cli = new Client('swoole.com');
         $cli->get('/');
         $channel->push((int) $cli->statusCode);

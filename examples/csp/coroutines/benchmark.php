@@ -54,9 +54,9 @@ Coroutine::set(
     ]
 );
 
-run(function () use ($totalCoroutines, $startTime) {
+run(function () use ($totalCoroutines, $startTime): void {
     for ($i = $totalCoroutines; $i--;) {
-        go(function () {
+        go(function (): void {
             sleep(5);
         });
 

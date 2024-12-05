@@ -55,15 +55,15 @@ $server->set(
     ]
 );
 
-$server->on('start', function (Server $server) {
+$server->on('start', function (Server $server): void {
     printMessage('Event "onStart" is triggered.');
 });
 
-$server->on('managerStart', function (Server $server) {
+$server->on('managerStart', function (Server $server): void {
     printMessage('Event "onManagerStart" is triggered.');
 
     // To make an HTTP request to the sever itself 50 milliseconds later.
-    Timer::after(50, function () {
+    Timer::after(50, function (): void {
         printMessage('Make an HTTP request to the server.' . PHP_EOL, true);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:9509');
@@ -73,48 +73,48 @@ $server->on('managerStart', function (Server $server) {
     });
 
     // To reload the HTTP server 100 milliseconds later.
-    Timer::after(100, function () use ($server) {
+    Timer::after(100, function () use ($server): void {
         printMessage('Reload the server.' . PHP_EOL, true);
         $server->reload();
     });
 
     // To shutdown the HTTP server 150 milliseconds later.
-    Timer::after(150, function () use ($server) {
+    Timer::after(150, function () use ($server): void {
         printMessage('Shutdown the server.' . PHP_EOL, true);
         $server->shutdown();
     });
 });
-$server->on('managerStop', function (Server $server) {
+$server->on('managerStop', function (Server $server): void {
     printMessage('Event "onManagerStop" is triggered.');
 });
 
-$server->on('workerStart', function (Server $server, int $workerId) {
+$server->on('workerStart', function (Server $server, int $workerId): void {
     printMessage("Event \"onWorkerStart\" is triggered in worker #{$workerId}.");
 });
-$server->on('workerStop', function (Server $server, int $workerId) {
+$server->on('workerStop', function (Server $server, int $workerId): void {
     printMessage("Event \"onWorkerStop\" is triggered in worker #{$workerId}.");
 });
-$server->on('workerError', function (Server $server, int $workerId, int $exitCode, int $signal) {
+$server->on('workerError', function (Server $server, int $workerId, int $exitCode, int $signal): void {
     printMessage("Event \"onWorkerError\" is triggered in worker #{$workerId}.");
 });
-$server->on('workerExit', function (Server $server, int $workerId) {
+$server->on('workerExit', function (Server $server, int $workerId): void {
     printMessage("Event \"onWorkerExit\" is triggered in worker #{$workerId}.");
 });
 
-$server->on('connect', function (Server $server, int $fd, int $reactorId) {
+$server->on('connect', function (Server $server, int $fd, int $reactorId): void {
     printMessage('Event "onConnect" is triggered.');
 });
-$server->on('receive', function (Server $server, int $fd, int $reactorId, string $data) {
+$server->on('receive', function (Server $server, int $fd, int $reactorId, string $data): void {
     printMessage('Event "onReceive" is triggered.');
 });
-$server->on('close', function (Server $server, int $fd, int $reactorId) {
+$server->on('close', function (Server $server, int $fd, int $reactorId): void {
     printMessage('Event "onClose" is triggered.' . PHP_EOL);
 });
 
-$server->on('request', function (Request $request, Response $response) use ($server) {
+$server->on('request', function (Request $request, Response $response) use ($server): void {
     printMessage('Event "onRequest" is triggered.');
     $response->end('OK' . PHP_EOL);
-    Coroutine::create(function () use ($server) {
+    Coroutine::create(function () use ($server): void {
         Coroutine::sleep(0.01);
         $server->task('Hello, World!');
 
@@ -123,7 +123,7 @@ $server->on('request', function (Request $request, Response $response) use ($ser
     });
 });
 
-$server->on('task', function (Server $server, int $taskId, int $srcWorkerId, $data) {
+$server->on('task', function (Server $server, int $taskId, int $srcWorkerId, $data): void {
     printMessage('Event "onTask" is triggered.');
 
     // This is to trigger the "onFinish" event.
@@ -131,7 +131,7 @@ $server->on('task', function (Server $server, int $taskId, int $srcWorkerId, $da
     // in event worker processes (where method call $server->task*() was made to trigger the "onTask" events).
     $server->finish('Hello World!');
 });
-$server->on('finish', function (Server $server, int $taskId, $data) {
+$server->on('finish', function (Server $server, int $taskId, $data): void {
     printMessage('Event "onFinish" is triggered.');
 });
 $server->on('pipeMessage', function (Server $server, int $srcWorkerId, $message) {
@@ -139,14 +139,14 @@ $server->on('pipeMessage', function (Server $server, int $srcWorkerId, $message)
     return $message;
 });
 
-$server->on('beforeReload', function (Server $server) {
+$server->on('beforeReload', function (Server $server): void {
     printMessage('Event "onBeforeReload" is triggered.');
 });
-$server->on('afterReload', function (Server $server) {
+$server->on('afterReload', function (Server $server): void {
     printMessage('Event "onAfterReload" is triggered.');
 });
 
-$server->on('shutdown', function (Server $server) {
+$server->on('shutdown', function (Server $server): void {
     printMessage('Event "onShutdown" is triggered.' . PHP_EOL);
 });
 

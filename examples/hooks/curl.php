@@ -30,9 +30,9 @@ use function Swoole\Coroutine\run;
 
 Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_CURL]);
 
-run(function () {
+run(function (): void {
     for ($i = 0; $i < 6; $i++) {
-        go(function () {
+        go(function (): void {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, 'http://server:9501?sleep=2');
             curl_setopt($ch, CURLOPT_HEADER, false);

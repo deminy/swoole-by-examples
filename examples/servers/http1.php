@@ -53,7 +53,7 @@ $server->set(
 
 $server->on(
     'request',
-    function (Request $request, Response $response) {
+    function (Request $request, Response $response): void {
         if (!empty($request->get['sleep'])) {
             Coroutine::sleep((float) $request->get['sleep']); // Sleep for a while if HTTP query parameter "sleep" presents.
         }

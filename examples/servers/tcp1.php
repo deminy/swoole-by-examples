@@ -20,7 +20,7 @@ use Swoole\Server;
 $server = new Server('0.0.0.0', 9505);
 $server->on(
     'receive',
-    function (Server $server, int $fd, int $reactorId, string $data) {
+    function (Server $server, int $fd, int $reactorId, string $data): void {
         $server->send($fd, $data);
     }
 );

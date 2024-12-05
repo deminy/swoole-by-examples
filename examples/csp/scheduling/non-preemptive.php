@@ -15,8 +15,8 @@ use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
 run(
-    function () {
-        go(function () {
+    function (): void {
+        go(function (): void {
             $i = 0;
             while (true) { // @phpstan-ignore while.alwaysTrue
                 echo $i++, PHP_EOL;

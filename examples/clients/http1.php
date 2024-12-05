@@ -18,10 +18,10 @@ use Swoole\Coroutine\Http\Client;
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
-run(function () {
+run(function (): void {
     // For the 1st one, we make an HTTPS request to download an image file from GitHub. Once this script
     // finishes execution, you should see an image file "mascot.png" under same directory of this script.
-    go(function () {
+    go(function (): void {
         $client = new Client('raw.githubusercontent.com', 443, true);
         $client->set(
             [
@@ -39,7 +39,7 @@ run(function () {
     });
 
     // For the 2nd one, we make an HTTP request to the HTTP/1 server started in the "server" container.
-    go(function () {
+    go(function (): void {
         $client = new Client('server', 9501);
         $client->get('/');
 

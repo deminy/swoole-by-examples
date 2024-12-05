@@ -22,7 +22,7 @@ use Swoole\Coroutine\Channel;
 use function Swoole\Coroutine\run;
 
 // When function Swoole\Coroutine\run() is called, it automatically creates a main coroutine to run the code inside.
-run(function () {
+run(function (): void {
     // The easiest way to block a coroutine is to use method \Swoole\Coroutine::sleep(). e.g.,
     Coroutine::sleep(0.001); // To block current coroutine for 1 millisecond.
 

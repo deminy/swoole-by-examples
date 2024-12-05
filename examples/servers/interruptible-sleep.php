@@ -28,9 +28,9 @@ use Swoole\Http\Server;
 $exited = new Channel();
 $server = new Server('0.0.0.0', 9512);
 
-$server->on('workerStart', function (Server $server, int $workerId) use ($exited) {
+$server->on('workerStart', function (Server $server, int $workerId) use ($exited): void {
     if ($workerId === 0) {
-        Coroutine::create(function () use ($exited) {
+        Coroutine::create(function () use ($exited): void {
             // Here we start the second cron job that makes an HTTP request every 19 seconds.
             while (true) {
                 echo '[INTERRUPTIBLE-SLEEP] Simulating cronjob execution. (case 1)', PHP_EOL;
@@ -44,16 +44,16 @@ $server->on('workerStart', function (Server $server, int $workerId) use ($exited
         });
     }
 });
-$server->on('workerExit', function (Server $server, int $workerId) use ($exited) {
+$server->on('workerExit', function (Server $server, int $workerId) use ($exited): void {
     echo "[INTERRUPTIBLE-SLEEP] Worker #{$workerId} is exiting.", PHP_EOL;
     if ($workerId === 0) {
-        Coroutine::create(function () use ($exited) {
+        Coroutine::create(function () use ($exited): void {
             $exited->close();
         });
     }
     echo "[INTERRUPTIBLE-SLEEP] Worker #{$workerId} has exited.", PHP_EOL;
 });
-$server->on('request', function (Request $request, Response $response) {
+$server->on('request', function (Request $request, Response $response): void {
     $response->end('OK' . PHP_EOL);
 });
 

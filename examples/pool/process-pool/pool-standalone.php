@@ -20,12 +20,12 @@ use Swoole\Process\Pool;
 $pool    = new Pool(1, SWOOLE_IPC_NONE);
 $counter = new Atomic(0);
 
-$pool->on('workerStart', function (Pool $pool, int $workerId) use ($counter) {
+$pool->on('workerStart', function (Pool $pool, int $workerId) use ($counter): void {
     // For standalone process pool, business logic should be implemented inside this "workerStart" callback.
     echo "Process #{$workerId} (process ID in the OS: {$pool->getProcess()->pid}) started.", PHP_EOL; // @phpstan-ignore property.nonObject
     $counter->add(1);
 });
-$pool->on('workerStop', function (Pool $pool, int $workerId) use ($counter) {
+$pool->on('workerStop', function (Pool $pool, int $workerId) use ($counter): void {
     echo "Process #{$workerId} (process ID in the OS: {$pool->getProcess()->pid}) stopped.", PHP_EOL; // @phpstan-ignore property.nonObject
     if ($counter->get() >= 3) {
         $pool->shutdown();

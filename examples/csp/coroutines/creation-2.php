@@ -53,7 +53,7 @@ class InvokableClass
     }
 }
 
-run(function () {
+run(function (): void {
     // Type 1: A simple callback function defined directly within the code block.
     Coroutine::create(
         function (int $i): void {

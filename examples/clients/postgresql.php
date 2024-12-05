@@ -23,7 +23,7 @@ use Swoole\Coroutine\PostgreSQL;
 
 use function Swoole\Coroutine\run;
 
-run(function () {
+run(function (): void {
     $connections = [];
     for ($i = 0; $i < 5; $i++) {
         $connection = new PostgreSQL();
@@ -33,7 +33,7 @@ run(function () {
 
     /** @var PostgreSQL $connection */
     foreach ($connections as $connection) {
-        Coroutine::create(function () use ($connection) {
+        Coroutine::create(function () use ($connection): void {
             $stmt = $connection->prepare('SELECT pg_sleep(3)');
             if ($stmt === false) {
                 echo 'Failed to prepare the statement.', PHP_EOL;

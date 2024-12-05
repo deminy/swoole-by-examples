@@ -26,9 +26,9 @@ use function Swoole\Coroutine\run;
 // flag SWOOLE_HOOK_TCP included already.
 Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_TCP]);
 
-run(function () {
+run(function (): void {
     for ($i = 0; $i < 5; $i++) {
-        go(function () {
+        go(function (): void {
             $mysqli = new mysqli('mysql', 'username', 'password', 'test');
             $stmt   = $mysqli->prepare('SELECT SLEEP(3)');
             if ($stmt === false) {

@@ -15,8 +15,8 @@ use Swoole\Coroutine;
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
-run(function () {
-    $cid = go(function () {
+run(function (): void {
+    $cid = go(function (): void {
         echo '1';
         Coroutine::yield();
         echo '6';
@@ -24,7 +24,7 @@ run(function () {
 
     echo '2';
 
-    go(function () use ($cid) {
+    go(function () use ($cid): void {
         echo '3';
         Coroutine::sleep(1);
         echo '5';

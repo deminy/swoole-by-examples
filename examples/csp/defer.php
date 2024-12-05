@@ -14,15 +14,15 @@ use Swoole\Coroutine;
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
-run(function () {
-    go(function () {
+run(function (): void {
+    go(function (): void {
         echo '1';
-        defer(function () {
+        defer(function (): void {
             echo '7';
         });
 
         echo '2';
-        defer(function () {
+        defer(function (): void {
             echo '6';
         });
 

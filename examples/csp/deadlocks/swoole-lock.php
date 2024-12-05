@@ -22,16 +22,16 @@ use Swoole\Lock;
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
-run(function () {
+run(function (): void {
     $lock = new Lock();
 
-    go(function () use ($lock) {
+    go(function () use ($lock): void {
         $lock->lock();       // 1. The lock is acquired.
         Coroutine::sleep(1); // 2. The sleep() method call will switch execution to another coroutine.
         $lock->unlock();
     });
 
-    go(function () use ($lock) {
+    go(function () use ($lock): void {
         $lock->lock();       // 3. Trying to acquire the lock again? This will cause deadlock.
         Coroutine::sleep(1);
         $lock->unlock();

@@ -18,13 +18,13 @@ declare(strict_types=1);
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
-run(function () {
-    go(function () {
+run(function (): void {
+    go(function (): void {
         sleep(2);
         echo '1';
     });
 
-    go(function () {
+    go(function (): void {
         sleep(1);
         echo '2';
     });

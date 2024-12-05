@@ -21,10 +21,10 @@ use Swoole\Timer;
 
 $server = new Server('0.0.0.0');
 
-$server->on('workerStart', function (Server $server, int $workerId) {
+$server->on('workerStart', function (Server $server, int $workerId): void {
     if ($workerId === 0) { // The first event worker process is used in this example.
         // Create a coroutine that sleeps forever.
-        $cid = Coroutine::create(function () {
+        $cid = Coroutine::create(function (): void {
             while (true) { // @phpstan-ignore while.alwaysTrue
                 if (Coroutine::isCanceled()) {
                     // The deadlock can be resolved by uncommenting line 40 and line 31.
@@ -35,7 +35,7 @@ $server->on('workerStart', function (Server $server, int $workerId) {
         });
 
         // Shutdown the server after 2 seconds.
-        Timer::after(2_000, function () use ($server, $cid) { // @phpstan-ignore closure.unusedUse
+        Timer::after(2_000, function () use ($server, $cid): void { // @phpstan-ignore closure.unusedUse
             // The deadlock can be resolved by uncommenting line 40 and line 31.
             // Coroutine::cancel($cid); #1: Cancel the coroutine before shutting down the server.
 
@@ -46,7 +46,7 @@ $server->on('workerStart', function (Server $server, int $workerId) {
 });
 
 // A dummy callback for the "request" event is required for the HTTP server. It has nothing to do with this example.
-$server->on('request', function (Request $request, Response $response) {
+$server->on('request', function (Request $request, Response $response): void {
     $response->end('OK' . PHP_EOL);
 });
 

@@ -12,13 +12,13 @@ use Swoole\Process\Pool;
 
 $pool = new Pool(swoole_cpu_num(), SWOOLE_IPC_SOCKET);
 
-$pool->on('message', function (Pool $pool, string $message) {
+$pool->on('message', function (Pool $pool, string $message): void {
     $pool->write("Hello, {$message}!");
 });
-$pool->on('workerStart', function (Pool $pool, int $workerId) {
+$pool->on('workerStart', function (Pool $pool, int $workerId): void {
     echo "Process #{$workerId} started. (TCP SOCKET)", PHP_EOL;
 });
-$pool->on('workerStop', function (Pool $pool, int $workerId) {
+$pool->on('workerStop', function (Pool $pool, int $workerId): void {
     echo "Process #{$workerId} stopped. (TCP SOCKET)", PHP_EOL;
 });
 

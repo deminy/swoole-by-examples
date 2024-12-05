@@ -41,10 +41,10 @@ $server->set(
 
 // In this example, 1/3 of the traffic is processed at a later time, but not in real time. In reality,
 // there are different ways to enable DDoS protection, like rate limiting, blocking IP address, etc.
-$server->on('connect', function (Server $server, int $fd, int $reactorId) {
+$server->on('connect', function (Server $server, int $fd, int $reactorId): void {
     if (($fd % 3) === 0) {
         // 1/3 of all HTTP requests have to wait for two seconds before being processed.
-        Timer::after(2000, function () use ($server, $fd) {
+        Timer::after(2000, function () use ($server, $fd): void {
             $server->confirm($fd);
         });
     } else {
@@ -52,7 +52,7 @@ $server->on('connect', function (Server $server, int $fd, int $reactorId) {
         $server->confirm($fd);
     }
 });
-$server->on('request', function (Request $request, Response $response) {
+$server->on('request', function (Request $request, Response $response): void {
     $response->end('OK' . PHP_EOL);
 });
 

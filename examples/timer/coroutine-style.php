@@ -14,7 +14,7 @@ use Swoole\Coroutine;
 
 use function Swoole\Coroutine\run;
 
-run(function () {
+run(function (): void {
     $i = 0;
     while (true) {
         Coroutine::sleep(0.1);

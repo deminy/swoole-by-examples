@@ -32,7 +32,7 @@ $pool->set(
 //   - Process #0 will be blocked for 10 milliseconds.
 //   - Process #1 and #2 are blocked forever and waiting another process (process #3) to wake them up.
 //   - Process #3 will wake up process #1 and #2; afterwords it will shutdown the pool and exit the program.
-$pool->on('workerStart', function (Pool $pool, int $workerId) use ($atomic) {
+$pool->on('workerStart', function (Pool $pool, int $workerId) use ($atomic): void {
     Coroutine::sleep(max(0.001, $workerId * 0.1)); // Used only to better order the output from different processes.
 
     switch ($workerId) {

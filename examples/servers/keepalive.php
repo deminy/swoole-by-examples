@@ -37,7 +37,7 @@ $server->set(
 );
 $server->on(
     'receive',
-    function (Server $server, int $fd, int $reactorId, string $data) {
+    function (Server $server, int $fd, int $reactorId, string $data): void {
         $server->send($fd, $data);
     }
 );

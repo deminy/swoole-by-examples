@@ -24,17 +24,17 @@ use Swoole\Coroutine\Barrier;
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
-run(function () {
+run(function (): void {
     $barrier = Barrier::make();
 
-    go(function () use ($barrier) { // @phpstan-ignore closure.unusedUse
+    go(function () use ($barrier): void { // @phpstan-ignore closure.unusedUse
         sleep(1);
     });
 
-    go(function () use ($barrier) { // @phpstan-ignore closure.unusedUse
+    go(function () use ($barrier): void { // @phpstan-ignore closure.unusedUse
         sleep(2);
     });
-    go(function () use ($barrier) { // @phpstan-ignore closure.unusedUse
+    go(function () use ($barrier): void { // @phpstan-ignore closure.unusedUse
         sleep(3);
     });
 

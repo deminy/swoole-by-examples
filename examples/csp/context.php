@@ -32,7 +32,7 @@ use Swoole\Coroutine;
 
 use function Swoole\Coroutine\run;
 
-run(function () {
+run(function (): void {
     $class = new class {
         public function __construct(public string $name = '')
         {
@@ -55,7 +55,7 @@ run(function () {
     Coroutine::getContext()['co1_obj'] = new $class('co1_obj'); // @phpstan-ignore offsetAccess.nonOffsetAccessible
     $cid                               = Coroutine::getCid();   // Coroutine::getCid() returns 1.
 
-    Coroutine::create(function () use ($class) {
+    Coroutine::create(function () use ($class): void {
         // The Context object of a coroutine works the same as an \ArrayObject object.
         Coroutine::getContext()['co2_obj'] = new $class('co2_obj'); // @phpstan-ignore offsetAccess.nonOffsetAccessible
         $cid                               = Coroutine::getCid();   // Coroutine::getCid() returns 2.

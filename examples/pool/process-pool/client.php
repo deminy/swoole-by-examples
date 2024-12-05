@@ -20,7 +20,7 @@ use Swoole\MsgQueue;
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
-run(function () {
+run(function (): void {
     $settings = [
         Constant::OPTION_OPEN_LENGTH_CHECK     => 1,
         Constant::OPTION_PACKAGE_LENGTH_TYPE   => 'N',
@@ -31,7 +31,7 @@ run(function () {
     // This first example shows how to send messages (and deploy tasks) to a process pool through message queue.
     // Swoole extension "async" (https://github.com/swoole/ext-async) is needed to run this example.
     if (class_exists(MsgQueue::class)) {
-        go(function () {
+        go(function (): void {
             $mq = new MsgQueue(0x7000001); // @phpstan-ignore class.notFound
             for ($i = 0; $i < 3; $i++) {
                 // On the server side, you will see output messages like the following:
@@ -43,7 +43,7 @@ run(function () {
     // If your PHP is compiled to support System V messages, you can also use message queue functions msg_get_queue()
     // and msg_send() to do that. Check PHP manual https://www.php.net/sem for details.
     if (function_exists('msg_get_queue')) {
-        go(function () {
+        go(function (): void {
             $mq = msg_get_queue(0x7000001);
             if ($mq === false) {
                 echo 'Failed to get message queue.', PHP_EOL;
@@ -58,7 +58,7 @@ run(function () {
     }
 
     // This second example shows how to send messages (and deploy tasks) to a process pool through TCP socket.
-    go(function () use ($settings) {
+    go(function () use ($settings): void {
         $client = new Client(SWOOLE_SOCK_TCP);
         $client->set($settings);
         $client->connect('server', 9701);
@@ -72,7 +72,7 @@ run(function () {
 
     // This third example shows how to send messages (and deploy tasks) to a process pool through Unix socket.
     // Since Unix socket is faster than TCP socket (in general), this coroutine should finish first than the previous one.
-    go(function () use ($settings) {
+    go(function () use ($settings): void {
         $client = new Client(SWOOLE_SOCK_UNIX_STREAM);
         $client->set($settings);
         $client->connect('/var/run/pool-unix-socket.sock');

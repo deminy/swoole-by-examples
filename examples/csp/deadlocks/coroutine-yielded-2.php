@@ -18,7 +18,7 @@ use Swoole\Constant;
 use Swoole\Coroutine;
 
 Coroutine::set([Constant::OPTION_ENABLE_DEADLOCK_CHECK => false]);
-Coroutine::create(function () {
+Coroutine::create(function (): void {
     echo '1', PHP_EOL; // This will be printed out.
     Coroutine::yield();
     echo '3', PHP_EOL; // This will never be printed out.

@@ -30,12 +30,12 @@ $table->create();
 
 $server = new Server('0.0.0.0', 6379);
 
-$server->setHandler('SET', function (int $fd, array $data) use ($server, $table) {
+$server->setHandler('SET', function (int $fd, array $data) use ($server, $table): void {
     $table->set($data[0], ['value' => $data[1]]);
     $server->send($fd, Server::format(Server::STATUS, 'OK'));
 });
 
-$server->setHandler('GET', function (int $fd, array $data) use ($server, $table) {
+$server->setHandler('GET', function (int $fd, array $data) use ($server, $table): void {
     $key = $data[0];
     if ($table->exist($key)) {
         $server->send($fd, Server::format(Server::STRING, $table->get($key)['value'])); // @phpstan-ignore offsetAccess.nonOffsetAccessible

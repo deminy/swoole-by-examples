@@ -24,7 +24,7 @@ $server->set(
 // HTTP/1 and HTTP/2
 $server->on(
     'request',
-    function (Swoole\Http\Request $request, Swoole\Http\Response $response) {
+    function (Swoole\Http\Request $request, Swoole\Http\Response $response): void {
         $response->end("Hello, {$request->rawContent()}" . PHP_EOL);
     }
 );
@@ -32,7 +32,7 @@ $server->on(
 // WebSocket
 $server->on(
     'message',
-    function (Swoole\WebSocket\Server $server, Swoole\WebSocket\Frame $frame) {
+    function (Swoole\WebSocket\Server $server, Swoole\WebSocket\Frame $frame): void {
         $server->push($frame->fd, "Hello, {$frame->data}");
     }
 );

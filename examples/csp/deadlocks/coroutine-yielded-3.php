@@ -25,7 +25,7 @@ Coroutine::set(
         },
     ]
 );
-Coroutine::create(function () {
+Coroutine::create(function (): void {
     echo '1', PHP_EOL; // This will be printed out.
     Coroutine::yield();
     echo '3', PHP_EOL; // This will never be printed out.

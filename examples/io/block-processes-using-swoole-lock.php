@@ -36,7 +36,7 @@ $lock->lock();
 // In this example, we will use a pool of 3 processes:
 //   - Process #0 and #1 are blocked in sequence and waiting another process (process #3) to wake them up.
 //   - Process #2 will wake up process #1 and #2 in sequence; afterwords it will shutdown the pool and exit the program.
-$pool->on('workerStart', function (Pool $pool, int $workerId) use ($lock) {
+$pool->on('workerStart', function (Pool $pool, int $workerId) use ($lock): void {
     Coroutine::sleep(max(0.001, $workerId * 0.1)); // Used only to better order the output from different processes.
 
     switch ($workerId) {

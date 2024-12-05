@@ -44,7 +44,7 @@ $server = new Server('0.0.0.0', 9801, SWOOLE_BASE);
 
 $server->on(
     'request',
-    function (Request $request, Response $response) use ($form, &$exchanges) {
+    function (Request $request, Response $response) use ($form, &$exchanges): void {
         $response->header('Content-Type', 'text/html; charset=UTF-8');
         if ($request->server['request_method'] == 'GET') {
             $response->end($form); // Show the web form.

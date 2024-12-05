@@ -17,8 +17,8 @@ use function Swoole\Coroutine\run;
 ini_set('swoole.enable_preemptive_scheduler', '1');
 
 run(
-    function () {
-        go(function () {
+    function (): void {
+        go(function (): void {
             $i = 0;
             while (true) { // @phpstan-ignore while.alwaysTrue
                 echo $i++, PHP_EOL;

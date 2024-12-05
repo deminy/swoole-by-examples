@@ -27,8 +27,8 @@ Coroutine::set(
     ]
 );
 
-run(function () {
-    Coroutine::create(function () {
+run(function (): void {
+    Coroutine::create(function (): void {
         $channel = new Channel(1); // Size of the channel is 1.
         echo '1', PHP_EOL; // This will be printed out.
         $channel->push('foo');

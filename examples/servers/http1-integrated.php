@@ -34,13 +34,13 @@ $server->set(
 
 $server->on(
     'start',
-    function (Server $server) {
+    function (Server $server): void {
         echo '[HTTP1-ADVANCED]: # of CPU units: ', swoole_cpu_num(), PHP_EOL;
 
         // Here we start the first cron job that runs every 61 seconds.
         Timer::tick(
             1000 * 61,
-            function () {
+            function (): void {
                 echo '[HTTP1-ADVANCED]: This message is printed out every 61 seconds. (', date('H:i:s'), ')', PHP_EOL;
             }
         );
@@ -48,11 +48,11 @@ $server->on(
 );
 $server->on(
     'workerStart',
-    function (Server $server, int $workerId) {
+    function (Server $server, int $workerId): void {
         echo "[HTTP1-ADVANCED] Worker #{$workerId} is started.", PHP_EOL;
         if ($workerId === 0) {
             // Here we start the second cron job that runs every 63 seconds.
-            Coroutine::create(function () {
+            Coroutine::create(function (): void {
                 while (true) { // @phpstan-ignore while.alwaysTrue
                     Coroutine::sleep(63);
                     echo '[HTTP1-ADVANCED]: This message is printed out every 63 seconds. (', date('H:i:s'), ')', PHP_EOL;
@@ -63,7 +63,7 @@ $server->on(
 );
 $server->on(
     'request',
-    function (Request $request, Response $response) use ($server) {
+    function (Request $request, Response $response) use ($server): void {
         $type = $request->get['type'] ?? '';
         switch ($type) {
             case 'task':
@@ -94,7 +94,7 @@ $server->on(
                 break;
             default:
                 // To deploy an asynchronous task, and process the response through a callback function.
-                $server->task('taskCallback', -1, function (Server $server, int $taskId, $data) use ($response) {
+                $server->task('taskCallback', -1, function (Server $server, int $taskId, $data) use ($response): void {
                     $response->end($data . PHP_EOL);
                 });
                 break;

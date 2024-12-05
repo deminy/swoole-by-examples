@@ -24,21 +24,21 @@ use Swoole\Coroutine\WaitGroup;
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
-run(function () {
+run(function (): void {
     $wg = new WaitGroup();
 
-    go(function () use ($wg) {
+    go(function () use ($wg): void {
         $wg->add();
         Coroutine::sleep(1);
         $wg->done();
     });
 
     $wg->add(2); // You don't have to increase the counter one by one.
-    go(function () use ($wg) {
+    go(function () use ($wg): void {
         Coroutine::sleep(2);
         $wg->done();
     });
-    go(function () use ($wg) {
+    go(function () use ($wg): void {
         Coroutine::sleep(3);
         $wg->done();
     });
