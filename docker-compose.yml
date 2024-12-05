@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   server:
     image: deminy/swoole-by-examples:server-5.1
