@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - swoole6
   workflow_dispatch:
 
 jobs:
