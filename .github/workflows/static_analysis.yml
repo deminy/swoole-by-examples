@@ -5,8 +5,13 @@ on: [ push, pull_request, workflow_dispatch ]
 jobs:
   static-analysis:
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ["5.1", "6.0"]
+
     container:
-      image: deminy/swoole-by-examples:server-5.1
+      image: phpswoole/swoole:${{ matrix.version }}
 
     steps:
       - name: Checkout
@@ -19,7 +24,7 @@ jobs:
           composer global require -n -q --no-progress -- \
             phpstan/phpstan=~2.0 \
             predis/predis=~2.2 \
-            swoole/library=~5.0
+            swoole/library=~${{ matrix.version }}
 
       - name: Run Static Analysis
         run: ~/.composer/vendor/bin/phpstan analyse --no-progress --memory-limit 2G
