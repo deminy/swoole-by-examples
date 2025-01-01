@@ -4,12 +4,12 @@
 declare(strict_types=1);
 
 /**
- * This example shows how to interact with PostgreSQL.
+ * This example shows how to interact with PostgreSQL using the PDO_PGSQL driver.
  *
  * In this example, we make five PostgreSQL connections, and perform a three-second query in each connection. It takes
  * barely over three seconds to run this script.
  *
- * The PostgreSQL client is added to Swoole in 5.0.0. This example won't work with old versions of Swoole.
+ * The PDO_PGSQL driver is supported in Swoole since v5.1.0. This example won't work with old versions of Swoole.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./clients/postgresql.php"
@@ -18,23 +18,21 @@ declare(strict_types=1);
  *     docker compose exec -t client bash -c "time ./clients/postgresql.php"
  */
 
+use Swoole\Constant;
 use Swoole\Coroutine;
-use Swoole\Coroutine\PostgreSQL;
 
+use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
-run(function (): void {
-    $connections = [];
-    for ($i = 0; $i < 5; $i++) {
-        $connection = new PostgreSQL();
-        $connection->connect('host=postgresql port=5432 dbname=test user=username password=password');
-        $connections[] = $connection;
-    }
+// This statement is optional because hook flags are set to SWOOLE_HOOK_ALL by default, and flag SWOOLE_HOOK_ALL has
+// flag SWOOLE_HOOK_PDO_PGSQL included already.
+Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_PDO_PGSQL]);
 
-    /** @var PostgreSQL $connection */
-    foreach ($connections as $connection) {
-        Coroutine::create(function () use ($connection): void {
-            $stmt = $connection->prepare('SELECT pg_sleep(3)');
+run(function (): void {
+    for ($i = 0; $i < 5; $i++) {
+        go(function (): void {
+            $pdo  = new PDO('pgsql:host=postgresql;port=5432;dbname=test', 'username', 'password');
+            $stmt = $pdo->prepare('SELECT pg_sleep(3)');
             if ($stmt === false) {
                 echo 'Failed to prepare the statement.', PHP_EOL;
                 return;
@@ -46,8 +44,11 @@ run(function (): void {
             // [
             //     [
             //         'pg_sleep' => '',
+            //          0 => '',
             //     ]
             // ];
+            $stmt = null;
+            $pdo  = null;
         });
     }
 });
