@@ -11,9 +11,10 @@ jobs:
     runs-on: ubuntu-22.04
     if: ${{ github.repository == 'deminy/swoole-by-examples' }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         type: ["server", "client"]
+        version: ["5.1", "6.0"]
 
     steps:
       -
@@ -41,6 +42,9 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./dockerfiles/${{ matrix.type }}/
-          platforms: linux/amd64,linux/arm64/v8
+          build-args: |
+            SWOOLE_VERSION=${{ matrix.version }}
+            PHP_VERSION=8.3
+          platforms: linux/amd64,linux/arm64/v8,linux/ppc64le,linux/s390x
           push: true
-          tags: deminy/swoole-by-examples:${{ matrix.type }}-5.1
+          tags: deminy/swoole-by-examples:${{ matrix.type }}-${{ matrix.version }}

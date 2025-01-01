@@ -1,6 +1,10 @@
-# This Dockerfile is to build Docker image "deminy/swoole-by-examples:client-5.1".
+# This Dockerfile is to build client-side images, e.g., "deminy/swoole-by-examples:client-5.1".
 # @see https://hub.docker.com/r/deminy/swoole-by-examples
-FROM phpswoole/swoole:5.1-php8.3
+
+ARG SWOOLE_VERSION
+ARG PHP_VERSION=8.3
+
+FROM phpswoole/swoole:${SWOOLE_VERSION}-php${PHP_VERSION}
 
 RUN \
     set -ex && \
