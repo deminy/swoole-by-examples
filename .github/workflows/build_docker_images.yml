@@ -16,6 +16,7 @@ jobs:
       matrix:
         type: ["server", "client"]
         version: ["5.1", "6.0"]
+        platform: ["linux/amd64", "linux/arm64/v8", "linux/ppc64le"]
 
     steps:
       -
@@ -38,7 +39,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       -
-        name: Build and Publish Docker Image
+        name: Build and Publish Docker Image of ${{ matrix.platform }}
         id: docker_build
         uses: docker/build-push-action@v6
         with:
@@ -46,6 +47,6 @@ jobs:
           build-args: |
             SWOOLE_VERSION=${{ matrix.version }}
             PHP_VERSION=8.3
-          platforms: linux/amd64,linux/arm64/v8,linux/ppc64le
+          platforms: ${{ matrix.platform }}
           push: true
           tags: deminy/swoole-by-examples:${{ matrix.type }}-${{ matrix.version }}
