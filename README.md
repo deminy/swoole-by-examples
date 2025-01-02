@@ -58,9 +58,11 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
         * curl. There are two different ways to hook curl functions:
             * [Option SWOOLE_HOOK_NATIVE_CURL](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/native-curl.php) (recommended)
             * [Option SWOOLE_HOOK_CURL](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/curl.php): This approach is implemented through [Swoole Library](https://github.com/swoole/library); however, it doesn't work for _curl_multi_*_ functions.
-        * MySQL
+        * The `mysqli` extension.
             * [hook _mysqli_ functions](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/mysqli.php)
-            * [hook _PDO MySQL_ functions](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_mysql.php)
+        * The `PDO` (PHP Data Objects) extension.
+            * [hook _PDO MySQL_ functionsaccess MySQL databases](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_mysql.php)
+            * [hook _PDO_PGSQL_ functions to access PostgreSQL databases](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_pgsql.php)
     * deadlocks
         * examples on deadlocks
             * [pop data from an empty channel](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/an-empty-channel.php)
@@ -134,7 +136,6 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
     * [WebSocket client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/websocket.php)
     * [TCP client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/tcp.php)
     * [UDP client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/udp.php)
-    * [PostgreSQL client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/postgresql.php)
 * miscellaneous topics
     * data management in Swoole: globals, persistence, and caching
         * [APCu caching]: APCu caching in Swoole works the same way as in other PHP CLI applications. This example explains it in details.

@@ -12,10 +12,10 @@ declare(strict_types=1);
  * The PDO_PGSQL driver is supported in Swoole since v5.1.0. This example won't work with old versions of Swoole.
  *
  * How to run this script:
- *     docker compose exec -t client bash -c "./clients/postgresql.php"
+ *     docker compose exec -t client bash -c "./hooks/pdo_pgsql.php"
  *
  * You can run following command to see how much time it takes to run the script:
- *     docker compose exec -t client bash -c "time ./clients/postgresql.php"
+ *     docker compose exec -t client bash -c "time ./hooks/pdo_pgsql.php"
  */
 
 use Swoole\Constant;
