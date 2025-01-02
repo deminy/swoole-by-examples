@@ -63,6 +63,7 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
         * The `PDO` (PHP Data Objects) extension.
             * [hook _PDO MySQL_ functionsaccess MySQL databases](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_mysql.php)
             * [hook _PDO_PGSQL_ functions to access PostgreSQL databases](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_pgsql.php)
+            * [hook _PDO_SQLITE_ functions to access SQLite 3 databases](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_sqlite.php)
     * deadlocks
         * examples on deadlocks
             * [pop data from an empty channel](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/an-empty-channel.php)

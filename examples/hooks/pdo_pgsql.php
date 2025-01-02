@@ -9,7 +9,9 @@ declare(strict_types=1);
  * In this example, we make five PostgreSQL connections, and perform a three-second query in each connection. It takes
  * barely over three seconds to run this script.
  *
- * The PDO_PGSQL driver is supported in Swoole since v5.1.0. This example won't work with old versions of Swoole.
+ * The PDO_PGSQL driver is supported in Swoole since v5.1.0, when Swoole is compiled with the --enable-swoole-pgsql
+ * option. This example won't work with old versions of Swoole, or if Swoole is not compiled with the
+ * --enable-swoole-pgsql option.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./hooks/pdo_pgsql.php"
