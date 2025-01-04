@@ -8,6 +8,6 @@
     "php": ">=8.2"
   },
   "require-dev": {
-    "swoole/ide-helper": "~5.0"
+    "swoole/ide-helper": ">=5.1"
   }
 }
