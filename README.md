@@ -55,6 +55,7 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
         * [class \Swoole\Coroutine\WaitGroup](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/waitgroup.php) (like [the WaitGroup type in Golang](https://golang.org/pkg/sync/#WaitGroup))
     * [defer](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/defer.php)
     * runtime hooks
+        * [configure and utilize different runtime hook flags in Swoole](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/hook-flags.php)
         * curl. There are two different ways to hook curl functions:
             * [Option SWOOLE_HOOK_NATIVE_CURL](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/native-curl.php) (recommended)
             * [Option SWOOLE_HOOK_CURL](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/curl.php): This approach is implemented through [Swoole Library](https://github.com/swoole/library); however, it doesn't work for _curl_multi_*_ functions.
