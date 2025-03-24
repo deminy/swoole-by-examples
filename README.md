@@ -65,6 +65,10 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
             * [hook _PDO MySQL_ functionsaccess MySQL databases](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_mysql.php)
             * [hook _PDO_PGSQL_ functions to access PostgreSQL databases](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_pgsql.php)
             * [hook _PDO_SQLITE_ functions to access SQLite 3 databases](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_sqlite.php)
+    * locks
+        * [use a lock across coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-coroutines.php) (Swoole v6.0.1+ only)
+        * [use a lock across processes](https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-processes.php)
+        * [use a lock across threads](https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-threads.php) (Swoole v6.0.0+ only)
     * deadlocks
         * examples on deadlocks
             * [pop data from an empty channel](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/an-empty-channel.php)

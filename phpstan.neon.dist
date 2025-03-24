@@ -2,3 +2,10 @@ parameters:
   level: 9
   paths:
     - ./examples
+  ignoreErrors:
+    -
+      message: '#Instantiated class Swoole\\Thread(\\.+)? not found\.#'
+      path: ./examples/locks/lock-across-threads.php
+    -
+      message: '#Call to( static)? method \w+\(\) on an unknown class Swoole\\Thread\.#'
+      path: ./examples/locks/lock-across-threads.php

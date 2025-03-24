@@ -10,7 +10,10 @@ declare(strict_types=1);
  * error message from Swoole), making it hard to find out what's wrong.
  *
  * When using \Swoole\Lock objects in coroutines, make sure there is no coroutine context switching (to switch execution
- * between different coroutines) between method calls to lock() and unlock().
+ * between different coroutines) between method calls to lock() and unlock(). Alternatively, you can use class
+ * \Swoole\Coroutine\Lock instead if you need to use locks across coroutines. Check the following example to see how to
+ * use class \Swoole\Coroutine\Lock:
+ *      https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-coroutines.php
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/deadlocks/swoole-lock.php" # It will run forever.
