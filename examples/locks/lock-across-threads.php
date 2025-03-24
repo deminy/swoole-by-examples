@@ -16,6 +16,11 @@ declare(strict_types=1);
 use Swoole\Thread;
 use Swoole\Thread\Lock;
 
+if (version_compare(SWOOLE_VERSION, '6.0.0', '<')) {
+    fwrite(STDERR, 'Error: Swoole 6.0.0 or higher is required. Current version: ' . SWOOLE_VERSION . PHP_EOL);
+    exit(1);
+}
+
 $args = Thread::getArguments();
 if (!isset($args)) { // The main thread.
     $lock    = new Lock();

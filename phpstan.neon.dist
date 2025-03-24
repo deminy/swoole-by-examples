@@ -2,10 +2,35 @@ parameters:
   level: 9
   paths:
     - ./examples
+  reportUnmatchedIgnoredErrors: false
   ignoreErrors:
+    -
+      message: '#Instantiated class Swoole\\Coroutine\\Lock not found\.#'
+      path: ./examples/locks/lock-across-coroutines.php
+    -
+      message: '#Call to method \w+\(\) on an unknown class Swoole\\Coroutine\\Lock\.#'
+      path: ./examples/locks/lock-across-coroutines.php
+    -
+      identifier: if.alwaysTrue
+      path: ./examples/locks/lock-across-coroutines.php
+    -
+      identifier: if.alwaysFalse
+      path: ./examples/locks/lock-across-coroutines.php
+    -
+      identifier: deadCode.unreachable
+      path: ./examples/locks/lock-across-coroutines.php
     -
       message: '#Instantiated class Swoole\\Thread(\\.+)? not found\.#'
       path: ./examples/locks/lock-across-threads.php
     -
       message: '#Call to( static)? method \w+\(\) on an unknown class Swoole\\Thread\.#'
+      path: ./examples/locks/lock-across-threads.php
+    -
+      identifier: if.alwaysTrue
+      path: ./examples/locks/lock-across-threads.php
+    -
+      identifier: if.alwaysFalse
+      path: ./examples/locks/lock-across-threads.php
+    -
+      identifier: deadCode.unreachable
       path: ./examples/locks/lock-across-threads.php

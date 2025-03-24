@@ -20,6 +20,11 @@ use Swoole\Coroutine\Lock;
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
+if (version_compare(SWOOLE_VERSION, '6.0.1', '<')) {
+    fwrite(STDERR, 'Error: Swoole 6.0.1 or higher is required. Current version: ' . SWOOLE_VERSION . PHP_EOL);
+    exit(1);
+}
+
 $lock = new Lock();
 
 run(function () use ($lock) {
