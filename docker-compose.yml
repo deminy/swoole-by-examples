@@ -19,14 +19,14 @@ services:
     volumes:
       - ./examples:/var/www
   mysql:
-    image: mysql:8.0
+    image: mysql:8
     environment:
       MYSQL_DATABASE: test
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: password
       MYSQL_USER: username
   postgresql:
-    image: postgres:14-alpine
+    image: postgres:17-alpine
     environment:
       POSTGRES_DB: test
       POSTGRES_USER: username
