@@ -15,9 +15,12 @@ services:
     links:
       - mysql
       - postgresql
+      - redis
       - server
     volumes:
       - ./examples:/var/www
+  redis:
+    image: redis:8-alpine
   mysql:
     image: mysql:8
     environment:
