@@ -65,6 +65,9 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
             * [hook _PDO MySQL_ functionsaccess MySQL databases](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_mysql.php)
             * [hook _PDO_PGSQL_ functions to access PostgreSQL databases](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_pgsql.php)
             * [hook _PDO_SQLITE_ functions to access SQLite 3 databases](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/pdo_sqlite.php)
+        * Redis clients
+            * phpredis - [concurrent connections/operations using phpredis](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/redis/phpredis.php)
+            * predis - [concurrent connections/operations using predis](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/redis/predis.php)
     * locks
         * [use a lock across coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-coroutines.php) (Swoole v6.0.1+ only)
         * [use a lock across processes](https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-processes.php)
@@ -136,7 +139,7 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
         * [DDoS protection](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/ddos-protection.php): How to protect your Swoole-based application server from DDoS attacks.
         * [interruptible sleep](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/interruptible-sleep.php): This example shows how to set up a cronjob in a web server, and allow the cronjob to execute at a last time when the server is shutting down.
         * multiple ports listening
-* client-side programming
+* built-in clients provided by Swoole
     * [HTTP/1 client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/http1.php)
     * HTTP/2 client
     * [WebSocket client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/websocket.php)

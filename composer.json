@@ -8,6 +8,7 @@
     "php": ">=8.2"
   },
   "require-dev": {
+    "predis/predis": "~3.0",
     "swoole/ide-helper": ">=5.1"
   }
 }
