@@ -4,7 +4,7 @@
 declare(strict_types=1);
 
 /**
- * In this example we create a Redis connection pool with maximally 11 connections (default pool size is 64).
+ * In this example we create a Redis connection pool with maximally 32 connections (default pool size is 64).
  * We then repeatedly get a connection from the pool, execute a Redis set and Redis get command, and put back the
  * connection.
  *
@@ -23,21 +23,18 @@ use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
 run(function (): void {
-    /** @var string $host */
-    $host = System::gethostbyname('server');
-    $pool = new RedisPool((new RedisConfig())->withHost($host), 11);
+    $pool = new RedisPool((new RedisConfig())->withHost('redis'), 32);
     for ($n = 1024; $n--;) {
-        go(function () use ($pool): void {
-            $redis  = $pool->get();
-            $result = $redis->set('foo', 'bar');
-            if (!$result) {
-                throw new Exception('failed to set a value in Redis.');
-            }
-            $result = $redis->get('foo');
-            if ($result != 'bar') {
-                throw new Exception('failed to get data from Redis.');
-            }
+        go(function () use ($pool, $n): void {
+            $redis = $pool->get();
+
+            $key = uniqid(sprintf('test-%d-', $n)); // A unique key to avoid conflicts.
+            $redis->set($key, 'dummy', ['EX' => 10]); // Set a key with an expiration time of 10 seconds.
+            assert($redis->get($key) === 'dummy', 'The value stored in Redis should be "dummy".');
+
             $pool->put($redis);
         });
     }
 });
+
+echo 'Done', PHP_EOL;
