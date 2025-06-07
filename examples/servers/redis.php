@@ -7,17 +7,17 @@ declare(strict_types=1);
  * In this example we start a mini-version of Redis server, where only the Redis "get" and "set" commands are
  * implemented.
  *
- * This Redis server listens requests on port 6379, and you can connect to it just like connecting to any other Redis
- * server. You can use the Redis extension (phpredis), the popular predis library, or some other Redis clients to
+ * This Redis server listens requests on port 6379. We can connect to it just like connecting to any other Redis
+ * server. We can use the Redis extension (phpredis), the popular predis library, or some other Redis clients to
  * talk to the Redis server.
  *
- * In this repository there are two client-side scripts included to talk to the server: one uses phpredis and the other
- * one uses predis. Here are the commands to run the two client-side scripts:
- *     docker compose exec -t client bash -c "./clients/redis/phpredis.php"
- *     docker compose exec -t client bash -c "./clients/redis/predis.php"
- * You can find the scripts from
- *     1. https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/redis/phpredis.php
- *     2. https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/redis/predis.php
+ * Here is an example using the Redis extension (phpredis) to connect to this server and set/get a key:
+ * <code>
+ * $client = new Redis();
+ * $client->connect('server');
+ * echo $client->set('foo', 'bar'), PHP_EOL;
+ * echo $client->get('foo'), PHP_EOL;
+ * </code>
  */
 
 use Swoole\Redis\Server;
