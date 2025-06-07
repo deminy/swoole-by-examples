@@ -15,7 +15,6 @@ declare(strict_types=1);
  *     docker compose exec -t client bash -c "./pool/database-pool/redis.php"
  */
 
-use Swoole\Coroutine\System;
 use Swoole\Database\RedisConfig;
 use Swoole\Database\RedisPool;
 

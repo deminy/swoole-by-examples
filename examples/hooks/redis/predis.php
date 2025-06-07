@@ -39,7 +39,8 @@ run(function (): void {
         go(function (): void {
             $client = new Client(['scheme' => 'tcp', 'host' => 'redis', 'port' => 6379]);
 
-            $key = uniqid(sprintf('test-%d-', Coroutine::getCid())); // A unique key for each coroutine to avoid conflicts.
+            // Use unique keys for each coroutine to avoid conflicts.
+            $key = uniqid(sprintf('test-%d-', Coroutine::getCid())); // @phpstan-ignore argument.type
             $client->set($key, 'dummy', 'EX', 10); // Set a key with an expiration time of 10 seconds.
             assert($client->get($key) === 'dummy', 'The value stored in Redis should be "dummy".');
 

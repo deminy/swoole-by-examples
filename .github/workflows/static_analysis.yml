@@ -23,7 +23,7 @@ jobs:
           echo "swoole.enable_library=Off" >> /usr/local/etc/php/conf.d/docker-php-ext-swoole.ini
           composer global require -n -q --no-progress -- \
             phpstan/phpstan=~2.0 \
-            predis/predis=~2.2 \
+            predis/predis=~3.0 \
             swoole/library=~${{ matrix.version }}
 
       - name: Run Static Analysis
