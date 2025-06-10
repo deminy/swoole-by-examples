@@ -8,9 +8,6 @@ declare(strict_types=1);
  * We then repeatedly get a connection from the pool, execute a Redis set and Redis get command, and put back the
  * connection.
  *
- * The connection pool classes (\Swoole\Database\RedisConfig and \Swoole\Database\RedisPool in this example) are
- * built-in classes in Swoole since 4.4.13+.
- *
  * You can use following command to run this script:
  *     docker compose exec -t client bash -c "./pool/database-pool/redis.php"
  */

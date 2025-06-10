@@ -115,6 +115,8 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
             * [using TCP socket](https://github.com/deminy/swoole-by-examples/blob/master/examples/pool/process-pool/pool-tcp-socket.php)
             * [using Unix socket](https://github.com/deminy/swoole-by-examples/blob/master/examples/pool/process-pool/pool-unix-socket.php)
         * connection pool
+            * [MySQL connection pool](https://github.com/deminy/swoole-by-examples/blob/master/examples/pool/database-pool/mysqli.php)
+            * [PostgreSQL connection pool](https://github.com/deminy/swoole-by-examples/blob/master/examples/pool/database-pool/pdo_pgsql.php)
             * [Redis connection pool](https://github.com/deminy/swoole-by-examples/blob/master/examples/pool/database-pool/redis.php)
             * How to implement a customized connection pool? Check package [crowdstar/vertica-swoole-adapter](https://github.com/Crowdstar/vertica-swoole-adapter) for details. This package implements connection pool for HP Vertica databases through ODBC, and it's maintained by me.
     * network connection detection (dead network detection)
