@@ -46,15 +46,19 @@ run(function (): void {
             /** @var mysqli $mysqli */
             $mysqli = $pool->get();
 
-            $stmt = $mysqli->prepare('SELECT SLEEP(1)');
-            if ($stmt === false) {
-                echo 'Failed to prepare the statement.', PHP_EOL;
-                return;
+            try {
+                $stmt = $mysqli->prepare('SELECT SLEEP(1)');
+                if ($stmt === false) {
+                    echo 'Failed to prepare the statement.', PHP_EOL;
+                    return;
+                }
+                $stmt->execute();
+                $stmt->close();
+            } finally {
+                // Always return the connection to the pool, even when the query above fails or throws; otherwise the
+                // pool would permanently lose a connection.
+                $pool->put($mysqli);
             }
-            $stmt->execute();
-            $stmt->close();
-
-            $pool->put($mysqli);
         });
     }
 });

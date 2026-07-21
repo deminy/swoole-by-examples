@@ -45,23 +45,27 @@ run(function (): void {
             /** @var PDO $pdo */
             $pdo = $pool->get();
 
-            $stmt = $pdo->prepare('SELECT pg_sleep(1)');
-            if ($stmt === false) {
-                echo 'Failed to prepare the statement.', PHP_EOL;
-                return;
+            try {
+                $stmt = $pdo->prepare('SELECT pg_sleep(1)');
+                if ($stmt === false) {
+                    echo 'Failed to prepare the statement.', PHP_EOL;
+                    return;
+                }
+                $stmt->execute(); // The query finishes in 1 second.
+                $stmt->fetchAll();
+                // The result array returned is:
+                // [
+                //     [
+                //         'pg_sleep' => '',
+                //          0 => '',
+                //     ]
+                // ];
+                $stmt = null;
+            } finally {
+                // Always return the connection to the pool, even when the query above fails or throws; otherwise the
+                // pool would permanently lose a connection.
+                $pool->put($pdo);
             }
-            $stmt->execute(); // The query finishes in 1 second.
-            $stmt->fetchAll();
-            // The result array returned is:
-            // [
-            //     [
-            //         'pg_sleep' => '',
-            //          0 => '',
-            //     ]
-            // ];
-            $stmt = null;
-
-            $pool->put($pdo);
         });
     }
 });
