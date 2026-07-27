@@ -4,7 +4,7 @@ on: [ push, pull_request, workflow_dispatch ]
 
 jobs:
   static-analysis:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup PHP And Swoole
         run: |
