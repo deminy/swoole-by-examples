@@ -7,17 +7,18 @@ declare(strict_types=1);
  *
  * Once executed, it prints out "12345678". The numbers printed out are to show the order of the code execution.
  *
- * Note that this example works only on Swoole 6.0.0 or later, with ZTS (Zend Thread Safety) enabled.
+ * Note that this example works only on Swoole 6.1.0 or later, with ZTS (Zend Thread Safety) enabled. Swoole 6.1
+ * removed Lock::trylock(); a non-blocking attempt is now made by passing LOCK_EX | LOCK_NB to Lock::lock() instead.
  *
  * How to run this script:
- *     docker run --rm -v "$(pwd):/var/www" -ti phpswoole/swoole:6.0-zts php ./examples/locks/lock-across-threads.php
+ *     docker run --rm -v "$(pwd):/var/www" -ti phpswoole/swoole:6.2-zts php ./examples/locks/lock-across-threads.php
  */
 
 use Swoole\Thread;
 use Swoole\Thread\Lock;
 
-if (version_compare(SWOOLE_VERSION, '6.0.0', '<')) {
-    fwrite(STDERR, 'Error: Swoole 6.0.0 or higher is required. Current version: ' . SWOOLE_VERSION . PHP_EOL);
+if (version_compare(SWOOLE_VERSION, '6.1.0', '<')) {
+    fwrite(STDERR, 'Error: Swoole 6.1.0 or higher is required. Current version: ' . SWOOLE_VERSION . PHP_EOL);
     exit(1);
 }
 
@@ -46,7 +47,7 @@ if (!isset($args)) { // The main thread.
         echo '5';
     } else { // Second child thread.
         echo '2';
-        assert($lock->trylock() === false, 'Failed to lock a locked lock.');
+        assert($lock->lock(LOCK_EX | LOCK_NB) === false, 'Failed to lock a locked lock.');
         echo '3';
         assert($lock->lock() === true, 'Lock the lock for the second time successfully.');
         echo '6';

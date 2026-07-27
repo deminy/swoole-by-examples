@@ -69,9 +69,9 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
             * phpredis - [concurrent connections/operations using phpredis](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/redis/phpredis.php)
             * predis - [concurrent connections/operations using predis](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/redis/predis.php)
     * locks
-        * [use a lock across coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-coroutines.php) (Swoole v6.0.1+ only)
+        * [use a lock across coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-coroutines.php) (Swoole v6.1.0+ only)
         * [use a lock across processes](https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-processes.php)
-        * [use a lock across threads](https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-threads.php) (Swoole v6.0.0+ only)
+        * [use a lock across threads](https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-threads.php) (Swoole v6.1.0+ only)
     * deadlocks
         * examples on deadlocks
             * [pop data from an empty channel](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/an-empty-channel.php)

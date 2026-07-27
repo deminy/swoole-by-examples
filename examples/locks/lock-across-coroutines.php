@@ -8,7 +8,8 @@ declare(strict_types=1);
  *
  * Once executed, it prints out "12345678". The numbers printed out are to show the order of the code execution.
  *
- * Note that class \Swoole\Coroutine\Lock is available only on Swoole 6.0.1 or later.
+ * Note that class \Swoole\Coroutine\Lock is available only on Swoole 6.0.1 or later. Swoole 6.1 removed
+ * Lock::trylock(); a non-blocking attempt is now made by passing LOCK_EX | LOCK_NB to Lock::lock() instead.
  *
  * How to run this script:
  *     docker compose exec -t client ./locks/lock-across-coroutines.php
@@ -20,8 +21,8 @@ use Swoole\Coroutine\Lock;
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
-if (version_compare(SWOOLE_VERSION, '6.0.1', '<')) {
-    fwrite(STDERR, 'Error: Swoole 6.0.1 or higher is required. Current version: ' . SWOOLE_VERSION . PHP_EOL);
+if (version_compare(SWOOLE_VERSION, '6.1.0', '<')) {
+    fwrite(STDERR, 'Error: Swoole 6.1.0 or higher is required. Current version: ' . SWOOLE_VERSION . PHP_EOL);
     exit(1);
 }
 
@@ -39,7 +40,7 @@ run(function () use ($lock) {
 
     go(function () use ($lock) { // Start the second coroutine inside the main coroutine.
         echo '2';
-        assert($lock->trylock() === false, 'Failed to lock a locked lock.');
+        assert($lock->lock(LOCK_EX | LOCK_NB) === false, 'Failed to lock a locked lock.');
         echo '3';
         assert($lock->lock() === true, 'Lock the lock for the second time successfully.');
         echo '6';
