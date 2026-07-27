@@ -3,34 +3,24 @@ name: Code Quality
 on: [ push, pull_request, workflow_dispatch ]
 
 jobs:
-  # Static analysis runs against every image in the matrix, since PHPStan needs to be paired with a matching
-  # PHP/Swoole build. Coding style does not depend on the Swoole version, so it runs once (see the `if:` below),
-  # and it runs first because it needs nothing but the checkout, so it fails fast before any image is pulled.
   checks:
     runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: false
-      matrix:
-        version: ["5.1", "6.0"]
-
-    name: Swoole ${{ matrix.version }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v7
 
       - name: Run Coding Style Checks
-        if: matrix.version == '6.0'
         run: docker run -q --rm -v "$(pwd):/project" -w /project -i jakzal/phpqa:php8.3-alpine php-cs-fixer fix -q --dry-run
 
       - name: Run Static Analysis
         run: |
-          docker run -q --rm -v "$(pwd):/project" -w /project phpswoole/swoole:${{ matrix.version }} bash -c '
+          docker run -q --rm -v "$(pwd):/project" -w /project phpswoole/swoole:6.2 bash -c '
             set -e
             echo "swoole.enable_library=Off" >> /usr/local/etc/php/conf.d/docker-php-ext-swoole.ini
             composer global require -n -q --no-progress -- \
               phpstan/phpstan=~2.0 \
               predis/predis=~3.0 \
-              swoole/library=~${{ matrix.version }}
+              swoole/library=~6.2
             ~/.composer/vendor/bin/phpstan analyse --no-progress --memory-limit 2G
           '
