@@ -1,0 +1,92 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Client;
+
+use Tests\Support\ExampleTestCase;
+
+class CspTest extends ExampleTestCase
+{
+    public function testBarrier(): void
+    {
+        $result = $this->runExample('csp/barrier.php');
+        self::assertSame(0, $result['code'], $result['output']);
+    }
+
+    public function testChannel(): void
+    {
+        $result = $this->runExample('csp/channel.php');
+        self::assertSame(0, $result['code'], $result['output']);
+    }
+
+    public function testContext(): void
+    {
+        $result = $this->runExample('csp/context.php');
+        self::assertSame(0, $result['code'], $result['output']);
+    }
+
+    public function testDefer(): void
+    {
+        $result = $this->runExample('csp/defer.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertSame('12345678', trim($result['output']));
+    }
+
+    public function testWaitGroup(): void
+    {
+        $result = $this->runExample('csp/waitgroup.php');
+        self::assertSame(0, $result['code'], $result['output']);
+    }
+
+    // csp/coroutines/benchmark.php: creates 1,000,000 coroutines; its own docblock warns it needs more CPU/memory
+    // than a laptop provides. Skipped rather than run.
+    public function testBenchmarkIsSkipped(): void
+    {
+        self::markTestSkipped('csp/coroutines/benchmark.php creates 1,000,000 coroutines and is too heavy to run here.');
+    }
+
+    public function testCoroutinesCreation1(): void
+    {
+        $result = $this->runExample('csp/coroutines/creation-1.php');
+        self::assertSame(0, $result['code'], $result['output']);
+    }
+
+    public function testCoroutinesCreation2(): void
+    {
+        $result = $this->runExample('csp/coroutines/creation-2.php');
+        self::assertSame(0, $result['code'], $result['output']);
+    }
+
+    public function testCoroutinesExit(): void
+    {
+        $result = $this->runExample('csp/coroutines/exit.php');
+        self::assertSame(0, $result['code'], $result['output']);
+    }
+
+    public function testCoroutinesFor(): void
+    {
+        $result = $this->runExample('csp/coroutines/for.php');
+        self::assertSame(0, $result['code'], $result['output']);
+    }
+
+    public function testCoroutinesNested(): void
+    {
+        $result = $this->runExample('csp/coroutines/nested.php');
+        self::assertSame(0, $result['code'], $result['output']);
+    }
+
+    public function testCoroutinesNestedDebug(): void
+    {
+        $result = $this->runExample('csp/coroutines/nested-debug.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertSame('123456789', trim($result['output']));
+    }
+
+    public function testCoroutinesYieldAndResume(): void
+    {
+        $result = $this->runExample('csp/coroutines/yield-and-resume.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertSame('12345678', trim($result['output']));
+    }
+}

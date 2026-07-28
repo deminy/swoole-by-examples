@@ -8,6 +8,7 @@ services:
       - 9801:9801
     volumes:
       - ./examples:/var/www
+      - .:/app
   client:
     image: deminy/swoole-by-examples:client-6.0
     environment:
@@ -19,6 +20,7 @@ services:
       - server
     volumes:
       - ./examples:/var/www
+      - .:/app
   redis:
     image: redis:8-alpine
   mysql:

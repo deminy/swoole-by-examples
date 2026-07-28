@@ -2,6 +2,10 @@
 /composer.lock
 /vendor/
 
+# Ignore PHPUnit files.
+/.phpunit.result.cache
+/phpunit.xml
+
 # Ignore PHPStan files.
 /phpstan.neon
 
