@@ -2,6 +2,7 @@ parameters:
   level: 9
   paths:
     - ./examples
+    - ./tests
   reportUnmatchedIgnoredErrors: false
   ignoreErrors:
     -
@@ -34,3 +35,15 @@ parameters:
     -
       identifier: deadCode.unreachable
       path: ./examples/locks/lock-across-threads.php
+    -
+      identifier: if.alwaysFalse
+      path: ./examples/locks/lock-across-processes.php
+    -
+      message: '#Method Swoole\\Lock::lock\(\) invoked with \d+ parameters?, 0 required\.#'
+      path: ./examples/locks/lock-across-processes.php
+    -
+      identifier: if.alwaysFalse
+      path: ./examples/io/block-a-process-using-swoole-lock.php
+    -
+      message: '#Method Swoole\\Lock::lock\(\) invoked with \d+ parameters?, 0 required\.#'
+      path: ./examples/io/block-a-process-using-swoole-lock.php
