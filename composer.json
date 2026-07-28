@@ -10,7 +10,9 @@
   "require-dev": {
     "deminy/counit": "~1.0.2",
     "predis/predis": "~3.0",
-    "swoole/ide-helper": "@dev"
+    "swoole/ide-helper": "@dev",
+    "phpstan/phpstan": "~2.0",
+    "friendsofphp/php-cs-fixer": "~3.0"
   },
   "autoload-dev": {
     "psr-4": {

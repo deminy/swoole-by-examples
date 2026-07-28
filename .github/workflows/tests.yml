@@ -1,0 +1,39 @@
+name: Tests
+
+on: [ push, pull_request, workflow_dispatch ]
+
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # composer.json lives at the repository root (/var/www), while the containers default to /var/www/examples,
+      # hence the explicit `-w /var/www`. Both containers mount the repository root, so installing dependencies
+      # once from the client container serves the server container as well. The sleep gives the Supervisord-managed
+      # servers and the database containers time to become ready before anything connects to them.
+      - name: Prepare Test Environment
+        run: |
+          docker compose pull
+          docker compose up -d
+
+          docker compose exec -T client php -v
+          docker compose exec -T client php --ri swoole
+          docker compose exec -T -w /var/www client composer install -n -q --no-progress
+
+      - name: Run Coding Style Checks
+        run: docker compose exec -T -w /var/www client ./vendor/bin/php-cs-fixer fix --dry-run --show-progress=none
+
+      # PHPStan runs inside the client container so that Swoole symbols resolve against the very extension build
+      # the examples run on, with predis and swoole/ide-helper coming from the project's own dev dependencies.
+      - name: Run Static Analysis
+        run: docker compose exec -T -w /var/www client ./vendor/bin/phpstan analyse --no-progress --memory-limit 2G
+
+      # Almost everything is in the client suite; only tests needing the server container's own filesystem are in
+      # the server suite (see tests/Server/PoolProcessTest.php).
+      - name: Run Unit Tests
+        run: |
+          docker compose exec -T -w /var/www client ./vendor/bin/counit --testsuite client
+          docker compose exec -T -w /var/www server ./vendor/bin/counit --testsuite server
