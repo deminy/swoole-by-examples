@@ -1,16 +1,18 @@
 services:
   server:
-    image: deminy/swoole-by-examples:server-6.0
+    image: deminy/swoole-by-examples:server-6.2
     environment:
+      # ROOT_DIR limits what the autoreload script watches; without it, any PHP file changed under /var/www
+      # (e.g., Composer writing into ./vendor) would restart all the Supervisord-managed servers.
+      ROOT_DIR: /var/www/examples
       AUTORELOAD_PROGRAMS: "apcu-caching ddos-protection http1 http1-integrated http2 interruptible-sleep keepalive mixed-protocols-1 pool-msgqueue pool-tcp-socket pool-unix-socket redis rock-paper-scissors tcp1 tcp2 udp websocket websocket-integrated"
       DISABLE_DEFAULT_SERVER: 1
     ports:
       - 9801:9801
     volumes:
-      - ./examples:/var/www
-      - .:/app
+      - .:/var/www
   client:
-    image: deminy/swoole-by-examples:client-6.0
+    image: deminy/swoole-by-examples:client-6.2
     environment:
       DISABLE_DEFAULT_SERVER: 1
     links:
@@ -19,8 +21,7 @@ services:
       - redis
       - server
     volumes:
-      - ./examples:/var/www
-      - .:/app
+      - .:/var/www
   redis:
     image: redis:8-alpine
   mysql:

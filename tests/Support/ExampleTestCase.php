@@ -117,7 +117,7 @@ abstract class ExampleTestCase extends TestCase
     private function pollUntilDone(string $path, array $args, float $timeout, callable $sleep): array
     {
         /** @var list<string> $command */
-        $command = ['php', '/var/www/' . $path, ...$args];
+        $command = ['php', '/var/www/examples/' . $path, ...$args];
 
         $descriptors = [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']];
         $proc        = proc_open($command, $descriptors, $pipes);

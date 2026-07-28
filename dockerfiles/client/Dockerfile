@@ -14,3 +14,7 @@ RUN \
     curl -sfL -o /usr/bin/websocat "https://github.com/vi/websocat/releases/download/v1.12.0/websocat.$(uname -m)-unknown-linux-musl" && \
     chmod 755 /usr/bin/websocat && \
     rm -rf /var/lib/apt/lists/*
+
+# The repository root is mounted at /var/www, and the examples document their run commands relative to the
+# examples folder (e.g., "./clients/http1.php"), so make that folder the working directory.
+WORKDIR /var/www/examples

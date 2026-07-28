@@ -20,3 +20,7 @@ RUN \
     apt-get update && \
     apt-get install -y net-tools watch --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
+
+# The repository root is mounted at /var/www, and the examples document their run commands relative to the
+# examples folder (e.g., "./servers/http1.php"), so make that folder the working directory.
+WORKDIR /var/www/examples
