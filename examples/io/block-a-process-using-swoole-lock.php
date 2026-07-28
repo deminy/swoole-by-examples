@@ -11,6 +11,9 @@ declare(strict_types=1);
  *
  * There are other ways to block a process. Check the following example to see how to use class \Swoole\Atomic to do it:
  * @see https://github.com/deminy/swoole-by-examples/blob/master/examples/io/block-processes-using-swoole-atomic.php
+ *
+ * Note that Swoole 6.1 removed Lock::lockwait(); the same non-blocking-with-timeout attempt is now made by
+ * passing LOCK_EX and a timeout to Lock::lock() instead.
  */
 
 use Swoole\Coroutine;
@@ -18,6 +21,11 @@ use Swoole\Lock;
 
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
+
+if (version_compare(SWOOLE_VERSION, '6.1.0', '<')) {
+    fwrite(STDERR, 'Error: Swoole 6.1.0 or higher is required. Current version: ' . SWOOLE_VERSION . PHP_EOL);
+    exit(1);
+}
 
 // The lock created is available to all coroutines within the process.
 $lock = new Lock();
@@ -33,7 +41,7 @@ run(function () use ($lock): void {
         //    2. Avoid using the same lock across different coroutines. It could lead to deadlock. e.g.,
         //       https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/swoole-lock.php
         $lock->lock();
-        if ($lock->lockwait(2.0) !== true) { // The lock is released after 2 seconds due to timeout.
+        if ($lock->lock(LOCK_EX, 2.0) !== true) { // The lock is released after 2 seconds due to timeout.
             $lock->unlock();
         }
 

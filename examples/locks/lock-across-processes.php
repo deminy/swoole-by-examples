@@ -13,10 +13,18 @@ declare(strict_types=1);
  *
  * Note that class \Swoole\Lock is not safe to use across coroutines. For details, please check this example:
  *   https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/swoole-lock.php
+ *
+ * Note also that Swoole 6.1 removed Lock::trylock(); a non-blocking attempt is now made by passing
+ * LOCK_EX | LOCK_NB to Lock::lock() instead.
  */
 
 use Swoole\Lock;
 use Swoole\Process;
+
+if (version_compare(SWOOLE_VERSION, '6.1.0', '<')) {
+    fwrite(STDERR, 'Error: Swoole 6.1.0 or higher is required. Current version: ' . SWOOLE_VERSION . PHP_EOL);
+    exit(1);
+}
 
 $lock = new Lock();
 
@@ -31,7 +39,7 @@ $process1 = new Process(function () use ($lock) {
 
 $process2 = new Process(function () use ($lock) {
     echo '2';
-    assert($lock->trylock() === false, 'Failed to lock a locked lock.');
+    assert($lock->lock(LOCK_EX | LOCK_NB) === false, 'Failed to lock a locked lock.');
     echo '3';
     assert($lock->lock() === true, 'Lock the lock for the second time successfully.');
     echo '6';
