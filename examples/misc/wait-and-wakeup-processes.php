@@ -15,7 +15,7 @@ declare(strict_types=1);
  *     A timeout of -1 means to wait forever.
  *   - Method wakeup() sets the value from 0 to 1 and wakes up a process that is currently blocked in wait(). The wake
  *     only happens when the value is still 0: if the value has already been set to non-zero (e.g., via set()), wakeup()
- *     does nothing and the waiting process stays blocked. So don't mix set() into the wait()/wakeup() handshake — the
+ *     does nothing and the waiting process stays blocked. So don't mix set() into the wait()/wakeup() handshake - the
  *     value transitions are managed entirely by wait() and wakeup() themselves.
  *
  * The Atomic object MUST be created before the processes are started, so that both children share the same shared

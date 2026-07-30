@@ -14,8 +14,8 @@ abstract class ExampleTestCase extends TestCase
      * Hard cap on how much output the run*() helpers below accumulate into memory. A defensive backstop, not a
      * normal limit: every example in this suite produces at most a few hundred KB. It exists for the case where
      * an example runs away unexpectedly (confirmed by testing: csp/scheduling/mixed.php and preemptive.php can do
-     * exactly this if Swoole's preemptive scheduler misfires under concurrent load — see runExample()'s
-     * docblock) — without this cap, accumulating that runaway output into a single growing PHP string exhausts
+     * exactly this if Swoole's preemptive scheduler misfires under concurrent load - see runExample()'s
+     * docblock) - without this cap, accumulating that runaway output into a single growing PHP string exhausts
      * the 128MB memory_limit. Once hit, the pipes are still drained (so the child never blocks on a full pipe),
      * the data is just discarded instead of appended.
      */
@@ -24,7 +24,7 @@ abstract class ExampleTestCase extends TestCase
     /**
      * counit's "global style" gives every test method its own coroutine automatically, with no concurrency cap.
      * Confirmed by testing: running this suite's tests unthrottled segfaults intermittently once past a certain
-     * number of concurrent proc_open()+coroutine operations — this looks like a genuine Swoole extension-level
+     * number of concurrent proc_open()+coroutine operations - this looks like a genuine Swoole extension-level
      * issue at scale, not something fixable from userland beyond avoiding the scale that triggers it. A shared
      * semaphore, acquired around each runExample() call, keeps at most MAX_CONCURRENT of them in flight
      * regardless of how many test methods are running.
@@ -34,18 +34,18 @@ abstract class ExampleTestCase extends TestCase
     private static ?Channel $semaphore = null;
 
     /**
-     * Runs an example script to completion (up to $timeout seconds — a safety net; most examples take a few
+     * Runs an example script to completion (up to $timeout seconds - a safety net; most examples take a few
      * seconds at most) and returns its exit code and combined stdout+stderr. Runs inside a coroutine (via a
-     * shared semaphore, see MAX_CONCURRENT above) — do not call this from a #[RunInSeparateProcess] test method;
+     * shared semaphore, see MAX_CONCURRENT above) - do not call this from a #[RunInSeparateProcess] test method;
      * those run in a plain, non-coroutine child process where Swoole's coroutine APIs error out ("API must be
      * called in the coroutine", confirmed by testing). Use runIsolated() there instead.
      *
      * The default of 60s is generous for the common case, but a few examples need a tighter bound: examples that
      * rely on Swoole's preemptive scheduler (csp/scheduling/mixed.php, preemptive.php) depend on a timing-sensitive
-     * signal firing reliably, which — confirmed by testing — becomes unreliable when many *other* proc_open()
+     * signal firing reliably, which - confirmed by testing - becomes unreliable when many *other* proc_open()
      * children are being spawned/killed concurrently elsewhere in this same test run. When the preemptive
      * scheduler doesn't fire, these examples' busy loop keeps running (and printing) indefinitely instead of
-     * exiting after ~100,000 lines, and at a 60s bound that means tens of megabytes of accumulated output — one
+     * exiting after ~100,000 lines, and at a 60s bound that means tens of megabytes of accumulated output - one
      * run hit 116MB, another hit PHP's 128MB memory_limit outright. Pass a tighter $timeout for exactly those two
      * examples so a scheduler misfire surfaces as a fast, clean test failure instead of a slow OOM.
      *
@@ -73,8 +73,8 @@ abstract class ExampleTestCase extends TestCase
     /**
      * Runs an example script that may hang forever by design, from inside a #[RunInSeparateProcess] test method.
      * Confirmed by testing: such a method's body runs in a genuinely separate, non-coroutine PHP process (spawned
-     * by PHPUnit itself), so none of Swoole's coroutine APIs — including the Channel-based semaphore runExample()
-     * uses — are available there. This method uses only plain blocking PHP (proc_open(), usleep(),
+     * by PHPUnit itself), so none of Swoole's coroutine APIs - including the Channel-based semaphore runExample()
+     * uses - are available there. This method uses only plain blocking PHP (proc_open(), usleep(),
      * proc_get_status()), which needs no coroutine context and needs no concurrency limit of its own: each
      * #[RunInSeparateProcess] test already runs by itself in its own process, sequentially relative to the rest
      * of the suite (that's what the attribute is for), so there's no concurrent proc_open() pressure to guard
@@ -101,13 +101,13 @@ abstract class ExampleTestCase extends TestCase
      *
      * The stdout/stderr pipes are drained on every loop iteration rather than only once at the end: examples like
      * csp/scheduling/mixed.php produce 100,000+ lines of output, comfortably more than a pipe's OS buffer
-     * (~64KB) — without continuous draining, the child blocks forever inside its own write() call once that
+     * (~64KB) - without continuous draining, the child blocks forever inside its own write() call once that
      * buffer fills, which is a real deadlock, not just slowness (confirmed by testing).
      *
      * Exit status is checked via plain proc_get_status()['running'], not Swoole\Coroutine\System::waitPid() with
      * a 0.0 timeout: confirmed by testing that a 0.0 timeout does not mean "check instantly and return" the way
-     * it does in many similar APIs — it blocks indefinitely on a still-running process. proc_get_status() doesn't
-     * have this problem since it isn't a Swoole coroutine primitive — it's a plain PHP status query that returns
+     * it does in many similar APIs - it blocks indefinitely on a still-running process. proc_get_status() doesn't
+     * have this problem since it isn't a Swoole coroutine primitive - it's a plain PHP status query that returns
      * immediately regardless, which is also exactly why it works in both the coroutine and non-coroutine cases.
      *
      * @param list<string> $args

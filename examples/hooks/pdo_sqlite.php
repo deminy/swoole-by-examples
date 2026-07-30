@@ -15,7 +15,7 @@ declare(strict_types=1);
  * query take three seconds, this example uses SQLite's own locking instead: a separate connection holds the write
  * lock on the database for the whole run, and each of the five connections then tries to write to the database with
  * a busy timeout (PDO::ATTR_TIMEOUT) of three seconds. Each query spends exactly three seconds blocked inside
- * SQLite's busy handler before giving up with a "database is locked" error — a genuinely slow SQLite call, which
+ * SQLite's busy handler before giving up with a "database is locked" error - a genuinely slow SQLite call, which
  * Swoole executes without blocking other coroutines: the five three-second queries finish concurrently, not
  * serially.
  *

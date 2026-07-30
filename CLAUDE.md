@@ -115,6 +115,12 @@ class's API lags the actual extension (e.g. it thinks `Swoole\Lock::lock()` take
 `ignoreErrors` entry, scope it to the specific file and message/identifier rather than broadening it, matching the
 existing entries.
 
+Non-ASCII bytes are not allowed anywhere in the code under `examples/` and `tests/` — not in code, comments, or
+docblocks. Use plain ASCII punctuation (hyphens, not em-dashes; straight quotes, not typographic ones). The one
+exception is a string literal that needs non-ASCII content for a valid reason (e.g., exercising multibyte string
+handling), with the reason evident from the example or stated in a comment. Check with:
+`grep -rnP '[^\x00-\x7F]' examples/ tests/`.
+
 ## Architecture
 
 **`examples/`** — one runnable `.php` script per concept, grouped by topic: `csp/` (with `coroutines/`,

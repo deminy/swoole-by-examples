@@ -6,7 +6,7 @@ namespace Tests\Client;
 
 use Tests\Support\ExampleTestCase;
 
-// pool/process-pool/client.php is NOT covered here — see tests/Server/PoolProcessTest.php; it must run from the
+// pool/process-pool/client.php is NOT covered here - see tests/Server/PoolProcessTest.php; it must run from the
 // `server` container.
 class PoolTest extends ExampleTestCase
 {
@@ -39,7 +39,7 @@ class PoolTest extends ExampleTestCase
         // The detached worker's final "finished its long task" message is deliberately NOT asserted: the pool
         // manager exits as soon as the replacement worker starts, without waiting for the detached worker (that
         // being the very behavior the example demonstrates), so that message is printed ~2s after the example's
-        // main process has exited — past the point where runExample() stops capturing output.
+        // main process has exited - past the point where runExample() stops capturing output.
     }
 
     public function testProcessPoolStandalone(): void

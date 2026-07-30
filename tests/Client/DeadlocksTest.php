@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use Tests\Support\ExampleTestCase;
 
 // Deadlock demos with bounded/detectable termination: Swoole's deadlock detector catches these, and each exits
-// on its own — confirmed by running each directly during design. The three that hang forever instead
+// on its own - confirmed by running each directly during design. The three that hang forever instead
 // (swoole-lock.php, file-locking.php, coroutine-yielded-3.php) are in the timeout section below.
 class DeadlocksTest extends ExampleTestCase
 {
@@ -49,7 +49,7 @@ class DeadlocksTest extends ExampleTestCase
     }
 
     // Takes ~5-10s: Swoole's worker-exit-timeout mechanism forces the stuck worker down before the deadlock
-    // message prints (confirmed by testing — it does terminate on its own, unlike the two below).
+    // message prints (confirmed by testing - it does terminate on its own, unlike the two below).
     public function testServerShutdown(): void
     {
         $result = $this->runExample('csp/deadlocks/server-shutdown.php');
@@ -77,7 +77,7 @@ class DeadlocksTest extends ExampleTestCase
         self::assertTrue($result['timedOut'], $result['output']);
     }
 
-    // Its custom exit condition (coroutine_num === 0) is never met, so the program never exits — confirmed by
+    // Its custom exit condition (coroutine_num === 0) is never met, so the program never exits - confirmed by
     // testing (its own docblock says as much: "The program will never exit since the exit condition won't meet").
     #[RunInSeparateProcess]
     public function testCoroutineYielded3RunsForever(): void

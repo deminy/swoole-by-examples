@@ -27,7 +27,7 @@ class ServersTest extends ExampleTestCase
     }
 
     // Not Supervisord-managed; fully self-driving (its own curl request, reload, and shutdown are all scheduled
-    // internally via timers) — confirmed by testing: completes in ~150ms on its own.
+    // internally via timers) - confirmed by testing: completes in ~150ms on its own.
     public function testServerEvents(): void
     {
         $result = $this->runExample('servers/server-events.php');
@@ -152,7 +152,7 @@ class ServersTest extends ExampleTestCase
     }
 
     // The proxy forwards raw bytes to the HTTP/1 server (127.0.0.1:9501 inside the "server" container), whose
-    // customized "234 Test" status line is relayed back — proving the request really went through the proxy.
+    // customized "234 Test" status line is relayed back - proving the request really went through the proxy.
     public function testProxy(): void
     {
         $client = new HttpClient('server', 9520);
