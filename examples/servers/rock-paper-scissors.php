@@ -26,6 +26,7 @@ declare(strict_types=1);
  *   docker compose exec -ti client curl -d "shape=Scissors" "http://server:9801?name=C"
  */
 
+use Swoole\Constant;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Http\Server;
@@ -41,6 +42,20 @@ EOT;
 $exchanges = [];
 
 $server = new Server('0.0.0.0', 9801, SWOOLE_BASE);
+
+// The $exchanges array collects the three requests before responding to them together. That shared state lives inside a
+// single worker process, so the server must run with exactly one worker; otherwise the three requests could be spread
+// across multiple workers (the default worker count is the number of CPU cores) and no worker would ever see all three,
+// leaving the requests hanging.
+// To make the example work with multiple workers, the implementation would need to be refactored so that requests
+// belonging to the same game are tracked and grouped together across workers, e.g., by keying each request to a
+// game/race identifier stored in shared state (such as a Swoole\Table or an external store like Redis) instead of a
+// per-worker PHP array.
+$server->set(
+    [
+        Constant::OPTION_WORKER_NUM => 1,
+    ]
+);
 
 $server->on(
     'request',
