@@ -163,6 +163,21 @@ class ServersTest extends ExampleTestCase
         self::assertNotEmpty((string) $client->body);
     }
 
+    // One server process listens on both ports with per-port 'receive' callbacks; the response prefix proves
+    // which port's callback handled the request.
+    public function testMultiplePorts(): void
+    {
+        foreach ([9530, 9531] as $port) {
+            $client = new TcpClient(SWOOLE_SOCK_TCP);
+            $client->set(['timeout' => 5]);
+            self::assertTrue($client->connect('server', $port, 5), "failed to connect to port {$port}");
+            $client->send('hello');
+            $response = $client->recv();
+            $client->close();
+            self::assertSame("port {$port}: hello" . PHP_EOL, $response);
+        }
+    }
+
     public function testRockPaperScissors(): void
     {
         $shapes = ['A' => 'Rock', 'B' => 'Paper', 'C' => 'Scissors'];
