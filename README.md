@@ -154,7 +154,7 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
         * [implement atomic counters using unsigned 32-bit integers](https://github.com/deminy/swoole-by-examples/blob/master/examples/misc/atomic-counter-unsigned-32-bit.php)
         * [implement atomic counters using signed 64-bit integers](https://github.com/deminy/swoole-by-examples/blob/master/examples/misc/atomic-counter-signed-64-bit.php)
     * multiprocessing
-        * wait and wakeup processes
+        * [wait and wakeup processes](https://github.com/deminy/swoole-by-examples/blob/master/examples/misc/wait-and-wakeup-processes.php)
         * process pool
             * pool creation and inter-process communication: Please check previous section `resource pooling` for details.
             * [detach processes from a process pool](https://github.com/deminy/swoole-by-examples/blob/master/examples/pool/process-pool/detach.php)

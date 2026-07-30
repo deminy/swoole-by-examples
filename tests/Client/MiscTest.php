@@ -19,4 +19,12 @@ class MiscTest extends ExampleTestCase
         $result = $this->runExample('misc/atomic-counter-unsigned-32-bit.php');
         self::assertSame(0, $result['code'], $result['output']);
     }
+
+    public function testWaitAndWakeupProcesses(): void
+    {
+        $result = $this->runExample('misc/wait-and-wakeup-processes.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertStringContainsString('[consumer] Woken up by the producer; shared value is back to 0.', $result['output']);
+        self::assertStringContainsString('[parent] Both child processes have exited.', $result['output']);
+    }
 }
