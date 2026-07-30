@@ -117,7 +117,7 @@ patterns like multiprocessing and cronjobs.
         * [integrated WebSocket server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/websocket-integrated.php): a WebSocket server that supports cron jobs and asynchronous tasks, using separate processes to handle cron jobs and task queues.
         * mixed protocols
             * [support HTTP/1, HTTP/2, and WebSocket on same port](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/mixed-protocols-1.php)
-            * support multiple protocols on same server
+            * [support multiple protocols on different ports of one server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/mixed-protocols-2.php)
     * server lifecycle and reliability
         * [How are different server events triggered?](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/server-events.php)
         * [interruptible sleep](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/interruptible-sleep.php): let a cronjob inside a web server execute one last time when the server is shutting down.

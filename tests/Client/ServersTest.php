@@ -163,6 +163,28 @@ class ServersTest extends ExampleTestCase
         self::assertNotEmpty((string) $client->body);
     }
 
+    // One server, a different protocol per port: 9550 speaks HTTP, while 9551 has the inherited HTTP protocol
+    // switched off and echoes raw bytes. Sending an HTTP request to the TCP port and getting it back VERBATIM
+    // (rather than parsed and responded to) proves the per-port protocol override is in effect.
+    public function testMixedProtocols2(): void
+    {
+        $http = new HttpClient('server', 9550);
+        $http->set(['timeout' => 5]);
+        $ok = $http->get('/');
+        self::assertTrue($ok);
+        self::assertSame(200, $http->statusCode);
+        self::assertSame('Hello from the HTTP listener on port 9550.', trim((string) $http->body));
+
+        $tcp = new TcpClient(SWOOLE_SOCK_TCP);
+        $tcp->set(['timeout' => 5]);
+        self::assertTrue($tcp->connect('server', 9551, 5));
+        $request = "GET / HTTP/1.1\r\nHost: server\r\n\r\n";
+        $tcp->send($request);
+        $response = $tcp->recv();
+        $tcp->close();
+        self::assertSame($request, $response);
+    }
+
     // One server process listens on both ports with per-port 'receive' callbacks; the response prefix proves
     // which port's callback handled the request.
     public function testMultiplePorts(): void
