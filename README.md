@@ -157,6 +157,6 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
         * wait and wakeup processes
         * process pool
             * pool creation and inter-process communication: Please check previous section `resource pooling` for details.
-            * detach processes from a process pool
+            * [detach processes from a process pool](https://github.com/deminy/swoole-by-examples/blob/master/examples/pool/process-pool/detach.php)
 
 [APCu Caching]: https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/apcu-caching.php
