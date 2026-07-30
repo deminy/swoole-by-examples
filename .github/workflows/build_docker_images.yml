@@ -1,7 +1,11 @@
 name: Build Docker Images
 
+# Images are published only after the Tests workflow has succeeded on master (or on manual dispatch), so a push
+# that breaks the tests can never publish broken images to Docker Hub.
 on:
-  push:
+  workflow_run:
+    workflows: ["Tests"]
+    types: [completed]
     branches:
       - master
   workflow_dispatch:
@@ -9,7 +13,7 @@ on:
 jobs:
   build-docker-images:
     runs-on: ubuntu-24.04
-    if: ${{ github.repository == 'deminy/swoole-by-examples' }}
+    if: ${{ github.repository == 'deminy/swoole-by-examples' && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success') }}
     strategy:
       fail-fast: false
       matrix:
@@ -18,8 +22,13 @@ jobs:
 
     steps:
       -
+        # On workflow_run events the default checkout would be the tip of the default branch; check out the exact
+        # commit the Tests workflow ran against instead, so the published images match the tested code. On manual
+        # dispatch head_sha is empty and the default checkout behavior applies.
         name: Checkout
         uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       -
         name: Set up QEMU

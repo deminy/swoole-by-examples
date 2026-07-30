@@ -144,9 +144,11 @@ coroutine HTTP/HTTP2/TCP/Redis clients to connect out to the `server` container 
 server internally, so they're just run like any other example instead).
 
 **CI** (`.github/workflows/`): `tests.yml` runs coding style checks, static analysis, and both counit test
-suites (against the Compose environment) on every push/PR.
-`build_docker_images.yml` builds and publishes `deminy/swoole-by-examples:{server,client}-6.2` to Docker Hub on
-push to `master`, gated to `github.repository == 'deminy/swoole-by-examples'` (forks won't publish).
+suites on every push/PR, in a Compose environment whose server/client images it builds from `dockerfiles/`
+itself (not the published ones — so image changes are exercised before ever being published).
+`build_docker_images.yml` builds and publishes `deminy/swoole-by-examples:{server,client}-6.2` to Docker Hub
+once `tests.yml` succeeds on `master` (`workflow_run` trigger; also runnable manually), gated to
+`github.repository == 'deminy/swoole-by-examples'` (forks won't publish).
 
 **Swoole version gotchas worth knowing before touching lock/process-related examples**: several APIs changed
 between Swoole 6.0 and 6.1+, and this repo's examples/tests have already hit and fixed each of these once —

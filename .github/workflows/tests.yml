@@ -14,9 +14,16 @@ jobs:
       # hence the explicit `-w /var/www`. Both containers mount the repository root, so installing dependencies
       # once from the client container serves the server container as well. The sleep gives the Supervisord-managed
       # servers and the database containers time to become ready before anything connects to them.
+      # The server/client images are built here from the repository's own Dockerfiles rather than pulled: the
+      # published images on Docker Hub are only updated by the build_docker_images workflow AFTER a push to master,
+      # so a push that changes the images themselves (e.g., adding a new Supervisord-managed server example) would
+      # otherwise run its tests against the previous, stale images and fail. Building locally also means Dockerfile
+      # problems surface in this workflow before the images are ever published. The datastore images (redis, mysql,
+      # postgresql) are still pulled automatically by `docker compose up`.
       - name: Prepare Test Environment
         run: |
-          docker compose pull
+          docker build -t deminy/swoole-by-examples:server-6.2 dockerfiles/server
+          docker build -t deminy/swoole-by-examples:client-6.2 dockerfiles/client
           docker compose up -d
 
           docker compose exec -T client php -v
