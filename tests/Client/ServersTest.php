@@ -151,6 +151,18 @@ class ServersTest extends ExampleTestCase
         self::assertSame('Hello, Test', $frame->data);
     }
 
+    // The proxy forwards raw bytes to the HTTP/1 server (127.0.0.1:9501 inside the "server" container), whose
+    // customized "234 Test" status line is relayed back — proving the request really went through the proxy.
+    public function testProxy(): void
+    {
+        $client = new HttpClient('server', 9520);
+        $client->set(['timeout' => 5]);
+        $ok = $client->get('/');
+        self::assertTrue($ok);
+        self::assertSame(234, $client->statusCode);
+        self::assertNotEmpty((string) $client->body);
+    }
+
     public function testRockPaperScissors(): void
     {
         $shapes = ['A' => 'Rock', 'B' => 'Paper', 'C' => 'Scissors'];

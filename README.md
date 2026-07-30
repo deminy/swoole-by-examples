@@ -103,7 +103,7 @@ docker compose exec -ti client bash # Get a Bash shell in the client container.
             * HTTP/2 server push
         * [WebSocket server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/websocket.php)
         * [Redis server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/redis.php)
-        * proxy server
+        * [proxy server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/proxy.php)
         * TCP server
             * [event-driven style](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp1.php)
             * [coroutine style](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp2.php)
