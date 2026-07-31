@@ -14,9 +14,9 @@ class TimerTest extends ExampleTestCase
         self::assertSame(0, $result['code'], $result['output']);
     }
 
-    public function testTimer(): void
+    public function testTimerClass(): void
     {
-        $result = $this->runExample('timer/timer.php');
+        $result = $this->runExample('timer/timer-class.php');
         self::assertSame(0, $result['code'], $result['output']);
     }
 }

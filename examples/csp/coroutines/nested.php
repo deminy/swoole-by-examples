@@ -13,8 +13,8 @@ declare(strict_types=1);
  *     # You can run following command to see how much time it takes to run the script:
  *     docker compose exec -t client bash -c "time ./csp/coroutines/nested.php"
  *
- * To get better understanding on how the code is executed in order, please check script "nested-debug.php" under the
- * same directory.
+ * To get better understanding on how the code is executed in order, please check script "nested-execution-order.php"
+ * under the same directory.
  */
 
 use function Swoole\Coroutine\go;

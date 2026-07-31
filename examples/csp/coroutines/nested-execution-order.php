@@ -8,7 +8,7 @@ declare(strict_types=1);
  * "nested.php" under the same directory. Once executed, it prints out "123456789".
  *
  * How to run this script:
- *     docker compose exec -t client bash -c "./csp/coroutines/nested-debug.php"
+ *     docker compose exec -t client bash -c "./csp/coroutines/nested-execution-order.php"
  */
 
 use function Swoole\Coroutine\go;

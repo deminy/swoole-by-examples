@@ -30,7 +30,7 @@ declare(strict_types=1);
  * NOTES:
  * 1. Coroutine-style servers (e.g., \Swoole\Coroutine\Http\Server) have no "enable_coroutine" setting and need
  *    none: they must be started inside a coroutine (e.g., wrapped in `Swoole\Coroutine\run()`), and every
- *    connection is then handled in its own coroutine. Please check example "servers/tcp2.php".
+ *    connection is then handled in its own coroutine. Please check example "servers/tcp-coroutine-style.php".
  * 2. For per-process coroutine support in \Swoole\Process and \Swoole\Process\Pool workers, please check
  *    examples "cronjobs/user-process.php" and "cronjobs/process-pool.php".
  *

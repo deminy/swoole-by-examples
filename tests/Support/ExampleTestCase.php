@@ -13,11 +13,11 @@ abstract class ExampleTestCase extends TestCase
     /**
      * Hard cap on how much output the run*() helpers below accumulate into memory. A defensive backstop, not a
      * normal limit: every example in this suite produces at most a few hundred KB. It exists for the case where
-     * an example runs away unexpectedly (confirmed by testing: csp/scheduling/mixed.php and preemptive.php can do
-     * exactly this if Swoole's preemptive scheduler misfires under concurrent load - see runExample()'s
-     * docblock) - without this cap, accumulating that runaway output into a single growing PHP string exhausts
-     * the 128MB memory_limit. Once hit, the pipes are still drained (so the child never blocks on a full pipe),
-     * the data is just discarded instead of appended.
+     * an example runs away unexpectedly (confirmed by testing: csp/scheduling/toggle-preemptive-scheduler.php and
+     * preemptive.php can do exactly this if Swoole's preemptive scheduler misfires under concurrent load - see
+     * runExample()'s docblock) - without this cap, accumulating that runaway output into a single growing PHP
+     * string exhausts the 128MB memory_limit. Once hit, the pipes are still drained (so the child never blocks on
+     * a full pipe), the data is just discarded instead of appended.
      */
     private const int MAX_OUTPUT_BYTES = 2 * 1024 * 1024;
 
@@ -41,13 +41,14 @@ abstract class ExampleTestCase extends TestCase
      * called in the coroutine", confirmed by testing). Use runIsolated() there instead.
      *
      * The default of 60s is generous for the common case, but a few examples need a tighter bound: examples that
-     * rely on Swoole's preemptive scheduler (csp/scheduling/mixed.php, preemptive.php) depend on a timing-sensitive
-     * signal firing reliably, which - confirmed by testing - becomes unreliable when many *other* proc_open()
-     * children are being spawned/killed concurrently elsewhere in this same test run. When the preemptive
-     * scheduler doesn't fire, these examples' busy loop keeps running (and printing) indefinitely instead of
-     * exiting after ~100,000 lines, and at a 60s bound that means tens of megabytes of accumulated output - one
-     * run hit 116MB, another hit PHP's 128MB memory_limit outright. Pass a tighter $timeout for exactly those two
-     * examples so a scheduler misfire surfaces as a fast, clean test failure instead of a slow OOM.
+     * rely on Swoole's preemptive scheduler (csp/scheduling/toggle-preemptive-scheduler.php, preemptive.php) depend
+     * on a timing-sensitive signal firing reliably, which - confirmed by testing - becomes unreliable when many
+     * *other* proc_open() children are being spawned/killed concurrently elsewhere in this same test run. When the
+     * preemptive scheduler doesn't fire, these examples' busy loop keeps running (and printing) indefinitely
+     * instead of exiting after ~100,000 lines, and at a 60s bound that means tens of megabytes of accumulated
+     * output - one run hit 116MB, another hit PHP's 128MB memory_limit outright. Pass a tighter $timeout for
+     * exactly those two examples so a scheduler misfire surfaces as a fast, clean test failure instead of a slow
+     * OOM.
      *
      * @param list<string> $args
      * @return array{code: int, output: string}
@@ -100,9 +101,9 @@ abstract class ExampleTestCase extends TestCase
      * leaves the real process running as an orphan, still writing to the pipe forever.
      *
      * The stdout/stderr pipes are drained on every loop iteration rather than only once at the end: examples like
-     * csp/scheduling/mixed.php produce 100,000+ lines of output, comfortably more than a pipe's OS buffer
-     * (~64KB) - without continuous draining, the child blocks forever inside its own write() call once that
-     * buffer fills, which is a real deadlock, not just slowness (confirmed by testing).
+     * csp/scheduling/toggle-preemptive-scheduler.php produce 100,000+ lines of output, comfortably more than a
+     * pipe's OS buffer (~64KB) - without continuous draining, the child blocks forever inside its own write() call
+     * once that buffer fills, which is a real deadlock, not just slowness (confirmed by testing).
      *
      * Exit status is checked via plain proc_get_status()['running'], not Swoole\Coroutine\System::waitPid() with
      * a 0.0 timeout: confirmed by testing that a 0.0 timeout does not mean "check instantly and return" the way

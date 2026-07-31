@@ -77,9 +77,9 @@ comment).
 
 A handful of tests — ones covering examples that may hang forever by design (the deadlock demos, the
 process-blocking `io/block-*` examples) or that depend on Swoole's preemptive scheduler actually firing
-(`csp/scheduling/mixed.php`, `preemptive.php` and `non-preemptive.php` — all of `SchedulingTest`) — run under
-PHPUnit's `#[RunInSeparateProcess]` attribute instead of
-the default coroutine style, and call `ExampleTestCase::runIsolated()` instead of `runExample()`. Running many
+(`csp/scheduling/toggle-preemptive-scheduler.php`, `preemptive.php` and `non-preemptive.php` — all of
+`SchedulingTest`) — run under PHPUnit's `#[RunInSeparateProcess]` attribute instead of the default coroutine style,
+and call `ExampleTestCase::runIsolated()` instead of `runExample()`. Running many
 concurrent `proc_open()`+coroutine operations at once was confirmed to be unreliable in this environment
 (intermittent segfaults at scale, and the preemptive scheduler missing its window under concurrent load), so
 these run one at a time in a genuinely separate, non-coroutine process instead. That trades speed for

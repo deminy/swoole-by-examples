@@ -8,10 +8,10 @@ declare(strict_types=1);
  * this script takes about 2,000 seconds to finish.
  *
  * How to run this script:
- *     docker compose exec -t client bash -c "./csp/coroutines/for.php"
+ *     docker compose exec -t client bash -c "./csp/coroutines/many-coroutines-in-a-loop.php"
  *
  * You can run following command to see how much time it takes to run the script:
- *     docker compose exec -t client bash -c "time ./csp/coroutines/for.php"
+ *     docker compose exec -t client bash -c "time ./csp/coroutines/many-coroutines-in-a-loop.php"
  */
 use Swoole\Coroutine;
 

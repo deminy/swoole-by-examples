@@ -11,8 +11,8 @@ declare(strict_types=1);
  *     docker compose exec -t client bash -c "./clients/tcp.php"
  *
  * Here are the source code of the two TCP servers created:
- * 1. event-driven style (port 9505): https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp1.php
- * 2. coroutine style (port 9507):    https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp2.php
+ * 1. event-driven style (port 9505): https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp-event-driven.php
+ * 2. coroutine style (port 9507):    https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp-coroutine-style.php
  */
 
 use Swoole\Coroutine;

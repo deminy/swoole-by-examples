@@ -5,8 +5,8 @@ declare(strict_types=1);
 
 /**
  * In this example we show how to detect dead TCP connections using TCP keepalive. This script is very similar to the
- * TCP server one (tcp.php), except that here we use a different port #, have TCP keepalive enabled, and adjust some
- * parameters related to TCP keepalive.
+ * TCP server one (tcp-event-driven.php), except that here we use a different port #, have TCP keepalive enabled, and
+ * adjust some parameters related to TCP keepalive.
  *
  * How to check if the script works? In real life, you can make a test connection to the server then unplug the network
  * cable on the server side (or on the client side), but in our Docker environment we are unable to do that. However,

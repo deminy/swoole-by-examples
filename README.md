@@ -46,7 +46,7 @@ patterns like multiprocessing and cronjobs.
         * create coroutines
             * [use different functions/methods to create coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/creation-syntax-variants.php)
             * [use different types of callbacks when creating coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/creation-callback-types.php)
-        * [coroutines in a for loop](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/for.php)
+        * [many coroutines created in a loop](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/many-coroutines-in-a-loop.php)
         * [nested coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/nested.php)
         * [yield and resume coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/yield-and-resume.php)
         * [exit from coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/exit.php)
@@ -92,7 +92,7 @@ patterns like multiprocessing and cronjobs.
         * CPU-intensive job scheduling: how coroutines behave when nothing yields voluntarily.
             1. [non-preemptive scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/non-preemptive.php)
             2. [preemptive scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/preemptive.php)
-            3. [mixed scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/mixed.php)
+            3. [toggling the preemptive scheduler mid-coroutine](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/toggle-preemptive-scheduler.php)
         * block coroutines/processes: what "blocking" really blocks — a single coroutine, or the whole process.
             * [block a coroutine](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/block-a-coroutine.php)
             * [block a process using class \Swoole\Lock](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/block-a-process-using-swoole-lock.php)
@@ -107,8 +107,8 @@ patterns like multiprocessing and cronjobs.
             * HTTP/2 server push
         * [WebSocket server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/websocket.php)
         * TCP server
-            * [event-driven style](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp1.php)
-            * [coroutine style](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp2.php)
+            * [event-driven style](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp-event-driven.php)
+            * [coroutine style](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp-coroutine-style.php)
         * [UDP server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/udp.php)
         * [Redis server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/redis.php): a server speaking the Redis protocol, usable from any Redis client.
         * [MQTT broker](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/mqtt.php): a minimal MQTT broker built on the _open_mqtt_protocol_ setting, supporting a basic publish/subscribe round trip with the Mosquitto command-line clients.
@@ -140,7 +140,7 @@ patterns like multiprocessing and cronjobs.
             * [Redis connection pool](https://github.com/deminy/swoole-by-examples/blob/master/examples/pool/database-pool/redis.php)
             * How to implement a customized connection pool? Check package [crowdstar/vertica-swoole-adapter](https://github.com/Crowdstar/vertica-swoole-adapter) for details. This package implements connection pool for HP Vertica databases through ODBC, and it's maintained by me.
     * task scheduling and handling
-        * [timer](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer/timer.php): recurring and one-off timers via class _\Swoole\Timer_.
+        * [timer](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer/timer-class.php): recurring and one-off timers via class _\Swoole\Timer_.
             * There is [a 2nd example](https://github.com/deminy/swoole-by-examples/blob/master/examples/timer/coroutine-style.php) included to show how to implement timer using coroutines only.
             * To see how to setup cronjobs using the _\Swoole\Timer_ class in an application server, please check [integrated HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1-integrated.php). For the full spectrum of recurring-job patterns, see the `cronjobs` section below.
     * benchmark

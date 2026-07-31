@@ -10,7 +10,7 @@ declare(strict_types=1);
  * coroutine could be executed only after the scheduler is enabled at line 29.
  *
  * How to run this script:
- *     docker compose exec -t client bash -c "./csp/scheduling/mixed.php"
+ *     docker compose exec -t client bash -c "./csp/scheduling/toggle-preemptive-scheduler.php"
  */
 
 use function Swoole\Coroutine\go;

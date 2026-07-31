@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 /**
  * How to run this script:
- *     docker compose exec -t server bash -c "./timer/timer.php"
+ *     docker compose exec -t server bash -c "./timer/timer-class.php"
  *
  * Check the output and see how Timer works in Swoole.
  *

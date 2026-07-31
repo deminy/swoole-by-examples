@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 use Swoole\Server;
 
-// Create the server; 9530 is the MAIN port. Following the event-driven (base) style, like tcp1.php.
+// Create the server; 9530 is the MAIN port. Following the event-driven (base) style, like tcp-event-driven.php.
 $server = new Server('0.0.0.0', 9530, SWOOLE_BASE, SWOOLE_SOCK_TCP);
 
 // Register a 'receive' callback for the MAIN port (9530).

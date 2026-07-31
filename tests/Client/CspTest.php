@@ -85,9 +85,9 @@ class CspTest extends ExampleTestCase
         self::assertSame(0, $result['code'], $result['output']);
     }
 
-    public function testCoroutinesFor(): void
+    public function testCoroutinesManyCoroutinesInALoop(): void
     {
-        $result = $this->runExample('csp/coroutines/for.php');
+        $result = $this->runExample('csp/coroutines/many-coroutines-in-a-loop.php');
         self::assertSame(0, $result['code'], $result['output']);
     }
 
@@ -97,9 +97,9 @@ class CspTest extends ExampleTestCase
         self::assertSame(0, $result['code'], $result['output']);
     }
 
-    public function testCoroutinesNestedDebug(): void
+    public function testCoroutinesNestedExecutionOrder(): void
     {
-        $result = $this->runExample('csp/coroutines/nested-debug.php');
+        $result = $this->runExample('csp/coroutines/nested-execution-order.php');
         self::assertSame(0, $result['code'], $result['output']);
         self::assertSame('123456789', trim($result['output']));
     }

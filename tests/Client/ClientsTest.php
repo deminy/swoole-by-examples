@@ -15,8 +15,8 @@ class ClientsTest extends ExampleTestCase
         self::assertSame(0, $result['code'], $result['output']);
     }
 
-    // Also exercises the persistent servers/tcp1.php and servers/tcp2.php Supervisord programs (this script
-    // connects to both, ports 9505 and 9507).
+    // Also exercises the persistent servers/tcp-event-driven.php and servers/tcp-coroutine-style.php Supervisord
+    // programs (this script connects to both, ports 9505 and 9507).
     public function testTcp(): void
     {
         $result = $this->runExample('clients/tcp.php');

@@ -9,11 +9,11 @@ use Tests\Support\ExampleTestCase;
 
 class SchedulingTest extends ExampleTestCase
 {
-    // csp/scheduling/mixed.php and preemptive.php both end by design in an uncaught "Quitting." exception
-    // (that's the demonstrated point: the busy coroutine eventually gets preempted, letting the second coroutine
-    // run and throw) - confirmed by running both directly: exit code 255, but bounded (a few hundred KB of
-    // counted-up-integer output, not unbounded, and well under a second). The exit code is intentionally not
-    // asserted here.
+    // csp/scheduling/toggle-preemptive-scheduler.php and preemptive.php both end by design in an uncaught
+    // "Quitting." exception (that's the demonstrated point: the busy coroutine eventually gets preempted, letting
+    // the second coroutine run and throw) - confirmed by running both directly: exit code 255, but bounded (a few
+    // hundred KB of counted-up-integer output, not unbounded, and well under a second). The exit code is
+    // intentionally not asserted here.
     //
     // #[RunInSeparateProcess] + runIsolated() rather than runExample(): both examples rely on Swoole's preemptive
     // scheduler actually firing, which is timing-sensitive and - confirmed by testing - becomes unreliable when
@@ -25,9 +25,9 @@ class SchedulingTest extends ExampleTestCase
     // backstop even in isolation.
 
     #[RunInSeparateProcess]
-    public function testMixed(): void
+    public function testTogglePreemptiveScheduler(): void
     {
-        $result = $this->runIsolated('csp/scheduling/mixed.php', 15.0);
+        $result = $this->runIsolated('csp/scheduling/toggle-preemptive-scheduler.php', 15.0);
         self::assertFalse($result['timedOut'], $result['output']);
         self::assertStringContainsString('Uncaught Exception: Quitting.', $result['output']);
     }
