@@ -6,7 +6,7 @@ declare(strict_types=1);
 /**
  * In this example we start ONE server that speaks DIFFERENT protocols on DIFFERENT ports.
  *
- * This is different from example mixed-protocols-1.php, where a single port serves multiple protocols
+ * This is different from example mixed-protocols-same-port.php, where a single port serves multiple protocols
  * (HTTP/1, HTTP/2, and WebSocket) at the same time. Here, each port speaks its own dedicated protocol:
  *     * Port 9550 speaks HTTP (handled by the primary Swoole\Http\Server and its 'request' callback).
  *     * Port 9551 speaks a raw TCP protocol (handled by an additional listener and its 'receive' callback).

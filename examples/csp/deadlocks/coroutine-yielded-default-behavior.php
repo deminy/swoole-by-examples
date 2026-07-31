@@ -8,23 +8,14 @@ declare(strict_types=1);
  * to execute, and the coroutine never gets resumed. Inside that coroutine, whatever code after the yield statement will
  * never be executed.
  *
- * This example sets a customized exit condition so that the program will finish its execution after all coroutines
- * finish execution. The program will never exit since the exit condition won't meet.
+ * This example shows deadlock information (the default behavior).
  *
  * How to run this script:
- *     docker compose exec -t client bash -c "./csp/deadlocks/coroutine-yielded-3.php"
+ *     docker compose exec -t client bash -c "./csp/deadlocks/coroutine-yielded-default-behavior.php"
  */
 
-use Swoole\Constant;
 use Swoole\Coroutine;
 
-Coroutine::set(
-    [
-        Constant::OPTION_EXIT_CONDITION => function () {
-            return Coroutine::stats()['coroutine_num'] === 0; // @phpstan-ignore offsetAccess.nonOffsetAccessible
-        },
-    ]
-);
 Coroutine::create(function (): void {
     echo '1', PHP_EOL; // This will be printed out.
     Coroutine::yield();

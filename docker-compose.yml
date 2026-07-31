@@ -5,7 +5,7 @@ services:
       # ROOT_DIR limits what the autoreload script watches; without it, any PHP file changed under /var/www
       # (e.g., Composer writing into ./vendor) would restart all the Supervisord-managed servers.
       ROOT_DIR: /var/www/examples
-      AUTORELOAD_PROGRAMS: "apcu-caching ddos-protection http1 http1-integrated http1-sse http2 interruptible-sleep keepalive mixed-protocols-1 mixed-protocols-2 mqtt multiple-ports pool-msgqueue pool-tcp-socket pool-unix-socket proxy redis rock-paper-scissors tcp1 tcp2 udp websocket websocket-integrated"
+      AUTORELOAD_PROGRAMS: "apcu-caching ddos-protection http1 http1-integrated http1-sse http2 interruptible-sleep keepalive mixed-protocols-same-port mixed-protocols-per-port mqtt multiple-ports pool-msgqueue pool-tcp-socket pool-unix-socket proxy redis rock-paper-scissors tcp1 tcp2 udp websocket websocket-integrated"
       DISABLE_DEFAULT_SERVER: 1
     ports:
       - 9801:9801

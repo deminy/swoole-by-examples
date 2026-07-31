@@ -21,7 +21,7 @@ declare(strict_types=1);
  * The script creates 5 coroutines; each takes about 1 second to finish. The script takes about 1 second to finish.
  *
  * How to run this script:
- *     docker compose exec -t client bash -c "time ./csp/coroutines/creation-1.php"
+ *     docker compose exec -t client bash -c "time ./csp/coroutines/creation-syntax-variants.php"
  */
 
 use function Swoole\Coroutine\run;

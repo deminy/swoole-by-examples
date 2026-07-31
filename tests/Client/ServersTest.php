@@ -190,7 +190,7 @@ class ServersTest extends ExampleTestCase
         self::assertMatchesRegularExpression('/counter_\d+: \d+/', (string) $client->body);
     }
 
-    public function testMixedProtocols(): void
+    public function testMixedProtocolsSamePort(): void
     {
         $http = new HttpClient('server', 9511);
         $http->set(['timeout' => 5]);
@@ -234,7 +234,7 @@ class ServersTest extends ExampleTestCase
     // One server, a different protocol per port: 9550 speaks HTTP, while 9551 has the inherited HTTP protocol
     // switched off and echoes raw bytes. Sending an HTTP request to the TCP port and getting it back VERBATIM
     // (rather than parsed and responded to) proves the per-port protocol override is in effect.
-    public function testMixedProtocols2(): void
+    public function testMixedProtocolsPerPort(): void
     {
         $http = new HttpClient('server', 9550);
         $http->set(['timeout' => 5]);

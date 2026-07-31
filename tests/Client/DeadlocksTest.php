@@ -9,7 +9,8 @@ use Tests\Support\ExampleTestCase;
 
 // Deadlock demos with bounded/detectable termination: Swoole's deadlock detector catches these, and each exits
 // on its own - confirmed by running each directly during design. The three that hang forever instead
-// (swoole-lock.php, file-locking.php, coroutine-yielded-3.php) are in the timeout section below.
+// (swoole-lock.php, file-locking.php, coroutine-yielded-custom-exit-condition.php) are in the timeout section
+// below.
 class DeadlocksTest extends ExampleTestCase
 {
     public function testAnEmptyChannelShowsDeadlockInfoByDefault(): void
@@ -36,15 +37,15 @@ class DeadlocksTest extends ExampleTestCase
         self::assertStringNotContainsString('deadlock!', $result['output']);
     }
 
-    public function testCoroutineYielded1ShowsDeadlockInfo(): void
+    public function testCoroutineYieldedDefaultBehaviorShowsDeadlockInfo(): void
     {
-        $result = $this->runExample('csp/deadlocks/coroutine-yielded-1.php');
+        $result = $this->runExample('csp/deadlocks/coroutine-yielded-default-behavior.php');
         self::assertStringContainsString('deadlock!', $result['output']);
     }
 
-    public function testCoroutineYielded2HidesDeadlockInfo(): void
+    public function testCoroutineYieldedDeadlockCheckDisabledHidesDeadlockInfo(): void
     {
-        $result = $this->runExample('csp/deadlocks/coroutine-yielded-2.php');
+        $result = $this->runExample('csp/deadlocks/coroutine-yielded-deadlock-check-disabled.php');
         self::assertSame("1\n2", trim($result['output']));
     }
 
@@ -80,9 +81,9 @@ class DeadlocksTest extends ExampleTestCase
     // Its custom exit condition (coroutine_num === 0) is never met, so the program never exits - confirmed by
     // testing (its own docblock says as much: "The program will never exit since the exit condition won't meet").
     #[RunInSeparateProcess]
-    public function testCoroutineYielded3RunsForever(): void
+    public function testCoroutineYieldedCustomExitConditionRunsForever(): void
     {
-        $result = $this->runIsolated('csp/deadlocks/coroutine-yielded-3.php', 8.0);
+        $result = $this->runIsolated('csp/deadlocks/coroutine-yielded-custom-exit-condition.php', 8.0);
         self::assertTrue($result['timedOut'], $result['output']);
     }
 }

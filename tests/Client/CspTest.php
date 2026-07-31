@@ -46,15 +46,15 @@ class CspTest extends ExampleTestCase
         self::markTestSkipped('csp/coroutines/benchmark.php creates 1,000,000 coroutines and is too heavy to run here.');
     }
 
-    public function testCoroutinesCreation1(): void
+    public function testCoroutinesCreationSyntaxVariants(): void
     {
-        $result = $this->runExample('csp/coroutines/creation-1.php');
+        $result = $this->runExample('csp/coroutines/creation-syntax-variants.php');
         self::assertSame(0, $result['code'], $result['output']);
     }
 
-    public function testCoroutinesCreation2(): void
+    public function testCoroutinesCreationCallbackTypes(): void
     {
-        $result = $this->runExample('csp/coroutines/creation-2.php');
+        $result = $this->runExample('csp/coroutines/creation-callback-types.php');
         self::assertSame(0, $result['code'], $result['output']);
     }
 

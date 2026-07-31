@@ -9,7 +9,7 @@ declare(strict_types=1);
  *
  * "Enabling coroutines" covers two independent things:
  * 1. Creating a coroutine context: `Swoole\Coroutine\run()`, `go()`, `Swoole\Coroutine::create()`, etc. This is
- *    covered by examples "creation-1.php" and "creation-2.php" in the same folder.
+ *    covered by examples "creation-syntax-variants.php" and "creation-callback-types.php" in the same folder.
  * 2. Enabling runtime hooks: a global per-process bitmask that turns blocking PHP functions (e.g., the plain
  *    `sleep()`) into non-blocking, coroutine-friendly versions. This is what this example is about.
  *

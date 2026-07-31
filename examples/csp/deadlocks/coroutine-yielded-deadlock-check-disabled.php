@@ -11,7 +11,7 @@ declare(strict_types=1);
  * This example hides deadlock information by setting the `enable_deadlock_check` option to `false`.
  *
  * How to run this script:
- *     docker compose exec -t client bash -c "./csp/deadlocks/coroutine-yielded-2.php"
+ *     docker compose exec -t client bash -c "./csp/deadlocks/coroutine-yielded-deadlock-check-disabled.php"
  */
 
 use Swoole\Constant;

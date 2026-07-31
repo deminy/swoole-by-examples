@@ -12,7 +12,7 @@ declare(strict_types=1);
  *
  * Both ports here speak the same raw TCP protocol, keeping the focus on the multi-port mechanics alone. To see the
  * same technique used to serve a DIFFERENT protocol on each port (via per-port protocol settings), check example
- * mixed-protocols-2.php.
+ * mixed-protocols-per-port.php.
  *
  * How to run this script:
  * This script is auto-started by supervisor when the server container boots, so there is no need to start it manually.

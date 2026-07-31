@@ -44,8 +44,8 @@ patterns like multiprocessing and cronjobs.
         * [blocking vs non-blocking](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/blocking-vs-non-blocking.php): how the _return_ statement is treated differently in Swoole — a function call could return a value back first before finishing its execution.
     * coroutines
         * create coroutines
-            * [use different functions/methods to create coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/creation-1.php)
-            * [use different types of callbacks when creating coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/creation-2.php)
+            * [use different functions/methods to create coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/creation-syntax-variants.php)
+            * [use different types of callbacks when creating coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/creation-callback-types.php)
         * [coroutines in a for loop](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/for.php)
         * [nested coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/nested.php)
         * [yield and resume coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/yield-and-resume.php)
@@ -85,9 +85,9 @@ patterns like multiprocessing and cronjobs.
             * [improperly shutdown or reload a server](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/server-shutdown.php)
             * When the only coroutine yields its execution. The examples are shown in the next section when we talk about `How to detect/handle deadlocks`.
         * how to detect/handle deadlocks. In the following examples, we trigger deadlocks by yielding the execution of the only coroutine in the program.
-            * [show deadlock information (the default behavior)](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/coroutine-yielded-1.php)
-            * [hide deadlock information](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/coroutine-yielded-2.php)
-            * [set a customized exit condition](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/coroutine-yielded-3.php)
+            * [show deadlock information (the default behavior)](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/coroutine-yielded-default-behavior.php)
+            * [hide deadlock information](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/coroutine-yielded-deadlock-check-disabled.php)
+            * [set a customized exit condition](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/coroutine-yielded-custom-exit-condition.php)
     * advanced topics
         * CPU-intensive job scheduling: how coroutines behave when nothing yields voluntarily.
             1. [non-preemptive scheduling](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/scheduling/non-preemptive.php)
@@ -118,8 +118,8 @@ patterns like multiprocessing and cronjobs.
         * [integrated HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1-integrated.php): an HTTP/1 server that supports cron jobs and synchronous/asynchronous tasks.
         * [integrated WebSocket server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/websocket-integrated.php): a WebSocket server that supports cron jobs and asynchronous tasks, using separate processes to handle cron jobs and task queues.
         * mixed protocols
-            * [support HTTP/1, HTTP/2, and WebSocket on same port](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/mixed-protocols-1.php)
-            * [support multiple protocols on different ports of one server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/mixed-protocols-2.php)
+            * [support HTTP/1, HTTP/2, and WebSocket on same port](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/mixed-protocols-same-port.php)
+            * [support multiple protocols on different ports of one server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/mixed-protocols-per-port.php)
     * server lifecycle and reliability
         * [How are different server events triggered?](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/server-events.php)
         * [enable and disable coroutines in a server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/enable-coroutine.php)

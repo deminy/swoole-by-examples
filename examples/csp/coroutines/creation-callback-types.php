@@ -11,7 +11,7 @@ declare(strict_types=1);
  * a different order. Give it a try and see what the output looks like.
  *
  * How to run this script:
- *     docker compose exec -t client bash -c "./csp/coroutines/creation-2.php"
+ *     docker compose exec -t client bash -c "./csp/coroutines/creation-callback-types.php"
  *
  * @see https://www.php.net/manual/en/language.types.callable.php Callbacks / Callables
  */

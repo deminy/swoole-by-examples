@@ -136,7 +136,7 @@ whose scripts live in `examples/pool/process-pool/` — are wired up via
 `docker-compose.yml`; adding a new persistent-server example means adding both.
 
 Every call to `Swoole\Event::wait()` must be preceded by these two comment lines (see
-`examples/csp/deadlocks/coroutine-yielded-1.php` for an example):
+`examples/csp/deadlocks/coroutine-yielded-default-behavior.php` for an example):
 ```text
 // NOTE: In most cases it's not necessary nor recommended to use method `Swoole\Event::wait()` directly in your code.
 // The example in this file is just for demonstration purpose.
