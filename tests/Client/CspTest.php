@@ -58,6 +58,27 @@ class CspTest extends ExampleTestCase
         self::assertSame(0, $result['code'], $result['output']);
     }
 
+    public function testCoroutinesEnableAndDisable(): void
+    {
+        $result = $this->runExample('csp/coroutines/enable-and-disable.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        $expected = implode(PHP_EOL, [
+            'Hook flags in a fresh process: 0',
+            'Hook flags inside run() match SWOOLE_HOOK_ALL: true',
+            '1212',
+            'Hook flags persist after run() returns: true',
+            'Hook flags after Runtime::setHookFlags(0): 0',
+            '1122',
+            'Hook flags SWOOLE_HOOK_TCP | SWOOLE_HOOK_FILE include the sleep hook: false',
+            '1122',
+            'Hook flags SWOOLE_HOOK_SLEEP include the sleep hook: true',
+            '1212',
+            'Hook flags after Runtime::enableCoroutine() match SWOOLE_HOOK_ALL: true',
+            '1212',
+        ]);
+        self::assertSame($expected, trim($result['output']));
+    }
+
     public function testCoroutinesExit(): void
     {
         $result = $this->runExample('csp/coroutines/exit.php');

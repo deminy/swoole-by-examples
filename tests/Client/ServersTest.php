@@ -35,6 +35,22 @@ class ServersTest extends ExampleTestCase
         self::assertStringContainsString('Event "onShutdown" is triggered.', $result['output']);
     }
 
+    // Not Supervisord-managed; like server-events.php above, it drives itself (schedules its own HTTP request
+    // internally and shuts itself down once its demonstration work completes) and finishes in ~1.2s.
+    public function testEnableCoroutine(): void
+    {
+        $result = $this->runExample('servers/enable-coroutine.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertStringContainsString('"onWorkerStart" in the event worker runs in a coroutine: no', $result['output']);
+        self::assertStringContainsString('"onWorkerStart" in the task worker runs in a coroutine: yes', $result['output']);
+        self::assertStringContainsString('Runtime hooks are applied in workers even with enable_coroutine off: true', $result['output']);
+        self::assertStringContainsString('"onRequest" runs in a coroutine: no', $result['output']);
+        self::assertStringContainsString('Coroutines can still be created manually in "onRequest": yes', $result['output']);
+        self::assertStringContainsString('Three coroutines slept for 1 second each; time spent in total: about 1 second (the coroutines do not block each other).', $result['output']);
+        self::assertStringContainsString('"onTask" runs in a coroutine: yes', $result['output']);
+        self::assertStringContainsString('Task data is delivered as a Swoole\Server\Task object.', $result['output']);
+    }
+
     public function testDdosProtection(): void
     {
         $client = new HttpClient('server', 9510);

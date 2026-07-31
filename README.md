@@ -43,7 +43,6 @@ patterns like multiprocessing and cronjobs.
         * [non-blocking I/O](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/non-blocking-io.php): the same script rewritten with coroutines. There is also [a debug version](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/non-blocking-io-debug.php) showing the exact order in which the non-blocking version executes.
         * [blocking vs non-blocking](https://github.com/deminy/swoole-by-examples/blob/master/examples/io/blocking-vs-non-blocking.php): how the _return_ statement is treated differently in Swoole — a function call could return a value back first before finishing its execution.
     * coroutines
-        * enable coroutines
         * create coroutines
             * [use different functions/methods to create coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/creation-1.php)
             * [use different types of callbacks when creating coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/creation-2.php)
@@ -51,6 +50,7 @@ patterns like multiprocessing and cronjobs.
         * [nested coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/nested.php)
         * [yield and resume coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/yield-and-resume.php)
         * [exit from coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/exit.php)
+        * [enable and disable coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/enable-and-disable.php): the different ways to enable and disable coroutine support (runtime hooks) in a standalone process.
         * [context](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/context.php): per-coroutine data storage using [Context](https://github.com/swoole/ide-helper/blob/master/src/swoole/Swoole/Coroutine/Context.php) objects.
         * [benchmark](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/coroutines/benchmark.php): create 1,000,000 coroutines in a single process; each coroutine sleeps for 5 seconds.
     * channels and synchronization
@@ -120,6 +120,7 @@ patterns like multiprocessing and cronjobs.
             * [support multiple protocols on different ports of one server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/mixed-protocols-2.php)
     * server lifecycle and reliability
         * [How are different server events triggered?](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/server-events.php)
+        * [enable and disable coroutines in a server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/enable-coroutine.php)
         * [interruptible sleep](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/interruptible-sleep.php): let a cronjob inside a web server execute one last time when the server is shutting down.
         * network connection detection (dead network detection)
             * [heartbeat](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/heartbeat.php)
