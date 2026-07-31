@@ -20,7 +20,7 @@ declare(strict_types=1);
  *
  * This demo is self-terminating: a worker-registered one-shot timer shuts the whole server down after ~3 seconds
  * (timers must not be registered in the master process's "start" event - a worker is the right place). The server
- * listens on port 9540 just because a server must listen somewhere; the port is not used.
+ * listens on a random unused port (port 0) just because a server must listen somewhere; the port is not used.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./cronjobs/user-process.php"
@@ -36,7 +36,9 @@ use Swoole\Http\Server;
 use Swoole\Process;
 use Swoole\Timer;
 
-$server = new Server('0.0.0.0', 9540, SWOOLE_BASE);
+// Port 0 makes the server listen on a random unused port; it is passed explicitly only because the server mode
+// after it needs to be specified. Nothing ever connects to this server (see the docblock above).
+$server = new Server('0.0.0.0', 0, SWOOLE_BASE);
 $server->set(
     [
         Constant::OPTION_WORKER_NUM => 1,

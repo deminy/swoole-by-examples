@@ -47,7 +47,10 @@ function printMessage(string $message, bool $newLine = false): void
     echo ($newLine ? PHP_EOL : ''), 'INFO (', date('H:i:s'), "): {$message}", PHP_EOL;
 }
 
-$server = new Server('0.0.0.0', 9509);
+// The port number is omitted on purpose, making the server listen on a random unused port; the port picked is
+// exposed as $server->port. Nothing outside this script connects to this server except the HTTP request the
+// server makes to itself in the "managerStart" callback below.
+$server = new Server('0.0.0.0');
 $server->set(
     [
         Constant::OPTION_WORKER_NUM      => 1, // One worker process to process HTTP requests. Its worker ID is "0".
@@ -63,10 +66,10 @@ $server->on('managerStart', function (Server $server): void {
     printMessage('Event "onManagerStart" is triggered.');
 
     // To make an HTTP request to the sever itself 50 milliseconds later.
-    Timer::after(50, function (): void {
+    Timer::after(50, function () use ($server): void {
         printMessage('Make an HTTP request to the server.' . PHP_EOL, true);
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:9509');
+        curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:' . $server->port);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_exec($ch);
         curl_close($ch);

@@ -22,7 +22,10 @@ use function Swoole\Coroutine\go;
 // client every second. If there is no data received from the client within 3 seconds, the server closes the connection.
 $serverProcess = new Process(
     function (): never {
-        $server = new Server('127.0.0.1', 9601);
+        // The port number is omitted on purpose, making the server listen on a random unused port; the port
+        // picked is exposed as $server->port, and is passed to the client part of this script through a file
+        // (see the "start" callback below). Nothing outside this script connects to this server.
+        $server = new Server('127.0.0.1');
         $server->set(
             [
                 Constant::OPTION_HEARTBEAT_CHECK_INTERVAL => 1,
@@ -33,6 +36,8 @@ $serverProcess = new Process(
             'start',
             function (Server $server): void {
                 file_put_contents('/var/run/sw-heartbeat.pid', $server->master_pid);
+                // Tell the parent process which random port the server listens on.
+                file_put_contents('/var/run/sw-heartbeat.port', $server->port);
             }
         );
         $server->on(
@@ -64,7 +69,7 @@ go(function (): void {
     // After the TCP server is started, we make a connection to the server, and send messages to the server every 2
     // seconds for 2 times. Both should receive a valid response from the server.
     $client = new Client(SWOOLE_SOCK_TCP);
-    $client->connect('127.0.0.1', 9601);
+    $client->connect('127.0.0.1', intval(file_get_contents('/var/run/sw-heartbeat.port')));
     for ($i = 0; $i < 2; $i++) {
         $client->send('ping');
         $data = $client->recv();

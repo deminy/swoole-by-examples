@@ -91,7 +91,7 @@ echo PHP_EOL;
 echo 'Hook flags persist after run() returns: ', (Runtime::getHookFlags() === SWOOLE_HOOK_ALL) ? 'true' : 'false', PHP_EOL;
 Runtime::setHookFlags(0);
 echo 'Hook flags after Runtime::setHookFlags(0): ', Runtime::getHookFlags(), PHP_EOL;
-run('twoCoroutinesSleeping');
+run(twoCoroutinesSleeping(...));
 echo PHP_EOL;
 
 // Step 4 (enabled selectively, sleep hook excluded): individual hook flags can be combined with bitwise
@@ -99,14 +99,14 @@ echo PHP_EOL;
 // blocks: only the selected functions get hooked.
 Runtime::setHookFlags(SWOOLE_HOOK_TCP | SWOOLE_HOOK_FILE);
 echo 'Hook flags SWOOLE_HOOK_TCP | SWOOLE_HOOK_FILE include the sleep hook: ', ((Runtime::getHookFlags() & SWOOLE_HOOK_SLEEP) !== 0) ? 'true' : 'false', PHP_EOL;
-run('twoCoroutinesSleeping');
+run(twoCoroutinesSleeping(...));
 echo PHP_EOL;
 
 // Step 5 (enabled selectively, sleep hook included): with only the sleep hook enabled, sleep() is non-blocking
 // again, while every other blocking function remains unhooked.
 Runtime::setHookFlags(SWOOLE_HOOK_SLEEP);
 echo 'Hook flags SWOOLE_HOOK_SLEEP include the sleep hook: ', ((Runtime::getHookFlags() & SWOOLE_HOOK_SLEEP) !== 0) ? 'true' : 'false', PHP_EOL;
-run('twoCoroutinesSleeping');
+run(twoCoroutinesSleeping(...));
 echo PHP_EOL;
 
 // Step 6 (enabled globally): turn all runtime hooks back on. enableCoroutine() is an alias of setHookFlags(),
@@ -114,5 +114,5 @@ echo PHP_EOL;
 // Runtime::enableCoroutine(SWOOLE_HOOK_ALL) or Runtime::setHookFlags(SWOOLE_HOOK_ALL).
 Runtime::enableCoroutine();
 echo 'Hook flags after Runtime::enableCoroutine() match SWOOLE_HOOK_ALL: ', (Runtime::getHookFlags() === SWOOLE_HOOK_ALL) ? 'true' : 'false', PHP_EOL;
-run('twoCoroutinesSleeping');
+run(twoCoroutinesSleeping(...));
 echo PHP_EOL;

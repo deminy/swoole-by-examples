@@ -34,18 +34,19 @@ function test(int $i): void
 }
 
 run(function (): void {
-    swoole_coroutine_create('test', 1);
+    // NOTE: test(...) is PHP's first-class callable syntax; it creates a Closure object from function test().
+    swoole_coroutine_create(test(...), 1);
 
     // Recommended.
-    Swoole\Coroutine::create('test', 2);
+    Swoole\Coroutine::create(test(...), 2);
 
     // Recommended.
-    Swoole\Coroutine\go('test', 3);
+    Swoole\Coroutine\go(test(...), 3);
 
     // Recommended when short names are supported (i.e., when directive "swoole.use_shortname" is not explicitly turned off).
-    go('test', 4);
+    go(test(...), 4);
 
-    co::create('test', 5);
+    co::create(test(...), 5);
 
     echo PHP_EOL;
 });

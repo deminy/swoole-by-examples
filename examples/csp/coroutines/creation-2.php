@@ -77,6 +77,9 @@ run(function (): void {
 
     // Type 6: Objects implementing __invoke can be used as callbacks.
     Coroutine::create(new InvokableClass(), 6);
+
+    // Type 7: A Closure object created from a named function using PHP's first-class callable syntax.
+    Coroutine::create(callbackFunction(...), 7);
 });
 
 echo PHP_EOL;

@@ -70,7 +70,10 @@ function markDone(Server $server): void
     }
 }
 
-$server = new Server('127.0.0.1', 9560);
+// The port number is omitted on purpose, making the server listen on a random unused port; the port picked is
+// exposed as $server->port. Nothing outside this script connects to this server except the HTTP request the
+// server makes to itself in the "managerStart" callback below.
+$server = new Server('127.0.0.1');
 $server->set(
     [
         Constant::OPTION_WORKER_NUM            => 1,     // One event worker process to process HTTP requests.
@@ -83,9 +86,9 @@ $server->set(
 
 $server->on('managerStart', function (Server $server): void {
     // To make an HTTP request to the server itself 100 milliseconds later.
-    Timer::after(100, function (): void {
+    Timer::after(100, function () use ($server): void {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:9560');
+        curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:' . $server->port);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_exec($ch);
         curl_close($ch);

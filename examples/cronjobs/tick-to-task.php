@@ -24,8 +24,8 @@ declare(strict_types=1);
  * dispatch could in principle overlap - kept trivially short here.
  *
  * This demo is self-terminating: worker #0 shuts the server down after ~3.6 seconds, giving the tick time to
- * dispatch three runs. The server listens on port 9541 just because a server must listen somewhere; the port is not
- * used.
+ * dispatch three runs. The server listens on a random unused port (port 0) just because a server must listen
+ * somewhere; the port is not used.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./cronjobs/tick-to-task.php"
@@ -37,7 +37,9 @@ use Swoole\Http\Response;
 use Swoole\Http\Server;
 use Swoole\Timer;
 
-$server = new Server('0.0.0.0', 9541, SWOOLE_BASE);
+// Port 0 makes the server listen on a random unused port; it is passed explicitly only because the server mode
+// after it needs to be specified. Nothing ever connects to this server (see the docblock above).
+$server = new Server('0.0.0.0', 0, SWOOLE_BASE);
 $server->set(
     [
         Constant::OPTION_WORKER_NUM      => 2, // Two regular workers, to show that only worker #0 schedules.
