@@ -43,7 +43,7 @@ $pool->on('workerStart', function (Pool $pool, int $workerId) use ($lock): void 
         case 0: // Process #0.
         case 1: // Process #1.
             echo "Process #{$workerId} is blocked and waiting another process (process #2) to wake it up.", PHP_EOL;
-            // Since the lock is already acquired by the main process of the pool at line 29, here the two child
+            // Since the lock is already acquired by the main process of the pool at line 34, here the two child
             // processes are blocked until the lock is released and then acquired.
             $lock->lock();
             echo "Process #{$workerId} is waken up.", PHP_EOL;

@@ -135,6 +135,12 @@ whose scripts live in `examples/pool/process-pool/` — are wired up via
 `dockerfiles/server/rootfilesystem/etc/supervisor/service.d/*.conf` and the `AUTORELOAD_PROGRAMS` env var in
 `docker-compose.yml`; adding a new persistent-server example means adding both.
 
+Some examples reference specific line numbers in their docblocks/comments (e.g., "uncomment line 41 and line
+32" in `csp/deadlocks/server-shutdown.php`; find them all with `grep -rnEi 'lines? [0-9]+' examples/`). Any
+edit that shifts lines in such a file — even adding a single line above a referenced statement — silently
+breaks those references, so whenever an example is updated, check its line-number references against the
+actual line numbers (e.g., with `cat -n`) and update them accordingly.
+
 **`tests/`** mirrors `examples/`'s subdirectory structure: one test class per topic
 (`tests/Client/CspTest.php`, `HooksTest.php`, `LocksTest.php`, `IoTest.php`, `MiscTest.php`, `TimerTest.php`,
 `PoolTest.php`, `ClientsTest.php`, `DeadlocksTest.php`, `SchedulingTest.php`, `ServersTest.php`), one test method

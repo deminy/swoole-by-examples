@@ -9,8 +9,8 @@ declare(strict_types=1);
  * In this example,
  *   1. Runtime hooks are enabled by default. Thus, filesystem functions (e.g., fopen(), flock(), etc) are hooked, and
  *      they work in a coroutine-friendly style.
- *   2. The file is locked at line 28.
- *   3. When function flock() is called for a second time at line 33, it waits for the lock to be released, and the coroutine
+ *   2. The file is locked at line 34.
+ *   3. When function flock() is called for a second time at line 43, it waits for the lock to be released, and the coroutine
  *      yields its execution. However, there isn't a second coroutine running, thus the existing lock will never be released.
  *
  * How to run this script:
