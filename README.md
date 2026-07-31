@@ -103,6 +103,7 @@ patterns like multiprocessing and cronjobs.
     * application servers: one server per protocol.
         * [HTTP/1 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1.php): support gzip compression, serving static content, customizing status code, etc.
         * [HTTP/2 server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http2.php)
+        * [HTTP/1 SSE server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/http1-sse.php): stream responses chunk by chunk over HTTP/1.1 using Server-Sent Events, the mechanism behind ChatGPT-style text streaming.
             * HTTP/2 server push
         * [WebSocket server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/websocket.php)
         * TCP server
@@ -110,6 +111,7 @@ patterns like multiprocessing and cronjobs.
             * [coroutine style](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp2.php)
         * [UDP server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/udp.php)
         * [Redis server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/redis.php): a server speaking the Redis protocol, usable from any Redis client.
+        * [MQTT broker](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/mqtt.php): a minimal MQTT broker built on the _open_mqtt_protocol_ setting, supporting a basic publish/subscribe round trip with the Mosquitto command-line clients.
         * [reverse-proxy server](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/proxy.php): a TCP-level reverse proxy relaying each connection to an upstream server.
         * [multiple ports listening](https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/multiple-ports.php): one server listening on multiple ports, each port with its own set of callbacks.
     * integrated servers: multiple protocols/features combined in a single server.
@@ -159,6 +161,10 @@ patterns like multiprocessing and cronjobs.
     * cronjobs as part of a server: the scheduler runs inside an application server, following the server's lifecycle and sharing its state.
         * [using a worker-registered timer plus task workers](https://github.com/deminy/swoole-by-examples/blob/master/examples/cronjobs/tick-to-task.php): a _\Swoole\Timer_ guarded to one server worker dispatches scheduled work to blocking-safe task workers.
         * [using a dedicated user process](https://github.com/deminy/swoole-by-examples/blob/master/examples/cronjobs/user-process.php): an isolated scheduler process attached to a server, with SIGTERM-driven graceful shutdown.
+* event listening and handling
+    * [the default exit condition](https://github.com/deminy/swoole-by-examples/blob/master/examples/events/default-exit-condition.php): signal listeners alone do not keep a process running - by default, the process exits before any signal can be handled.
+    * [a customized exit condition](https://github.com/deminy/swoole-by-examples/blob/master/examples/events/customized-exit-condition.php): option _exit_condition_ keeps the event loop alive while signal listeners are registered, so a process can stay running just to listen for signals.
+    * [wait for signals inside a coroutine](https://github.com/deminy/swoole-by-examples/blob/master/examples/events/wait-signal.php): method _\Swoole\Coroutine\System::waitSignal()_ blocks the calling coroutine until a signal arrives or a timeout expires - no callbacks involved.
 * built-in clients provided by Swoole
     * [HTTP/1 client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/http1.php)
     * HTTP/2 client
@@ -171,5 +177,6 @@ patterns like multiprocessing and cronjobs.
     * atomic counters: shared-memory counters that work across processes.
         * [implement atomic counters using unsigned 32-bit integers](https://github.com/deminy/swoole-by-examples/blob/master/examples/misc/atomic-counter-unsigned-32-bit.php)
         * [implement atomic counters using signed 64-bit integers](https://github.com/deminy/swoole-by-examples/blob/master/examples/misc/atomic-counter-signed-64-bit.php)
+    * [UDP multicast](https://github.com/deminy/swoole-by-examples/blob/master/examples/misc/multicast.php): make a UDP server join an IP multicast group and receive datagrams sent to the group address.
 
 [APCu Caching]: https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/apcu-caching.php

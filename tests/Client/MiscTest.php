@@ -20,6 +20,13 @@ class MiscTest extends ExampleTestCase
         self::assertSame(0, $result['code'], $result['output']);
     }
 
+    public function testMulticast(): void
+    {
+        $result = $this->runExample('misc/multicast.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertStringContainsString('Datagram received through the multicast group: Hello, multicast group 224.10.20.30!', $result['output']);
+    }
+
     public function testWaitAndWakeupProcesses(): void
     {
         $result = $this->runExample('misc/wait-and-wakeup-processes.php');

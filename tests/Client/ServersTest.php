@@ -82,6 +82,58 @@ class ServersTest extends ExampleTestCase
         self::assertSame($value, $client->get($key));
     }
 
+    // The whole response takes ~3.6s to stream (60 SSE events, one every 60ms), hence the raised timeout.
+    public function testHttp1Sse(): void
+    {
+        $client = new HttpClient('server', 9515);
+        $client->set(['timeout' => 10]);
+        $ok = $client->get('/');
+        self::assertTrue($ok);
+        self::assertSame(200, $client->statusCode);
+        self::assertSame('text/event-stream; charset=utf-8', $client->headers['content-type'] ?? null);
+        self::assertStringContainsString('data: 01', (string) $client->body);
+        self::assertStringContainsString('data: 60', (string) $client->body);
+    }
+
+    // A publish/subscribe round trip against the minimal MQTT broker, using hand-crafted MQTT 3.1.1 packets
+    // over a raw TCP connection (so the test does not depend on any MQTT client library or tool).
+    public function testMqtt(): void
+    {
+        $mqttString    = static fn (string $s): string => pack('n', strlen($s)) . $s;
+        $connectPacket = static function (string $clientId) use ($mqttString): string {
+            $body = $mqttString('MQTT') . "\x04\x02\x00\x3c" . $mqttString($clientId);
+            return "\x10" . chr(strlen($body)) . $body;
+        };
+
+        $newConnection = static function (string $clientId) use ($connectPacket): TcpClient {
+            $client = new TcpClient(SWOOLE_SOCK_TCP);
+            $client->set(['open_mqtt_protocol' => true, 'timeout' => 5]);
+            self::assertTrue($client->connect('server', 9514, 5));
+            $client->send($connectPacket($clientId));
+            self::assertSame("\x20\x02\x00\x00", $client->recv(), 'expected a CONNACK packet'); // CONNACK, connection accepted.
+            return $client;
+        };
+
+        $subscriber = $newConnection('phpunit-sub');
+        $subscribeBody = pack('n', 1) . $mqttString('test/topic') . "\x00"; // Packet #1, topic "test/topic", QoS 0.
+        $subscriber->send("\x82" . chr(strlen($subscribeBody)) . $subscribeBody);
+        self::assertSame("\x90\x03\x00\x01\x00", $subscriber->recv(), 'expected a SUBACK packet');
+
+        $publisher   = $newConnection('phpunit-pub');
+        $publishBody = $mqttString('test/topic') . 'Hello, MQTT';
+        $publisher->send("\x30" . chr(strlen($publishBody)) . $publishBody);
+
+        $forwarded = $subscriber->recv();
+        self::assertStringContainsString('test/topic', $forwarded);
+        self::assertStringContainsString('Hello, MQTT', $forwarded);
+
+        $subscriber->send("\xc0\x00"); // PINGREQ.
+        self::assertSame("\xd0\x00", $subscriber->recv(), 'expected a PINGRESP packet');
+
+        $subscriber->close();
+        $publisher->close();
+    }
+
     public function testHttp2(): void
     {
         $client = new Http2Client('server', 9503);

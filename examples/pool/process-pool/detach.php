@@ -17,6 +17,10 @@ declare(strict_types=1);
  * the pool manages workers through message channels, and a detached worker can no longer receive messages,
  * so detaching is only meaningful (and only supported) for standalone, IPC-free pools.
  *
+ * Also note that coroutine support must NOT be enabled in a pool whose workers call method detach(): as of
+ * Swoole 6.2.2, calling detach() from a worker process with coroutine support enabled crashes the worker
+ * process (with a segmentation fault), and the pool keeps forking (and crashing) replacement workers forever.
+ *
  * This example creates a pool of size two. The very first worker to start detaches itself, simulates a long
  * task, and exits on its own; the pool then spawns a replacement so that two workers keep running. A shared
  * \Swoole\Atomic counter bounds the demo so that the pool shuts down once enough workers have started,

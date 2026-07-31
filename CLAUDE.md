@@ -125,7 +125,7 @@ handling), with the reason evident from the example or stated in a comment. Chec
 
 **`examples/`** — one runnable `.php` script per concept, grouped by topic: `csp/` (with `coroutines/`,
 `deadlocks/` and `scheduling/`), `hooks/` (with `redis/`), `pool/` (with `database-pool/` and `process-pool/`),
-`clients/`, `io/`, `locks/`, `misc/`, `servers/`, and `timer/`. Every script is meant to be
+`clients/`, `cronjobs/`, `events/`, `io/`, `locks/`, `misc/`, `servers/`, and `timer/`. Every script is meant to be
 copy-paste-runnable and documents its own invocation in a docblock — keep that convention when adding examples.
 Every new example must also come with a unit test, written the same way as the existing ones (see **`tests/`**
 below): one test method per example, added to the topic's test class (or a new test class for a new topic),
@@ -142,7 +142,8 @@ breaks those references, so whenever an example is updated, check its line-numbe
 actual line numbers (e.g., with `cat -n`) and update them accordingly.
 
 **`tests/`** mirrors `examples/`'s subdirectory structure: one test class per topic
-(`tests/Client/CspTest.php`, `HooksTest.php`, `LocksTest.php`, `IoTest.php`, `MiscTest.php`, `TimerTest.php`,
+(`tests/Client/CspTest.php`, `CronjobsTest.php`, `EventsTest.php`, `HooksTest.php`, `LocksTest.php`,
+`IoTest.php`, `MiscTest.php`, `TimerTest.php`,
 `PoolTest.php`, `ClientsTest.php`, `DeadlocksTest.php`, `SchedulingTest.php`, `ServersTest.php`), one test method
 per example. `tests/Support/ExampleTestCase.php` is the shared base every test class extends, providing:
 - `runExample($path, $args, $timeout)` — the default; runs an example to completion via a coroutine-friendly
@@ -168,4 +169,6 @@ between Swoole 6.0 and 6.1+, and this repo's examples/tests have already hit and
 (replaced by `lock(LOCK_EX | LOCK_NB)` or `lock($operation, $timeout)`); `Swoole\Process::start()` cannot be
 called from inside a coroutine; `Swoole\Coroutine\System::exec()` is unreliable when run concurrently alongside
 raw `proc_open()` children; `Swoole\Coroutine\System::waitPid($pid, 0.0)` blocks indefinitely rather than doing an
-instant non-blocking check the way `0.0` typically means elsewhere.
+instant non-blocking check the way `0.0` typically means elsewhere; `Swoole\Process\Pool::detach()` crashes the
+worker process (segmentation fault) when the pool has coroutine support enabled, so detach demos must run with
+coroutine support off.

@@ -4,7 +4,7 @@
 declare(strict_types=1);
 
 /**
- * In this example we start a mini-version of Redis server, where only the Redis "get" and "set" commands are
+ * In this example we start a mini-version of Redis server, where only the Redis "get" and "set" commands are partially
  * implemented.
  *
  * This Redis server listens requests on port 6379. We can connect to it just like connecting to any other Redis
