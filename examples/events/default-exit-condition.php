@@ -33,6 +33,9 @@ Process::signal(SIGTERM, $handler);
 echo 'Two signal listeners are registered.', PHP_EOL;
 
 // The event loop exits immediately: by default, signal listeners alone do not keep it running.
+//
+// NOTE: In most cases it's not necessary nor recommended to use method `Swoole\Event::wait()` directly in your code.
+// The example in this file is just for demonstration purpose.
 Event::wait();
 
 echo 'The event loop has exited; the process now ends without any signal ever being handled.', PHP_EOL;
