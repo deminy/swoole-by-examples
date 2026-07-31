@@ -68,7 +68,18 @@ abstract class ExampleTestCase extends TestCase
         self::assertFalse($result['timedOut'], "example did not finish within {$timeout}s:\n" . substr($result['output'], 0, 2000));
         self::assertNotNull($result['code']);
 
-        return ['code' => $result['code'], 'output' => $result['output']];
+        // proc_get_status()['exitcode'] is -1 (never a real exit code - those are always 0-255) whenever the
+        // process was terminated BY A SIGNAL instead of exiting normally; investigated in depth after a one-off
+        // CI failure on pool/process-pool/detach.php (code -1, cause never conclusively identified - ruled out
+        // Swoole's own Pool::shutdown()/SIGTERM handling by reading its source, which is safe). Prepending the
+        // signal here means the NEXT such failure explains itself in the assertSame(0, $result['code'], ...)
+        // message instead of leaving a bare, mysterious "-1".
+        $output = $result['output'];
+        if ($result['signaled']) {
+            $output = "[process was terminated by signal {$result['termsig']}, not a normal exit]\n" . $output;
+        }
+
+        return ['code' => $result['code'], 'output' => $output];
     }
 
     /**
@@ -82,7 +93,7 @@ abstract class ExampleTestCase extends TestCase
      * against here the way there is in runExample().
      *
      * @param list<string> $args
-     * @return array{timedOut: bool, code: ?int, output: string}
+     * @return array{timedOut: bool, code: ?int, output: string, signaled: bool, termsig: ?int}
      */
     protected function runIsolated(string $path, float $timeout, array $args = []): array
     {
@@ -113,7 +124,7 @@ abstract class ExampleTestCase extends TestCase
      *
      * @param list<string> $args
      * @param callable(float): void $sleep
-     * @return array{timedOut: bool, code: ?int, output: string}
+     * @return array{timedOut: bool, code: ?int, output: string, signaled: bool, termsig: ?int}
      */
     private function pollUntilDone(string $path, array $args, float $timeout, callable $sleep): array
     {
@@ -131,6 +142,8 @@ abstract class ExampleTestCase extends TestCase
         $deadline = microtime(true) + $timeout;
         $exited   = false;
         $exitCode = null;
+        $signaled = false;
+        $termsig  = null;
 
         while (true) {
             $output = self::appendCapped($output, stream_get_contents($pipes[1]));
@@ -140,6 +153,12 @@ abstract class ExampleTestCase extends TestCase
             if (!$status['running']) {
                 $exited   = true;
                 $exitCode = $status['exitcode'];
+                // A process killed by a signal (rather than exiting normally) has no real exit code: 'exitcode'
+                // is -1 in that case, and the actual cause is only visible via these two fields. Captured here
+                // (see runExample()'s comment above its return statement for why) so a future flake shows WHICH
+                // signal instead of a bare "-1" that looks like proc_get_status() malfunctioned.
+                $signaled = $status['signaled'];
+                $termsig  = $status['termsig'];
                 break;
             }
 
@@ -164,7 +183,13 @@ abstract class ExampleTestCase extends TestCase
         fclose($pipes[2]);
         proc_close($proc);
 
-        return ['timedOut' => !$exited, 'code' => $exitCode, 'output' => $output];
+        return [
+            'timedOut' => !$exited,
+            'code'     => $exitCode,
+            'output'   => $output,
+            'signaled' => $signaled,
+            'termsig'  => $termsig,
+        ];
     }
 
     private static function appendCapped(string $output, string $chunk): string
