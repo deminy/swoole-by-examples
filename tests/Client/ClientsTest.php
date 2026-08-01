@@ -15,6 +15,19 @@ class ClientsTest extends ExampleTestCase
         self::assertSame(0, $result['code'], $result['output']);
     }
 
+    // Also exercises the persistent servers/http2.php Supervisord program.
+    public function testHttp2(): void
+    {
+        $result = $this->runExample('clients/http2.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertStringContainsString('Request #1 sent on stream #1.', $result['output']);
+        self::assertStringContainsString('Request #2 sent on stream #3.', $result['output']);
+        self::assertStringContainsString('Request #3 sent on stream #5.', $result['output']);
+        self::assertStringContainsString('Received a response on stream #1 with status code 200.', $result['output']);
+        self::assertStringContainsString('Received a response on stream #3 with status code 200.', $result['output']);
+        self::assertStringContainsString('Received a response on stream #5 with status code 200.', $result['output']);
+    }
+
     // Also exercises the persistent servers/tcp-event-driven.php and servers/tcp-coroutine-style.php Supervisord
     // programs (this script connects to both, ports 9505 and 9507).
     public function testTcp(): void

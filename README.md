@@ -167,13 +167,14 @@ patterns like multiprocessing and cronjobs.
     * [wait for signals inside a coroutine](https://github.com/deminy/swoole-by-examples/blob/master/examples/events/wait-signal.php): method _\Swoole\Coroutine\System::waitSignal()_ blocks the calling coroutine until a signal arrives or a timeout expires - no callbacks involved.
 * built-in clients provided by Swoole
     * [HTTP/1 client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/http1.php)
-    * HTTP/2 client
+    * [HTTP/2 client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/http2.php): multiplex concurrent requests as streams over a single TCP connection.
     * [WebSocket client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/websocket.php)
     * [TCP client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/tcp.php)
     * [UDP client](https://github.com/deminy/swoole-by-examples/blob/master/examples/clients/udp.php)
 * miscellaneous topics
     * data management in Swoole: globals, persistence, and caching
         * [APCu caching]: APCu caching in Swoole works the same way as in other PHP CLI applications. This example explains it in details.
+        * [share structured data between processes](https://github.com/deminy/swoole-by-examples/blob/master/examples/misc/shared-table.php): class _\Swoole\Table_ implements a fixed-schema table built on shared memory, with atomic counter updates across processes.
     * atomic counters: shared-memory counters that work across processes.
         * [implement atomic counters using unsigned 32-bit integers](https://github.com/deminy/swoole-by-examples/blob/master/examples/misc/atomic-counter-unsigned-32-bit.php)
         * [implement atomic counters using signed 64-bit integers](https://github.com/deminy/swoole-by-examples/blob/master/examples/misc/atomic-counter-signed-64-bit.php)
