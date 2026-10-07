@@ -11,7 +11,7 @@
   "require-dev": {
     "deminy/counit": "~1.0",
     "predis/predis": "~3.0",
-    "swoole/ide-helper": "@dev",
+    "swoole/ide-helper": "~6.2",
     "phpstan/phpstan": "~2.0",
     "friendsofphp/php-cs-fixer": "~3.0"
   },
