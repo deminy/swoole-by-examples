@@ -78,9 +78,9 @@ patterns like multiprocessing and cronjobs.
             * [concurrent connections/operations using phpredis](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/redis/phpredis.php)
             * [concurrent connections/operations using predis](https://github.com/deminy/swoole-by-examples/blob/master/examples/hooks/redis/predis.php)
     * locks: the same locking concept at three different scopes.
-        * [use a lock across coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-coroutines.php) (Swoole v6.1.0+ only)
+        * [use a lock across coroutines](https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-coroutines.php)
         * [use a lock across processes](https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-processes.php)
-        * [use a lock across threads](https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-threads.php) (Swoole v6.1.0+ only)
+        * [use a lock across threads](https://github.com/deminy/swoole-by-examples/blob/master/examples/locks/lock-across-threads.php)
     * deadlocks
         * how deadlocks happen
             * [pop data from an empty channel](https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/deadlocks/an-empty-channel.php)

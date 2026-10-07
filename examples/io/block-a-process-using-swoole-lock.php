@@ -22,11 +22,6 @@ use Swoole\Lock;
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
-if (version_compare(SWOOLE_VERSION, '6.1.0', '<')) {
-    fwrite(STDERR, 'Error: Swoole 6.1.0 or higher is required. Current version: ' . SWOOLE_VERSION . PHP_EOL);
-    exit(1);
-}
-
 // The lock created is available to all coroutines within the process.
 $lock = new Lock();
 

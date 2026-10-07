@@ -21,11 +21,6 @@ declare(strict_types=1);
 use Swoole\Lock;
 use Swoole\Process;
 
-if (version_compare(SWOOLE_VERSION, '6.1.0', '<')) {
-    fwrite(STDERR, 'Error: Swoole 6.1.0 or higher is required. Current version: ' . SWOOLE_VERSION . PHP_EOL);
-    exit(1);
-}
-
 $lock = new Lock();
 
 $process1 = new Process(function () use ($lock) {
