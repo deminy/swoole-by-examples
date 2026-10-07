@@ -10,7 +10,6 @@ declare(strict_types=1);
  * barely over two seconds to finish all the requests.
  *
  * Notes:
- *     * This feature works under Swoole 4.4.0+.
  *     * This approach doesn't work for curl_multi_* functions. To hook curl_multi_* functions, please check the other
  *       example in file "./hooks/native-curl.php".
  *

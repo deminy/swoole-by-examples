@@ -32,7 +32,7 @@ declare(strict_types=1);
  *    b) Event "onHandshake", "onOpen", "onMessage", and "onDisconnect". They are to process WebSocket requests.
  *
  * How to run this script:
- *   docker run --rm -v $(pwd):/var/www -ti phpswoole/swoole php ./examples/servers/server-events.php
+ *   docker run --rm -v $(pwd):/var/www -ti phpswoole/swoole:6.2-php8.4 php ./examples/servers/server-events.php
  */
 
 use Swoole\Constant;

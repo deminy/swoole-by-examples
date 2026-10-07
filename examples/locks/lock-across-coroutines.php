@@ -8,8 +8,8 @@ declare(strict_types=1);
  *
  * Once executed, it prints out "12345678". The numbers printed out are to show the order of the code execution.
  *
- * Note that class \Swoole\Coroutine\Lock is available only on Swoole 6.0.1 or later. Swoole 6.1 removed
- * Lock::trylock(); a non-blocking attempt is now made by passing LOCK_EX | LOCK_NB to Lock::lock() instead.
+ * Note that Swoole 6.1 removed Lock::trylock(); a non-blocking attempt is now made by passing LOCK_EX | LOCK_NB to
+ * Lock::lock() instead.
  *
  * How to run this script:
  *     docker compose exec -t client ./locks/lock-across-coroutines.php

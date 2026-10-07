@@ -10,7 +10,6 @@ declare(strict_types=1);
  * barely over two seconds to finish all the requests.
  *
  * Notes:
- *     * This feature works under Swoole 4.6.0+.
  *     * This approach works only if Swoole is installed with option "--enable-swoole-curl" included.
  *
  * How to run this script:

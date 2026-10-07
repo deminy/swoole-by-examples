@@ -7,8 +7,8 @@ declare(strict_types=1);
  *
  * Once executed, it prints out "12345678". The numbers printed out are to show the order of the code execution.
  *
- * Note that this example works only on Swoole 6.1.0 or later, with ZTS (Zend Thread Safety) enabled. Swoole 6.1
- * removed Lock::trylock(); a non-blocking attempt is now made by passing LOCK_EX | LOCK_NB to Lock::lock() instead.
+ * Note that this example works only with ZTS (Zend Thread Safety) enabled. Swoole 6.1 removed Lock::trylock(); a
+ * non-blocking attempt is now made by passing LOCK_EX | LOCK_NB to Lock::lock() instead.
  *
  * How to run this script:
  *     docker run --rm -v "$(pwd):/var/www" -ti phpswoole/swoole:6.2-php8.4-zts php ./examples/locks/lock-across-threads.php

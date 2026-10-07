@@ -19,9 +19,8 @@ declare(strict_types=1);
  * Swoole executes without blocking other coroutines: the five three-second queries finish concurrently, not
  * serially.
  *
- * The PDO_SQLITE driver is supported in Swoole since v5.1.0, when Swoole is compiled with the --enable-swoole-sqlite
- * option. This example won't work with old versions of Swoole, or if Swoole is not compiled with the
- * --enable-swoole-sqlite option.
+ * The PDO_SQLITE driver works in coroutines only when Swoole is compiled with the --enable-swoole-sqlite option, as it is
+ * in the Docker images used by this repository.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./hooks/pdo_sqlite.php"

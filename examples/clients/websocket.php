@@ -4,7 +4,8 @@
 declare(strict_types=1);
 
 /**
- * In this example we start a WebSocket server on port 9504.
+ * In this example we use a WebSocket client to send a message to the WebSocket server on port 9504, and print out the
+ * reply.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./clients/websocket.php"

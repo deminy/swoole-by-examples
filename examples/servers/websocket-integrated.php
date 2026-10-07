@@ -13,7 +13,7 @@ declare(strict_types=1);
  *     docker compose exec -ti client bash -c "echo Swoole | websocat ws://server:9508"
  * To check logs created by the cron job and the asynchronous task queue process, you can run following command in the
  * console:
- *     docker-compose logs -f
+ *     docker compose logs -f server
  */
 
 use Swoole\Process;

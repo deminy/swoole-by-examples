@@ -7,9 +7,8 @@ declare(strict_types=1);
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/coroutines/exit.php"
  *
- * In lower versions of Swoole, exit() should not be used in coroutines since it results in unexpected behavior.
- * Starting from Swoole 4.1.0, you can use exit() inside coroutines directly. In this case, a \Swoole\ExitException
- * exception is thrown out instead of terminating code execution immediately.
+ * When exit() is called inside a coroutine, a \Swoole\ExitException exception is thrown out instead of terminating
+ * code execution immediately.
  *
  * In general, the best way to exit from a coroutine is to throw out an exception and catch it at parent level.
  */

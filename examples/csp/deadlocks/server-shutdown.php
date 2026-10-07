@@ -7,7 +7,7 @@ declare(strict_types=1);
  * This example shows how deadlock happens when a server is shut down or reloaded improperly.
  *
  * How to run this script:
- *   docker run --rm -v $(pwd):/var/www -ti phpswoole/swoole php ./examples/csp/deadlocks/server-shutdown.php
+ *   docker run --rm -v $(pwd):/var/www -ti phpswoole/swoole:6.2-php8.4 php ./examples/csp/deadlocks/server-shutdown.php
  * When the script is executed, it will print out the following error message:
  *   [FATAL ERROR]: all coroutines (count: 1) are asleep - deadlock!
  * To fix the deadlock, uncomment line 41 and line 32, then rerun the script.
