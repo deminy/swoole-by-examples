@@ -32,11 +32,11 @@ run(function (): void {
     // Swoole extension "async" (https://github.com/swoole/ext-async) is needed to run this example.
     if (class_exists(MsgQueue::class)) {
         go(function (): void {
-            $mq = new MsgQueue(0x7000001); // @phpstan-ignore class.notFound
+            $mq = new MsgQueue(0x7000001);
             for ($i = 0; $i < 3; $i++) {
                 // On the server side, you will see output messages like the following:
                 // Process #0 received message "s:35:"Message #0 via class Swoole\MsgQueue!";". (MSGQUEUE)
-                $mq->push(sprintf('Message #%d via class %s!', $i, MsgQueue::class)); // @phpstan-ignore class.notFound,class.notFound
+                $mq->push(sprintf('Message #%d via class %s!', $i, MsgQueue::class));
             }
         });
     }

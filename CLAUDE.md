@@ -122,10 +122,11 @@ docker compose exec -T -w /var/www client ./vendor/bin/phpstan analyse --no-prog
 
 Both are run by the `tests.yml` CI workflow on every push/PR (and manually via `workflow_dispatch`).
 `phpstan.neon.dist` carries a per-file `ignoreErrors` list for cases where PHPStan's understanding of a Swoole
-class's API lags the actual extension (e.g. it thinks `Swoole\Lock::lock()` takes no arguments, and doesn't know
-`Swoole\Coroutine\Lock` or `Swoole\Thread` exist at all) — when adding a new
-`ignoreErrors` entry, scope it to the specific file and message/identifier rather than broadening it, matching the
-existing entries.
+class's API lags the actual extension (e.g. the `swoole/ide-helper` stubs still declare `Swoole\Lock::lock()`
+without parameters) — when adding a new `ignoreErrors` entry, scope it to the specific file and message/identifier
+rather than broadening it, matching the existing entries. `reportUnmatchedIgnoredErrors` is on, so an entry (or an
+inline `@phpstan-ignore`) that stops matching — typically after a `swoole/ide-helper` update fixes the stub — fails
+the analysis; delete it rather than turning the setting off.
 
 Non-ASCII bytes are not allowed anywhere in the code under `examples/` and `tests/` — not in code, comments, or
 docblocks. Use plain ASCII punctuation (hyphens, not em-dashes; straight quotes, not typographic ones). The one
