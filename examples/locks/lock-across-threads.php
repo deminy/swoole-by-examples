@@ -11,7 +11,7 @@ declare(strict_types=1);
  * removed Lock::trylock(); a non-blocking attempt is now made by passing LOCK_EX | LOCK_NB to Lock::lock() instead.
  *
  * How to run this script:
- *     docker run --rm -v "$(pwd):/var/www" -ti phpswoole/swoole:6.2-zts php ./examples/locks/lock-across-threads.php
+ *     docker run --rm -v "$(pwd):/var/www" -ti phpswoole/swoole:6.2-php8.4-zts php ./examples/locks/lock-across-threads.php
  */
 
 use Swoole\Thread;

@@ -19,6 +19,18 @@ are built and published by the `build_docker_images.yml` workflow, so to test a 
 `docker build` and retag it yourself (e.g. `docker build -t deminy/swoole-by-examples:server-6.2
 dockerfiles/server`) before `docker compose up -d`.
 
+**Supported versions: PHP 8.4+ and Swoole 6.2+, everywhere.** Every example is written for and run on PHP 8.4 with
+Swoole 6.2, and every place that pins a version must agree: `composer.json` (`"php": ">=8.4"`,
+`"ext-swoole": ">=6.2"`), the `SWOOLE_VERSION`/`PHP_VERSION` build args in both Dockerfiles, the image tags in
+`docker-compose.yml`, both CI workflows (`tests.yml`'s image builds, `build_docker_images.yml`'s build matrix and
+`PHP_VERSION` build arg), and any `phpswoole/swoole` tag quoted in a docblock or doc (e.g. the ZTS one,
+`6.2-php8.4-zts` — always name the PHP version explicitly rather than relying on a floating tag like `6.2-zts`).
+Changing the target version means updating all of them together, plus `README.md`'s "Supported Versions" section.
+Code may use any PHP 8.4 syntax and Swoole 6.2 API freely; don't add compatibility shims for older versions.
+PHPStan derives the minimum PHP version to check against from `composer.json`'s `require.php`, so a constraint
+lower than the syntax actually used (e.g. typed class constants under `>=8.2`) fails static analysis with a
+non-ignorable error.
+
 ## Development environment
 
 ```bash
@@ -43,7 +55,7 @@ since that socket file lives in `server`'s own filesystem). `examples/hooks/redi
 *global* autoloader (`$HOME/.composer/vendor/autoload.php`), so the project-level `composer install` — which also
 installs predis, but only so PHPStan can resolve its symbols — does not satisfy it.
 `examples/locks/lock-across-threads.php` needs a ZTS build of PHP/Swoole, which neither container image provides;
-run it via `docker run --rm -v "$(pwd):/var/www" -ti phpswoole/swoole:6.2-zts php ./examples/locks/lock-across-threads.php`.
+run it via `docker run --rm -v "$(pwd):/var/www" -ti phpswoole/swoole:6.2-php8.4-zts php ./examples/locks/lock-across-threads.php`.
 
 ## Running tests
 

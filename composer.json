@@ -5,7 +5,8 @@
   "homepage": "https://github.com/deminy/swoole-by-examples",
   "license": "CC-BY-NC-ND-4.0",
   "require": {
-    "php": ">=8.2"
+    "php": ">=8.4",
+    "ext-swoole": ">=6.2"
   },
   "require-dev": {
     "deminy/counit": "~1.0",

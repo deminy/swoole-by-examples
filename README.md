@@ -8,6 +8,11 @@ provided.
 
 NOTE: I'm adding examples for latest versions of Swoole, so please be patient.
 
+## Supported Versions
+
+All the examples are written for and tested on **PHP 8.4+** and **Swoole 6.2+**. The Docker images, the Composer
+requirements, and the CI workflows all use these versions; the examples may not work on older versions of PHP or Swoole.
+
 ## Setup the Development Environment
 
 We use Docker to setup our development environment. Other than Docker, you don't need to install any other software to
