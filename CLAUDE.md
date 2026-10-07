@@ -25,7 +25,7 @@ Swoole 6.2, and every place that pins a version must agree: `composer.json` (`"p
 `docker-compose.yml`, both CI workflows (`tests.yml`'s image builds, `build_docker_images.yml`'s build matrix and
 `PHP_VERSION` build arg), and any `phpswoole/swoole` tag quoted in a docblock or doc (e.g. the ZTS one,
 `6.2-php8.4-zts` — always name the PHP version explicitly rather than relying on a floating tag like `6.2-zts`).
-Changing the target version means updating all of them together, plus `README.md`'s "Supported Versions" section.
+Changing the target version means updating all of them together, plus `README.md`'s "Supported versions" section.
 Code may use any PHP 8.4 syntax and Swoole 6.2 API freely; don't add compatibility shims for older versions.
 PHPStan derives the minimum PHP version to check against from `composer.json`'s `require.php`, so a constraint
 lower than the syntax actually used (e.g. typed class constants under `>=8.2`) fails static analysis with a
@@ -43,7 +43,7 @@ Both containers mount the whole repo root at `/var/www`, with `/var/www/examples
 via `WORKDIR` in both Dockerfiles, so the run commands documented in the examples' docblocks work as-is). The
 **client** container is where client-side/standalone scripts are normally run (the `redis`/`mysql`/`postgresql`
 services are reachable from both PHP containers, which share the Compose default network);
-the **server** container additionally runs 18 persistent, Supervisord-managed application servers (listed in
+the **server** container additionally runs 23 persistent, Supervisord-managed application servers (listed in
 `docker-compose.yml`'s `AUTORELOAD_PROGRAMS` env var) that many client-side examples connect to.
 
 Running a single example: each example's docblock documents its own exact run command (which container, any
