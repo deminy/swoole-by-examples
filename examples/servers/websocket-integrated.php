@@ -30,14 +30,17 @@ $server->on(
 
 $process = new Process(
     function (): void {
-        // To simulate task processing. Here we simply print out a message.
-        // In reality, a task queue system works like following:
-        //   1. Use some storage system (e.g., Redis) to store tasks dispatched from worker processes, cron jobs or
-        //      another source;
-        //   2. In the task processing processes, get tasks from the storage system, process them, then remove them once
-        //      done.
-        echo 'Task processed (in file ',  __FILE__, ').', PHP_EOL;
-        sleep(29);
+        // A user process is expected to run forever: if its callback returns, the server starts the process again.
+        while (true) { // @phpstan-ignore while.alwaysTrue
+            // To simulate task processing. Here we simply print out a message.
+            // In reality, a task queue system works like following:
+            //   1. Use some storage system (e.g., Redis) to store tasks dispatched from worker processes, cron jobs or
+            //      another source;
+            //   2. In the task processing processes, get tasks from the storage system, process them, then remove them
+            //      once done.
+            echo 'Task processed (in file ',  __FILE__, ').', PHP_EOL;
+            sleep(29);
+        }
     }
 );
 $server->addProcess($process);

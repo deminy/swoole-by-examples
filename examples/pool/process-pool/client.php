@@ -15,7 +15,6 @@ declare(strict_types=1);
 
 use Swoole\Constant;
 use Swoole\Coroutine\Client;
-use Swoole\MsgQueue;
 
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
@@ -28,20 +27,9 @@ run(function (): void {
         Constant::OPTION_PACKAGE_BODY_OFFSET   => 4,
     ];
 
-    // This first example shows how to send messages (and deploy tasks) to a process pool through message queue.
-    // Swoole extension "async" (https://github.com/swoole/ext-async) is needed to run this example.
-    if (class_exists(MsgQueue::class)) {
-        go(function (): void {
-            $mq = new MsgQueue(0x7000001);
-            for ($i = 0; $i < 3; $i++) {
-                // On the server side, you will see output messages like the following:
-                // Process #0 received message "s:35:"Message #0 via class Swoole\MsgQueue!";". (MSGQUEUE)
-                $mq->push(sprintf('Message #%d via class %s!', $i, MsgQueue::class));
-            }
-        });
-    }
-    // If your PHP is compiled to support System V messages, you can also use message queue functions msg_get_queue()
-    // and msg_send() to do that. Check PHP manual https://www.php.net/sem for details.
+    // This first example shows how to send messages (and deploy tasks) to a process pool through message queue, using
+    // the System V message functions msg_get_queue() and msg_send() (PHP extension "sysvmsg", installed in the server
+    // container). Check PHP manual https://www.php.net/sem for details.
     if (function_exists('msg_get_queue')) {
         go(function (): void {
             $mq = msg_get_queue(0x7000001);

@@ -67,7 +67,8 @@ $server->on(
                 In this example we start an HTTP/1 server.
 
                 NOTE: The autoreloading feature is enabled. If you update this PHP script and
-                then refresh URL http://127.0.0.1:9501, you should see the changes made.
+                then send the request again (e.g., run "curl -i http://server:9501" in the
+                client container), you should see the changes made.
                 </pre>
 
             EOT
