@@ -7,6 +7,10 @@ declare(strict_types=1);
  * The example is to show how to yield and resume coroutines. It takes about 1 second to finish, and prints out
  * "12345678".
  *
+ * Method Coroutine::yield() pauses the current coroutine indefinitely; it continues only when another coroutine calls
+ * Coroutine::resume() with its ID. A new coroutine starts running right away, and control goes back to its creator
+ * only when the new coroutine pauses (e.g., by yielding or sleeping) or finishes.
+ *
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/coroutines/yield-and-resume.php"
  */

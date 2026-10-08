@@ -36,7 +36,9 @@ $pool = new Pool(3, SWOOLE_IPC_MSGQUEUE, $key);
 
 $pool->on('message', function (Pool $pool, string $message) use ($handled): void {
     $id = $pool->getProcess()->id; // @phpstan-ignore property.nonObject
-    echo "Process #{$id} received message \"{$message}\".", PHP_EOL;
+    // A single string per echo statement: worker processes print concurrently, and an echo statement with multiple
+    // arguments (one write per argument) could interleave with another process's output.
+    echo "Process #{$id} received message \"{$message}\"." . PHP_EOL;
     $handled->add();
 });
 

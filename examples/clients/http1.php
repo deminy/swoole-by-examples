@@ -4,8 +4,9 @@
 declare(strict_types=1);
 
 /**
- * In this example two HTTP/1 requests are made in non-blocking mode. Since the 2nd request usually takes
- * much less time to finish, you should see following output in most cases:
+ * In this example two HTTP/1 requests are made concurrently, in two coroutines. The first one downloads a file over
+ * HTTPS from the Internet, while the second one talks to a local server in the "server" container. Since the 2nd
+ * request usually takes much less time to finish, you should see the following output in most cases:
  *     Done executing the second HTTP/1 request.
  *     Done executing the first HTTP/1 request.
  *
@@ -20,12 +21,12 @@ use function Swoole\Coroutine\run;
 
 run(function (): void {
     // For the 1st one, we make an HTTPS request to download an image file from GitHub. Once this script
-    // finishes execution, you should see an image file "mascot.png" under same directory of this script.
+    // finishes execution, you should see an image file "mascot.png" in the same directory as this script.
     go(function (): void {
         $client = new Client('raw.githubusercontent.com', 443, true);
         $client->set(
             [
-                'timeout' => -1,
+                'timeout' => -1, // -1 means no timeout, since downloading the file may take a while.
             ]
         );
         $client->setHeaders(

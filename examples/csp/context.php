@@ -9,8 +9,8 @@ declare(strict_types=1);
  * The Context object of a coroutine is a key-value storage. It is used to store custom data for the coroutine.
  *
  * Each coroutine has a unique Context object automatically associated with it. The Context object of a coroutine can be
- * accessed by calling method `\Swoole\Coroutine::getContext()`; the object can be accessed from anywhere of current
- * process, as long as the associated coroutine still exists.
+ * accessed by calling method `\Swoole\Coroutine::getContext()`; the object can be accessed from anywhere in the
+ * current process, as long as the associated coroutine still exists.
  *
  * The Context object will be automatically destroyed when the coroutine finishes execution and gets destroyed.
  *
@@ -51,12 +51,12 @@ run(function (): void {
     //   Coroutine::getContext($cid)->foo = 'bar';
     // Starting with PHP 8.2, dynamic properties are deprecated, so we use array-style access instead.
 
-    // The Context object of a coroutine works the same as an \ArrayObject object.
+    // The Context object of a coroutine is an \ArrayObject object (class \Swoole\Coroutine\Context extends it).
     Coroutine::getContext()['co1_obj'] = new $class('co1_obj'); // @phpstan-ignore offsetAccess.nonOffsetAccessible
     $cid                               = Coroutine::getCid();   // Coroutine::getCid() returns 1.
 
     Coroutine::create(function () use ($class): void {
-        // The Context object of a coroutine works the same as an \ArrayObject object.
+        // The Context object of a coroutine is an \ArrayObject object.
         Coroutine::getContext()['co2_obj'] = new $class('co2_obj'); // @phpstan-ignore offsetAccess.nonOffsetAccessible
         $cid                               = Coroutine::getCid();   // Coroutine::getCid() returns 2.
 

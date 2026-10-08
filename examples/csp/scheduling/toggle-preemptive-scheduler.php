@@ -4,10 +4,11 @@
 declare(strict_types=1);
 
 /**
- * In this example, we set PHP option "swoole.enable_preemptive_scheduler" to 1 at line 19, allowing different
- * coroutines to share the CPU. However, when the first coroutine is started, it immediately disables the scheduler
- * defined in Swoole (at line 25), starts printing out 100,000 integers, then enables the scheduler. The second
- * coroutine could be executed only after the scheduler is enabled at line 29.
+ * In this example, we set php.ini directive "swoole.enable_preemptive_scheduler" to 1 at line 20, allowing different
+ * coroutines to share the CPU (see example "preemptive.php" under the same directory). However, when the first
+ * coroutine is started, it immediately turns off preemptive scheduling (method Swoole\Coroutine::disableScheduler(), at
+ * line 26), starts printing out 100,000 integers, then turns it back on. The second coroutine could be executed only
+ * after preemptive scheduling is turned back on at line 30; it then throws an exception, which stops the script.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/scheduling/toggle-preemptive-scheduler.php"

@@ -4,24 +4,24 @@
 declare(strict_types=1);
 
 /**
- * In this example, six non-blocking HTTP/1 requests are made by enabling option "SWOOLE_HOOK_NATIVE_CURL" and using
+ * In this example, six non-blocking HTTP/1 requests are made by enabling hook flag SWOOLE_HOOK_NATIVE_CURL and using
  * curl_multi_* functions.
  * Each request takes about two seconds to finish; however, since the requests are made in non-blocking mode, it takes
  * barely over two seconds to finish all the requests.
  *
  * Notes:
- *     * This approach works only if Swoole is installed with option "--enable-swoole-curl" included.
+ *     * This approach works only if Swoole is installed with option "--enable-swoole-curl" included, as it is in the
+ *       Docker images used by this repository.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./hooks/native-curl.php"
  *
- * You can run following command to see how much time it takes to run the script:
+ * You can run the following command to see how much time it takes to run the script:
  *     docker compose exec -t client bash -c "time ./hooks/native-curl.php"
  */
 
 use Swoole\Constant;
 use Swoole\Coroutine;
-use Swoole\Coroutine\Http\Client;
 
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;

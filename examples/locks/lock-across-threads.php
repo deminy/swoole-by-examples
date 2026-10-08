@@ -37,19 +37,24 @@ if (!isset($args)) { // The main thread.
 
     if ($i === 1) { // First child thread.
         echo '1';
-        assert($lock->lock() === true, 'Lock the lock for the first time successfully.');
+        $locked = $lock->lock();
+        assert($locked === true, 'Lock the lock for the first time successfully.');
         usleep(100_000); // Hold the lock for 100 milliseconds.
         echo '4';
-        assert($lock->unlock() === true, 'Unlock the lock successfully.');
+        $unlocked = $lock->unlock();
+        assert($unlocked === true, 'Unlock the lock successfully.');
         echo '5';
     } else { // Second child thread.
         echo '2';
-        assert($lock->lock(LOCK_EX | LOCK_NB) === false, 'Failed to lock a locked lock.');
+        $locked = $lock->lock(LOCK_EX | LOCK_NB);
+        assert($locked === false, 'Failed to lock a locked lock.');
         echo '3';
-        assert($lock->lock() === true, 'Lock the lock for the second time successfully.');
+        $locked = $lock->lock();
+        assert($locked === true, 'Lock the lock for the second time successfully.');
         usleep(100_000); // Hold the lock for 100 milliseconds.
         echo '6';
-        assert($lock->unlock() === true, 'Unlock the lock successfully.');
+        $unlocked = $lock->unlock();
+        assert($unlocked === true, 'Unlock the lock successfully.');
         echo '7';
     }
 }

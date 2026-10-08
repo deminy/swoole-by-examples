@@ -25,8 +25,8 @@ use Swoole\Constant;
 use Swoole\Coroutine\Client;
 use Swoole\Server;
 
-// Create the server on its MAIN port. Following the event-driven (base) style, like tcp-event-driven.php. Port 0 makes
-// the server listen on a random unused port; the port picked is exposed as $server->port.
+// Create the server on its MAIN port, in event-driven style (callbacks), like tcp-event-driven.php. Port 0 makes the
+// server listen on a random unused port; the port picked is exposed as $server->port.
 $server = new Server('127.0.0.1', 0, SWOOLE_BASE, SWOOLE_SOCK_TCP);
 $server->set(
     [

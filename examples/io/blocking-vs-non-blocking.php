@@ -4,17 +4,18 @@
 declare(strict_types=1);
 
 /**
- * The example compares the return statements used in blocking function calls and non-blocking function calls.
+ * This example shows that a function which starts a coroutine returns as soon as that coroutine pauses, but only if
+ * the coroutine pauses in a non-blocking way.
  *
  * The output "123456" is printed out in following order:
  *     * The digit "1" is printed out first.
- *     * After one second, next four digits "2345" are printed out.
- *     * After another second, the last digit "6" is printed out.
+ *     * After two seconds, next four digits "2345" are printed out.
+ *     * After another two seconds, the last digit "6" is printed out.
  *
  * Notes:
- *     * Function blocking() executes in blocking mode, just like what we used to see.
- *     * Function nonBlocking() executes in non-blocking mode. It returns an integer value "5" back first before
- *       finishing executing the nested coroutine inside it.
+ *     * Function blocking() executes in blocking mode, the same as in plain PHP.
+ *     * Function nonBlocking() executes in non-blocking mode. It returns the string "5" before the nested coroutine
+ *       inside it finishes.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./io/blocking-vs-non-blocking.php"
@@ -27,7 +28,9 @@ function blocking(): string
 {
     go(function (): void {
         echo '1';
-        sleep(2); // Although running inside a coroutine, the sleep() function call is still executed in blocking mode (when not hooked).
+        // Although running inside a coroutine, the sleep() function call is still executed in blocking mode: runtime
+        // hooks are off here, because this script doesn't use function Swoole\Coroutine\run().
+        sleep(2);
         echo '2';
     });
     return '3';

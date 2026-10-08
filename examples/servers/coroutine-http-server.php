@@ -59,7 +59,7 @@ run(function (): void {
         });
     }
     $wg->wait();
-    printf('Three requests, each taking 1 second, finished in about %d second(s) in total.' . PHP_EOL, round(microtime(true) - $start));
+    printf('Three requests, each taking 1 second, finished in about %d second in total.' . PHP_EOL, round(microtime(true) - $start));
 
     $server->shutdown();
 });

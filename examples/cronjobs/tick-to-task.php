@@ -13,15 +13,16 @@ declare(strict_types=1);
  *      restarted (crash, reload, max_request recycling), workerStart fires again and re-registers the timer - with
  *      freshly reloaded code, which is something user-process.php's dedicated process does NOT get on reload.
  *   2. The EXECUTION side: the tick callback does no real work itself - it only dispatches the job to the task-worker
- *      pool via $server->task(). Worker #0 also serves requests, so a heavy or blocking job in the tick callback
- *      would stall request handling there; task workers are synchronous, blocking-safe processes designed for
- *      exactly this kind of work (note the plain, blocking usleep() in onTask - perfectly fine there), bounded in
- *      concurrency by task_worker_num and crash-isolated (a fatal in a task kills only a task worker, which the
- *      server restarts). The task's return value arrives back in the dispatching worker via the onFinish event.
+ *      pool via $server->task(). (Task workers are a separate pool of processes for running blocking jobs, which the
+ *      server starts when option task_worker_num is set.) Worker #0 also serves requests, so a heavy or blocking job
+ *      in the tick callback would stall request handling there; task workers are synchronous, blocking-safe processes
+ *      designed for exactly this kind of work (note the plain, blocking usleep() in onTask - perfectly fine there),
+ *      bounded in concurrency by task_worker_num and crash-isolated (a fatal in a task kills only a task worker, which
+ *      the server restarts). The task's return value arrives back in the dispatching worker via the onFinish event.
  *
- * Related caveats documented by the other examples in this folder: timers are per-process and are destroyed with the
- * worker (the interval restarts from zero on recycling, so very long intervals can be skipped), and ticks of a slow
- * dispatch could in principle overlap - kept trivially short here.
+ * Two caveats: timers belong to the process that created them and die with it, so when worker #0 is restarted the
+ * interval starts again from zero (a job with a very long interval may never fire if workers are recycled more often
+ * than that); and, as timer-tick.php explains, ticks of a slow callback can overlap - kept trivially short here.
  *
  * This demo is self-terminating: worker #0 shuts the server down after ~3.6 seconds, giving the tick time to
  * dispatch three runs. The server listens on a random unused port (port 0) just because a server must listen

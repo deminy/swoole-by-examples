@@ -6,15 +6,16 @@ declare(strict_types=1);
 /**
  * In this example, we start a web server with a cron job set up to run every 19 seconds.
  *
- * The problem with traditional cron jobs is that they don't get a chance to execute one last time before the server
- * shuts down. For example, if the cron job is scheduled to run every 19 seconds, and the server is shutting down 15
- * seconds after the last cron job execution, then the cron job will never get a chance to execute one more time before
- * the server shuts down.
+ * A cron job inside a long-running server is often written as a loop that sleeps between runs (e.g.,
+ * Coroutine::sleep(19)). The problem is that a sleeping loop can't be woken up early: if the server shuts down 15
+ * seconds into a 19-second sleep, the job never gets a chance to run one last time (e.g., to flush buffered data)
+ * before the server exits.
  *
  * In this example, we use a Channel to schedule the cron job to run every 19 seconds: the cron job waits on the
  * Channel (method pop() with a 19-second timeout) instead of sleeping. When the server shuts down, the "onWorkerExit"
  * callback closes the Channel, which interrupts the wait right away; the cron job notices that the Channel is closed,
- * executes one last time, and exits.
+ * executes one last time, and exits. ("onWorkerExit" is triggered when a worker process is asked to stop while it
+ * still has pending work, like the waiting cron job here.)
  *
  * To show that, the script shuts the server down by itself 2 seconds after starting it, well before the 19 seconds are
  * up. The output shows the cron job executing once when the server starts ("case 1"), and once more when the server

@@ -6,8 +6,10 @@ declare(strict_types=1);
 /**
  * In this example we start a TCP reverse-proxy server in coroutine style. It sits in front of an upstream server, and
  * forwards every incoming connection's raw bytes to that upstream server, then relays the upstream response back to
- * the client. In short, it is a simple TCP-level reverse proxy: it doesn't parse the traffic, so it would work the same
- * for any protocol where the client speaks first.
+ * the client. In short, it is a simple TCP-level reverse proxy. It doesn't parse the traffic, so it isn't tied to HTTP;
+ * but to keep the example short, it handles only one request and one response per connection, and reads each of them
+ * with a single recv() call (enough for small messages). A real proxy would relay data in both directions in a loop
+ * until either side closes the connection.
  *
  * To show that, the script starts two servers in the same process: a small upstream HTTP server, and the proxy in front
  * of it. Then it sends an HTTP request to the proxy, and prints the response relayed back from the upstream server.

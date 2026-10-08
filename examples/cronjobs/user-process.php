@@ -5,13 +5,14 @@ declare(strict_types=1);
 
 /**
  * This example runs cron-style scheduled jobs in a DEDICATED USER PROCESS attached to a server via
- * \Swoole\Server::addProcess(). The scheduler lives in its own OS process, so it is isolated from request workers (a
- * heavy or blocking job cannot stall request handling), and there is exactly one scheduler regardless of worker_num -
- * no risk of the same job firing once per worker, the classic pitfall of registering timers in the workerStart event.
- * This is the pattern production frameworks use (e.g., Hyperf's crontab component runs its dispatcher as a custom
- * process). Two caveats worth knowing: the process callback must keep looping (a user process whose callback returns
- * while the server is running gets re-forked immediately, over and over), and $server->reload() does NOT restart user
- * processes - only a full server restart picks up new scheduler code.
+ * \Swoole\Server::addProcess() - a custom process that the server starts and supervises alongside its workers. The
+ * scheduler lives in its own OS process, so it is isolated from request workers (a heavy or blocking job cannot stall
+ * request handling), and there is exactly one scheduler regardless of worker_num - no risk of the same job firing once
+ * per worker, the classic pitfall of registering timers in the workerStart event. This is the pattern production
+ * frameworks use (e.g., Hyperf's crontab component runs its dispatcher as a custom process). Two caveats worth knowing:
+ * the process callback must keep looping (a user process whose callback returns while the server is running gets
+ * re-forked immediately, over and over), and $server->reload() does NOT restart user processes - only a full server
+ * restart picks up new scheduler code.
  *
  * Graceful shutdown is wired across processes here: when the server shuts down, its manager sends SIGTERM to the
  * user process. The process turns that signal into a closed channel (\Swoole\Coroutine\System::waitSignal() in one
@@ -72,7 +73,7 @@ $process = new Process(
                 break;
             }
         }
-        printf('[%s] The cronjob process has exited.%s', date('H:i:s'), PHP_EOL);
+        printf('[%s] The cron job process has exited.%s', date('H:i:s'), PHP_EOL);
     },
     false,
     0,

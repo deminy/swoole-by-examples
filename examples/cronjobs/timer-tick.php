@@ -11,10 +11,11 @@ declare(strict_types=1);
  *
  * Timer::tick() is fixed-rate: the schedule stays anchored to the original registration, so the cadence does not
  * drift over time no matter how long each run takes. Every tick callback runs in a freshly created coroutine, which
- * cuts both ways: a slow job does not delay later ticks, but ticks of a job slower than its own interval will overlap
- * (guard with a flag or lock if that matters), and an uncaught exception in a callback kills the whole process - wrap
- * job bodies in try/catch, as job A below demonstrates. Timers are also interval-only: for calendar semantics ("every day at 03:00") you would
- * re-arm \Swoole\Timer::after() against a computed \DateTimeImmutable instead.
+ * cuts both ways: a slow job that waits on coroutine-friendly I/O does not delay later ticks (a CPU-bound or blocking
+ * job still does), but ticks of a job slower than its own interval will overlap (guard with a flag or lock if that
+ * matters), and an uncaught exception in a callback kills the whole process - wrap job bodies in try/catch, as job A
+ * below demonstrates. Timers are also interval-only: for calendar semantics ("every day at 03:00") you would re-arm
+ * \Swoole\Timer::after() against a computed \DateTimeImmutable instead.
  *
  * The timers are registered inside \Swoole\Coroutine\run(), which starts Swoole's event loop and returns once every
  * timer has been cleared. To keep this example self-terminating, a one-shot \Swoole\Timer::after() clears all timers

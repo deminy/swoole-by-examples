@@ -10,22 +10,22 @@ declare(strict_types=1);
  * barely over three seconds to run this script.
  *
  * Unlike MySQL and PostgreSQL, SQLite has no built-in sleep function, and custom SQLite functions can't be used to
- * add one either: the methods to register them (PDO::sqliteCreateFunction(), PDO::sqliteCreateAggregate(), and
- * PDO::sqliteCreateCollation()) have been removed from the coroutine environment since Swoole v6.1.5. To make a
- * query take three seconds, this example uses SQLite's own locking instead: a separate connection holds the write
- * lock on the database for the whole run, and each of the five connections then tries to write to the database with
- * a busy timeout (PDO::ATTR_TIMEOUT) of three seconds. Each query spends exactly three seconds blocked inside
- * SQLite's busy handler before giving up with a "database is locked" error - a genuinely slow SQLite call, which
- * Swoole executes without blocking other coroutines: the five three-second queries finish concurrently, not
- * serially.
+ * add one either: with Swoole's coroutine SQLite driver (Swoole v6.1.5+), PDO's methods to register them
+ * (PDO::sqliteCreateFunction(), PDO::sqliteCreateAggregate(), and PDO::sqliteCreateCollation()) are unavailable, and
+ * Pdo\Sqlite::createFunction() doesn't work inside coroutines. To make a query take three seconds, this example uses
+ * SQLite's own locking instead: a separate connection holds the write lock on the database for the whole run, and each
+ * of the five connections then tries to write to the database with a busy timeout (PDO::ATTR_TIMEOUT) of three
+ * seconds. Each query spends exactly three seconds blocked inside SQLite's busy handler before giving up with a
+ * "database is locked" error - a genuinely slow SQLite call, which Swoole executes without blocking other coroutines:
+ * the five three-second queries finish concurrently, not serially.
  *
- * The PDO_SQLITE driver works in coroutines only when Swoole is compiled with the --enable-swoole-sqlite option, as it is
- * in the Docker images used by this repository.
+ * The PDO_SQLITE driver works in coroutines only when Swoole is compiled with the --enable-swoole-sqlite option, as it
+ * is in the Docker images used by this repository.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./hooks/pdo_sqlite.php"
  *
- * You can run following command to see how much time it takes to run the script:
+ * You can run the following command to see how much time it takes to run the script:
  *     docker compose exec -t client bash -c "time ./hooks/pdo_sqlite.php"
  */
 

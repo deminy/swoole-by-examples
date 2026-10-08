@@ -26,7 +26,8 @@ use Swoole\Process;
 use Swoole\Table;
 
 // The table must be fully set up (columns defined and memory allocated via method create()) before child processes
-// are forked. The table can hold at least 64 rows; extra rows are dropped once the table runs out of capacity.
+// are forked. The table can hold at least 64 rows; once the table is full, method set() fails (returns false) for new
+// keys.
 $table = new Table(64);
 $table->column('name', Table::TYPE_STRING, 8);
 $table->column('score', Table::TYPE_FLOAT);

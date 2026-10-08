@@ -24,7 +24,7 @@ class CronjobsTest extends ExampleTestCase
         // The message proves the stop request was observed via the closed channel (the CLOSED branch, not a plain
         // pop() timeout), followed by one final job run.
         self::assertStringContainsString('Stop requested; running the job one last time before exiting.', $result['output']);
-        self::assertStringContainsString('The cronjob has exited.', $result['output']);
+        self::assertStringContainsString('The cron job has exited.', $result['output']);
         self::assertStringNotContainsString('Deprecated', $result['output']);
     }
 
@@ -76,7 +76,7 @@ class CronjobsTest extends ExampleTestCase
         // The SIGTERM message proves the graceful-shutdown handshake ran: server shutdown -> SIGTERM to the user
         // process -> channel closed -> one final run -> clean exit.
         self::assertStringContainsString('SIGTERM received; running the job one last time before exiting.', $result['output']);
-        self::assertStringContainsString('The cronjob process has exited.', $result['output']);
+        self::assertStringContainsString('The cron job process has exited.', $result['output']);
         self::assertStringNotContainsString('Deprecated', $result['output']);
     }
 }

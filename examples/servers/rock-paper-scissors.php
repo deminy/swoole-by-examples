@@ -7,8 +7,9 @@ declare(strict_types=1);
  * In this example, we implement the classic hand game Rock Paper Scissors.
  *
  * Assuming there are three players A, B, and C, they choose their shapes separately by making a selection on the web
- * form and submitting their choices through following pages. Once everyone has their choices submitted, there will be
- * three HTTP POST requests made to the server.
+ * form and submitting their choices through the following pages, opened in three browser tabs on your computer (port
+ * 9801 is published to the host). Once everyone has their choices submitted, there will be three HTTP POST requests
+ * made to the server.
  *
  *   * http://127.0.0.1:9801?name=A
  *   * http://127.0.0.1:9801?name=B
@@ -17,13 +18,17 @@ declare(strict_types=1);
  * What happens next on the server side?
  *   1. The first two HTTP POST requests won't get responses immediately.
  *   2. Once all three HTTP requests are processed, they get responses simultaneously.
- *   3. All the responses are sent by the server when processing the third quest (the last request).
+ *   3. All the responses are sent by the server when processing the third request (the last request).
  *
- * For backend developers, instead of trying it using a web browser, you can execute following CLI commands in different
- * terminals and check the outputs:
+ * For backend developers, instead of trying it using a web browser, you can execute the following CLI commands in
+ * different terminals and check the outputs:
  *   docker compose exec -ti client curl -d "shape=Rock"     "http://server:9801?name=A"
  *   docker compose exec -ti client curl -d "shape=Paper"    "http://server:9801?name=B"
  *   docker compose exec -ti client curl -d "shape=Scissors" "http://server:9801?name=C"
+ *
+ * This server is started automatically in the "server" container (managed by Supervisord), and restarted whenever a PHP
+ * file under examples/ changes, so there's no need to start it yourself. Its output can be viewed with:
+ *     docker compose logs -f server
  */
 
 use Swoole\Constant;
@@ -49,7 +54,7 @@ $server = new Server('0.0.0.0', 9801, SWOOLE_BASE);
 // leaving the requests hanging.
 // To make the example work with multiple workers, the implementation would need to be refactored so that requests
 // belonging to the same game are tracked and grouped together across workers, e.g., by keying each request to a
-// game/race identifier stored in shared state (such as a Swoole\Table or an external store like Redis) instead of a
+// game identifier stored in shared state (such as a Swoole\Table or an external store like Redis) instead of a
 // per-worker PHP array.
 $server->set(
     [

@@ -4,13 +4,13 @@
 declare(strict_types=1);
 
 /**
- * This example shows how to use class \Swoole\Atomic\Long as atomic lock-free counters properly.
+ * This example shows how to use class \Swoole\Atomic\Long as an atomic, lock-free counter.
  *
  * Class \Swoole\Atomic\Long is used as atomic lock-free counters. It protects an underlying int value by providing
  * methods that perform atomic operations on the value.
  *
  * The class uses shared memory to store counters, and the counters can be accessed by multiple processes. There is no
- * need to use locks since the implementation is based on built-in atomic operations in gcc/clang.
+ * need to use locks since the implementation is based on atomic CPU instructions.
  *
  * When using the counters in worker processes of a Swoole server, they must be created before method Server::start() is
  * called. When using the counters in Process objects, they must be created before method Process::start() is called.
@@ -46,15 +46,15 @@ echo $atomic->get(), PHP_EOL; // 2
 $atomic->set(5);
 echo $atomic->get(), PHP_EOL; // 5
 
-// The counter won't be changed to 7 since current value is not 4.
+// The counter won't be changed to 7 since the current value is not 4.
 $atomic->cmpset(4, 7);
 echo $atomic->get(), PHP_EOL; // 5
 
-// The counter will be changed to 7 since current value is 5 (same as the one expected).
+// The counter will be changed to 7 since the current value is 5 (same as the one expected).
 $atomic->cmpset(5, 7);
 echo $atomic->get(), PHP_EOL, PHP_EOL; // 7
 
-// At this point, class \Swoole\Atomic\Long works exactly the same as class \Swoole\Atomic.
+// So far, class \Swoole\Atomic\Long behaves the same as class \Swoole\Atomic.
 // Now let's show the difference between the two classes.
 
 $atomic = new Swoole\Atomic\Long(-1);

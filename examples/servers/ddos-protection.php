@@ -6,7 +6,7 @@ declare(strict_types=1);
 /**
  * In this example we start an HTTP/1 server with DDoS protection enabled.
  *
- * DDoS protection in Swoole-based application server can be implemented by:
+ * DDoS protection in a Swoole-based application server can be implemented by:
  *     1. setting option \Swoole\Constant::OPTION_ENABLE_DELAY_RECEIVE to true. The server then doesn't read anything
  *        from a new connection until the connection is approved.
  *     2. using method \Swoole\Server::confirm() in the callback function of event "onConnect" to approve a connection,
@@ -44,8 +44,9 @@ $server->set(
     ]
 );
 
-// In this example, 1/3 of the traffic is processed at a later time, but not in real time. In reality,
-// there are different ways to enable DDoS protection, like rate limiting, blocking IP address, etc.
+// In this example, 1/3 of the connections are approved 2 seconds late, simulating a connection being held back for
+// checking. A real application would decide based on the client (e.g., rate limiting or an IP blocklist) and call
+// $server->close($fd) to reject a connection.
 $server->on('connect', function (Server $server, int $fd, int $reactorId): void {
     if (($fd % 3) === 0) {
         // 1/3 of all connections have to wait for two seconds before being processed.

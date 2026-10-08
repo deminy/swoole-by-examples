@@ -4,15 +4,18 @@
 declare(strict_types=1);
 
 /**
- * In this example two TCP requests are made in non-blocking mode to two different TCP servers. In most cases it should
- * receive a response from the 2nd TCP server first (since the 2nd one should be faster).
+ * In this example two TCP requests are sent concurrently (in two coroutines) to two different TCP servers, both of
+ * which echo the message back. Since both servers respond almost instantly, the order of the two responses may vary
+ * from run to run.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./clients/tcp.php"
  *
- * Here are the source code of the two TCP servers created:
- * 1. event-driven style (port 9505): https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp-event-driven.php
- * 2. coroutine style (port 9507):    https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp-coroutine-style.php
+ * Here is the source code of the two TCP servers:
+ * 1. event-driven style (port 9505):
+ *    https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp-event-driven.php
+ * 2. coroutine style (port 9507):
+ *    https://github.com/deminy/swoole-by-examples/blob/master/examples/servers/tcp-coroutine-style.php
  */
 
 use Swoole\Coroutine;

@@ -8,7 +8,8 @@ declare(strict_types=1);
  *
  * In this example, each time when a new coroutine is created, we purposely make it sleep for 0.1 second. Thus, when
  * executing the script, there will be execution switches between coroutines, and the numbers printed out could be in
- * a different order. Give it a try and see what the output looks like.
+ * a different order, e.g., "1765432": coroutines sleeping for the same amount of time aren't guaranteed to resume in
+ * the order they were created. Give it a try and see what the output looks like.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/coroutines/creation-callback-types.php"
@@ -63,16 +64,16 @@ run(function (): void {
         1
     );
 
-    // Type 2: A simple callback function defined somewhere previously.
+    // Type 2: A named function defined previously, passed by its name as a string.
     Coroutine::create('callbackFunction', 2);
 
     // Type 3: Use object method call as callback.
     Coroutine::create([new callbackClass(), 'callbackMethod'], 3);
 
-    // Type 4: Use static class method call as callback.
+    // Type 4: Use static class method call as callback (array form: ['ClassName', 'methodName']).
     Coroutine::create(['callbackClass', 'staticCallbackMethod'], 4);
 
-    // Type 5: Use static class method call as callback.
+    // Type 5: Use static class method call as callback (string form: 'ClassName::methodName').
     Coroutine::create('callbackClass::staticCallbackMethod', 5);
 
     // Type 6: Objects implementing __invoke can be used as callbacks.

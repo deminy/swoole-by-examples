@@ -14,10 +14,10 @@ abstract class ExampleTestCase extends TestCase
      * Hard cap on how much output the run*() helpers below accumulate into memory. A defensive backstop, not a
      * normal limit: every example in this suite produces at most a few hundred KB. It exists for the case where
      * an example runs away unexpectedly (confirmed by testing: csp/scheduling/toggle-preemptive-scheduler.php and
-     * preemptive.php can do exactly this if Swoole's preemptive scheduler misfires under concurrent load - see
-     * runExample()'s docblock) - without this cap, accumulating that runaway output into a single growing PHP
-     * string exhausts the 128MB memory_limit. Once hit, the pipes are still drained (so the child never blocks on
-     * a full pipe), the data is just discarded instead of appended.
+     * preemptive.php can do exactly this if Swoole's preemptive scheduler misfires under concurrent load, which is
+     * why SchedulingTest runs them through runIsolated() instead) - without this cap, accumulating that runaway
+     * output into a single growing PHP string exhausts the 128MB memory_limit. Once hit, the pipes are still drained
+     * (so the child never blocks on a full pipe), the data is just discarded instead of appended.
      */
     private const int MAX_OUTPUT_BYTES = 2 * 1024 * 1024;
 
@@ -40,15 +40,12 @@ abstract class ExampleTestCase extends TestCase
      * those run in a plain, non-coroutine child process where Swoole's coroutine APIs error out ("API must be
      * called in the coroutine", confirmed by testing). Use runIsolated() there instead.
      *
-     * The default of 60s is generous for the common case, but a few examples need a tighter bound: examples that
-     * rely on Swoole's preemptive scheduler (csp/scheduling/toggle-preemptive-scheduler.php, preemptive.php) depend
-     * on a timing-sensitive signal firing reliably, which - confirmed by testing - becomes unreliable when many
-     * *other* proc_open() children are being spawned/killed concurrently elsewhere in this same test run. When the
-     * preemptive scheduler doesn't fire, these examples' busy loop keeps running (and printing) indefinitely
-     * instead of exiting after ~100,000 lines, and at a 60s bound that means tens of megabytes of accumulated
-     * output - one run hit 116MB, another hit PHP's 128MB memory_limit outright. Pass a tighter $timeout for
-     * exactly those two examples so a scheduler misfire surfaces as a fast, clean test failure instead of a slow
-     * OOM.
+     * The default of 60s is generous for the common case. Examples that rely on Swoole's preemptive scheduler
+     * (csp/scheduling/*.php) are not run through this method at all: the scheduler depends on a timing-sensitive
+     * signal firing reliably, which - confirmed by testing - becomes unreliable when many *other* proc_open()
+     * children are being spawned/killed concurrently elsewhere in the same test run. When it doesn't fire, those
+     * examples' busy loop keeps running (and printing) indefinitely, so SchedulingTest runs them one at a time via
+     * runIsolated() in a separate process instead.
      *
      * @param list<string> $args
      * @return array{code: int, output: string}
@@ -83,7 +80,8 @@ abstract class ExampleTestCase extends TestCase
     }
 
     /**
-     * Runs an example script that may hang forever by design, from inside a #[RunInSeparateProcess] test method.
+     * Runs an example script from inside a #[RunInSeparateProcess] test method: examples that may hang forever by
+     * design, block the whole process, or need the preemptive scheduler to fire undisturbed.
      * Confirmed by testing: such a method's body runs in a genuinely separate, non-coroutine PHP process (spawned
      * by PHPUnit itself), so none of Swoole's coroutine APIs - including the Channel-based semaphore runExample()
      * uses - are available there. This method uses only plain blocking PHP (proc_open(), usleep(),
@@ -103,7 +101,7 @@ abstract class ExampleTestCase extends TestCase
     }
 
     /**
-     * Shared by both public methods above. $sleep is the only thing that differs between them: a coroutine-aware
+     * Shared by both helper methods above. $sleep is the only thing that differs between them: a coroutine-aware
      * yield for runExample() (so other coroutines can run while this one waits), or a plain blocking usleep() for
      * runIsolated() (there's no coroutine scheduler to yield to in that context).
      *

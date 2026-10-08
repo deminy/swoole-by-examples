@@ -4,14 +4,19 @@
 declare(strict_types=1);
 
 /**
- * This example shows how deadlock happens when trying to lock a locked file while the existing lock never gets released.
+ * This example shows how a deadlock happens when trying to lock a locked file while the existing lock never gets
+ * released.
  *
  * In this example,
- *   1. Runtime hooks are enabled by default. Thus, filesystem functions (e.g., fopen(), flock(), etc) are hooked, and
- *      they work in a coroutine-friendly style.
- *   2. The file is locked at line 34.
- *   3. When function flock() is called for a second time at line 43, it waits for the lock to be released, and the coroutine
- *      yields its execution. However, there isn't a second coroutine running, thus the existing lock will never be released.
+ *   1. Runtime hooks are enabled by function run() by default. Thus, filesystem functions (e.g., fopen(), flock(),
+ *      etc.) are hooked, and they work in a coroutine-friendly style.
+ *   2. The file is locked at line 39.
+ *   3. When function flock() is called for a second time at line 48, it waits for the lock to be released, and the
+ *      coroutine yields its execution. However, there isn't a second coroutine running, thus the existing lock will
+ *      never be released.
+ *
+ * Unlike the channel-based deadlock examples, Swoole's deadlock detector doesn't catch this case. No deadlock message
+ * is printed, and the script hangs forever (press Ctrl+C to stop it).
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/deadlocks/file-locking.php"
@@ -53,7 +58,7 @@ run(function (): void {
     fclose($fp2);
 });
 
-echo '3', PHP_EOL; // This will be printed out.
+echo '3', PHP_EOL; // This will never be printed out either: the script hangs forever (press Ctrl+C to stop it).
 
 // To clean up any temporary files created by this script.
 register_shutdown_function(function (): void {

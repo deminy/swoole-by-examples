@@ -4,7 +4,7 @@
 declare(strict_types=1);
 
 /**
- * In this example we start a mini-version of Redis server, where only the Redis "get" and "set" commands are partially
+ * In this example we start a mini Redis server, where only the Redis "get" and "set" commands are partially
  * implemented.
  *
  * Class \Swoole\Redis\Server speaks the Redis protocol, so any Redis client can talk to it: the Redis extension

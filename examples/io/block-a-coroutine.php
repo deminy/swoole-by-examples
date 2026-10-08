@@ -35,7 +35,7 @@ run(function (): void {
         // until the channel is not empty or the timeout is reached.
         //
         // In our case, the pop() method call will block the current coroutine for 2 seconds, and then the coroutine will
-        // be resumed. The method call will return false back and an error code is set on property $channel->errCode.
+        // be resumed. The method call returns false and an error code is set on property $channel->errCode.
         //
         // Please note that the pop() method blocks the current coroutine only, not the whole process.
         $channel->pop(2.0);

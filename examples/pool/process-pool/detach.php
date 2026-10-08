@@ -26,6 +26,12 @@ declare(strict_types=1);
  * \Swoole\Atomic counter bounds the demo so that the pool shuts down once enough workers have started,
  * instead of forking replacements forever.
  *
+ * The pool (and thus the script) may exit before the detached process finishes, so its last message can appear after
+ * the pool has stopped. The detached process still runs the "workerStop" callback when it exits.
+ *
+ * Process IDs are printed with function getmypid(): in a detached process, $pool->getProcess() still describes the
+ * worker slot, which by then belongs to the replacement worker, so its process ID would be the replacement's.
+ *
  * How to run this script:
  *     docker compose exec -t client bash -c "./pool/process-pool/detach.php"
  */
@@ -38,24 +44,25 @@ $counter  = new Atomic(0); // Counts how many workers have started, so the demo 
 $detached = new Atomic(0); // Ensures that only ONE worker performs the detach-and-long-task demonstration.
 
 $pool->on('workerStart', function (Pool $pool, int $workerId) use ($counter, $detached): void {
-    $pid = $pool->getProcess()->pid; // @phpstan-ignore property.nonObject
-    echo "Process #{$workerId} (process ID in the OS: {$pid}) started.", PHP_EOL;
+    // A single string per echo statement: worker processes print concurrently, and an echo statement with multiple
+    // arguments (one write per argument) could interleave with another process's output.
+    echo "Process #{$workerId} (process ID in the OS: " . getmypid() . ') started.' . PHP_EOL;
 
     $started = $counter->add(1);
 
     // Let exactly one worker demonstrate the detach semantics. cmpset() atomically flips the flag from 0 to 1
     // for the winning worker only, so no other worker enters this branch.
     if ($detached->cmpset(0, 1)) {
-        echo "Process #{$workerId} is detaching from the pool; the pool will spawn a replacement worker.", PHP_EOL;
+        echo "Process #{$workerId} is detaching from the pool; the pool will spawn a replacement worker." . PHP_EOL;
 
         // After this call, the pool stops managing this worker and immediately forks a replacement to keep the
         // pool size at two. This worker is now on its own: the pool manager will not wait for it or kill it.
         $pool->detach();
 
         // Simulate a long/slow task that we didn't want to run under the pool manager's control.
-        echo "Detached process #{$workerId} is running a long task independently...", PHP_EOL;
+        echo "Detached process #{$workerId} is running a long task independently..." . PHP_EOL;
         sleep(2);
-        echo "Detached process #{$workerId} finished its long task and is exiting on its own.", PHP_EOL;
+        echo "Detached process #{$workerId} finished its long task and is exiting on its own." . PHP_EOL;
 
         // A detached worker is responsible for terminating itself; it won't be recycled by the pool manager.
         exit(0);
@@ -68,8 +75,7 @@ $pool->on('workerStart', function (Pool $pool, int $workerId) use ($counter, $de
     }
 });
 $pool->on('workerStop', function (Pool $pool, int $workerId): void {
-    $pid = $pool->getProcess()->pid; // @phpstan-ignore property.nonObject
-    echo "Process #{$workerId} (process ID in the OS: {$pid}) stopped.", PHP_EOL;
+    echo "Process #{$workerId} (process ID in the OS: " . getmypid() . ') stopped.' . PHP_EOL;
 });
 
 $pool->start();

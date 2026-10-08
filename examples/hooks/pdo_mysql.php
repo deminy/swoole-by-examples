@@ -4,15 +4,14 @@
 declare(strict_types=1);
 
 /**
- * In this example, we make five concurrent MySQL connection/queries using the PDO MYSQL extension.
- * Each query takes three seconds to finish. In non-blocking mode, it takes 15 seconds to make the five queries.
- * However, since the queries are executed asynchronously in Swoole, it takes barely over three seconds to finish all
- * the queries.
+ * In this example, we make five concurrent MySQL connections using the PDO_MYSQL driver, each running one query.
+ * Each query takes three seconds to finish. Run one after another (blocking), the five queries would take 15 seconds.
+ * Since Swoole runs them concurrently in five coroutines, the script finishes in barely over three seconds.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./hooks/pdo_mysql.php"
  *
- * You can run following command to see how much time it takes to run the script:
+ * You can run the following command to see how much time it takes to run the script:
  *     docker compose exec -t client bash -c "time ./hooks/pdo_mysql.php"
  */
 

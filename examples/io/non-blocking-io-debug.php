@@ -9,7 +9,9 @@ declare(strict_types=1);
  *
  * This script takes about 2 seconds to finish, and prints out "123456".
  *
- * Here the Swoole function co:sleep() is used to simulate non-blocking I/O. If we update the code to make it work in
+ * Here the PHP function sleep() is used to simulate non-blocking I/O: inside Swoole\Coroutine\run(), runtime hooks turn
+ * it into a coroutine-friendly version that pauses only the current coroutine (see
+ * "csp/coroutines/enable-and-disable.php"). If we update the code to make it work in
  * blocking mode, it takes about 3 seconds to finish, as you can see in script "blocking-io.php".
  *
  * For a simple version of this script, please check script "non-blocking-io.php".
@@ -32,3 +34,5 @@ run(function (): void {
     });
     echo '4';
 });
+
+echo PHP_EOL;

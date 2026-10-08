@@ -7,17 +7,17 @@ declare(strict_types=1);
  * In this example, we test concurrent slow Redis operations using predis.
  *
  * We make five Redis connections to a Redis server; each Redis connection (client) takes about three seconds to finish.
- * In non-blocking mode, it takes about 15 seconds to complete all the operations across those five Redis connections
+ * In blocking mode, it would take about 15 seconds to complete all the operations across those five Redis connections
  * (clients). However, since operations in different Redis connections (clients) are executed concurrently in Swoole, it
  * takes barely over three seconds to complete all the operations across all Redis connections (clients).
  *
  * Before running this script, you need to install predis first using the following command:
  *     docker compose exec -t client bash -c "composer global require predis/predis=~3.0"
  *
- * Now you can use following command to run this script:
+ * Now you can use the following command to run this script:
  *     docker compose exec -t client bash -c "./hooks/redis/predis.php"
  *
- * You can also run following command to see how much time it takes to run the script:
+ * You can also run the following command to see how much time it takes to run the script:
  *     docker compose exec -t client bash -c "time ./hooks/redis/predis.php"
  */
 

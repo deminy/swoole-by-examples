@@ -11,8 +11,8 @@ jobs:
         uses: actions/checkout@v7
 
       # composer.json lives at the repository root (/var/www), while the containers default to /var/www/examples,
-      # hence the explicit `-w /var/www`. Both containers mount the repository root, so installing dependencies
-      # once from the client container serves the server container as well. Before anything connects to them, the
+      # hence the explicit `-w /var/www`. All three PHP containers mount the repository root, so installing
+      # dependencies once from the client container serves the server and zts containers as well. Before anything connects to them, the
       # workflow waits (up to 60 seconds) until "supervisorctl status" lists every Supervisord-managed server as
       # RUNNING, and fails if they aren't by then. (The command's exit status alone isn't enough: it is 0 while the
       # programs are still STARTING.)

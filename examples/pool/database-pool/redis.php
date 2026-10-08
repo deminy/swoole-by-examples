@@ -4,11 +4,11 @@
 declare(strict_types=1);
 
 /**
- * In this example we create a Redis connection pool with maximally 32 connections (default pool size is 64).
- * We then repeatedly get a connection from the pool, execute a Redis set and Redis get command, and put back the
- * connection.
+ * In this example we create a Redis connection pool with at most 32 connections (default pool size is 64).
+ * We then repeatedly get a connection from the pool, execute a Redis set and Redis get command, and put the
+ * connection back.
  *
- * You can use following command to run this script:
+ * You can use the following command to run this script:
  *     docker compose exec -t client bash -c "./pool/database-pool/redis.php"
  */
 

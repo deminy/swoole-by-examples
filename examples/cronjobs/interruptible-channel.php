@@ -53,5 +53,5 @@ run(function (): void {
             break;
         }
     }
-    printf('[%s] The cronjob has exited.%s', date('H:i:s'), PHP_EOL);
+    printf('[%s] The cron job has exited.%s', date('H:i:s'), PHP_EOL);
 });

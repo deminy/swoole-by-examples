@@ -9,9 +9,9 @@ declare(strict_types=1);
  *     2. use the method in OOP style: Swoole\Coroutine::create().
  *     3. use function \Swoole\Coroutine\go() from Swoole Library.
  *     4. use the short name go().
- *     5. use the short name of class \Swoole\Coroutine to call the create() method: Co::create().
+ *     5. use the short name of class \Swoole\Coroutine to call the create() method: co::create().
  *
- * The four function/method calls are of the same thing:
+ * The five function/method calls are of the same thing:
  *     1. Function swoole_coroutine_create() is the one which actually creates a coroutine.
  *     2. Method Swoole\Coroutine::create() is an alias of function swoole_coroutine_create().
  *     3. Function \Swoole\Coroutine\go() proxies the call to method Swoole\Coroutine::create().

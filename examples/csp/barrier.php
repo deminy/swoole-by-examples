@@ -10,9 +10,13 @@ declare(strict_types=1);
  * Class \Swoole\Coroutine\Barrier is defined in this file:
  *     https://github.com/swoole/library/blob/master/src/core/Coroutine/Barrier.php
  *
- * This example uses class \Swoole\Coroutine\Barrier, which is implemented using destruct methods in PHP. Class
- * \Swoole\Coroutine\Barrier works similar to class \Swoole\Coroutine\WaitGroup, which is implemented using channels
- * (class \Swoole\Coroutine\Channel).
+ * This example uses class \Swoole\Coroutine\Barrier, which is implemented using destruct methods in PHP: each coroutine
+ * keeps a reference to $barrier through `use ($barrier)`. When a coroutine finishes, its reference is released; when
+ * the last one is gone, the barrier's destructor wakes up Barrier::wait(). So the `use ($barrier)` is required even
+ * though the variable isn't used inside the coroutine.
+ *
+ * Class \Swoole\Coroutine\Barrier works similarly to class \Swoole\Coroutine\WaitGroup, which is implemented using
+ * channels (class \Swoole\Coroutine\Channel).
  * @see https://github.com/deminy/swoole-by-examples/blob/master/examples/csp/waitgroup.php
  *
  * How to run this script:
@@ -34,11 +38,12 @@ run(function (): void {
     go(function () use ($barrier): void { // @phpstan-ignore closure.unusedUse
         sleep(2);
     });
+
     go(function () use ($barrier): void { // @phpstan-ignore closure.unusedUse
         sleep(3);
     });
 
-    Barrier::wait($barrier); // Wait those 3 coroutines to finish.
+    Barrier::wait($barrier); // Wait for those 3 coroutines to finish.
 
     // Any code here won't be executed until all 3 coroutines created in this function finish execution.
 });

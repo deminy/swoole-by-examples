@@ -15,7 +15,7 @@ declare(strict_types=1);
  * How to run this script:
  *     docker compose exec -t client bash -c "./hooks/pdo_pgsql.php"
  *
- * You can run following command to see how much time it takes to run the script:
+ * You can run the following command to see how much time it takes to run the script:
  *     docker compose exec -t client bash -c "time ./hooks/pdo_pgsql.php"
  */
 

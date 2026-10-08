@@ -4,9 +4,8 @@
 declare(strict_types=1);
 
 /**
- * In this example we show how to detect dead TCP connections using TCP keepalive. This script is very similar to the
- * TCP server one (tcp-event-driven.php), except that here we have TCP keepalive enabled, and adjust some parameters
- * related to TCP keepalive.
+ * In this example we show how to detect dead TCP connections using TCP keepalive. It uses the same kind of TCP echo
+ * server as example tcp-event-driven.php, with TCP keepalive enabled and its parameters adjusted.
  *
  * With TCP keepalive enabled, the operating system (not the application) watches each idle connection: once a
  * connection has been idle for "tcp_keepidle" seconds, it sends a keepalive probe to the other side, and repeats that
@@ -19,7 +18,12 @@ declare(strict_types=1);
  * connects to it, and then watches the server side of the connection for about 5 seconds, by reading the connection's
  * keepalive timer from file /proc/net/tcp (the same information that command "netstat -o" shows). The output shows the
  * time left before the first keepalive probe counting down to 0. The other side answers the probe, so the connection
- * stays open, and the timer is set again: the next probe is due 3 idle seconds after the answer.
+ * stays open; after that, the kernel re-checks the connection every "tcp_keepinterval" second and re-arms the timer for
+ * the rest of the 3 idle seconds, which is why the numbers after the first 0.0 jump around instead of counting down
+ * from 3 again.
+ *
+ * Compare with example heartbeat.php, where Swoole itself (not the operating system) closes connections that have been
+ * idle for too long.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./servers/keepalive.php"

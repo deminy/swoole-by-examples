@@ -34,19 +34,19 @@ $lock = new Lock(); // The lock created is available to all forked processes wit
 $lock->lock();
 
 // In this example, we will use a pool of 3 processes:
-//   - Process #0 and #1 are blocked in sequence and waiting another process (process #3) to wake them up.
-//   - Process #2 will wake up process #1 and #2 in sequence; afterwords it will shutdown the pool and exit the program.
+//   - Process #0 and #1 are blocked in sequence, waiting for another process (process #2) to wake them up.
+//   - Process #2 wakes up process #0 and #1 in sequence; afterwards it shuts down the pool and exits the program.
 $pool->on('workerStart', function (Pool $pool, int $workerId) use ($lock): void {
     Coroutine::sleep(max(0.001, $workerId * 0.1)); // Used only to better order the output from different processes.
 
     switch ($workerId) {
         case 0: // Process #0.
         case 1: // Process #1.
-            echo "Process #{$workerId} is blocked and waiting another process (process #2) to wake it up.", PHP_EOL;
+            echo "Process #{$workerId} is blocked and waiting for another process (process #2) to wake it up.", PHP_EOL;
             // Since the lock is already acquired by the main process of the pool at line 34, here the two child
             // processes are blocked until the lock is released and then acquired.
             $lock->lock();
-            echo "Process #{$workerId} is waken up.", PHP_EOL;
+            echo "Process #{$workerId} is woken up.", PHP_EOL;
             break;
         case 2: // Process #2.
             echo 'Process #2 is waking up process #0 and #1.', PHP_EOL;
@@ -55,14 +55,15 @@ $pool->on('workerStart', function (Pool $pool, int $workerId) use ($lock): void 
                 Coroutine::sleep(0.1); // Used only to better order the output.
             }
 
-            $pool->shutdown(); // Done with the example. Now lets shutdown the pool and exit the program.
+            $pool->shutdown(); // Done with the example. Now let's shut down the pool and exit the program.
             break;
         default:
             echo "Error: process #{$workerId} not handled properly.", PHP_EOL;
             break;
     }
 
-    // Blocks current process for a minute. This is to prevent recreating processes in the pool before the program exits.
+    // Keeps this worker process alive (without blocking it) until the pool shuts down, so that the pool doesn't
+    // restart it.
     Coroutine::sleep(60);
 });
 

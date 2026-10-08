@@ -4,12 +4,14 @@
 declare(strict_types=1);
 
 /**
- * The script is to show how to implement timer using coroutines only. Please check script "timer-class.php" to see
- * the original implementation where class \Swoole\Timer is used.
+ * This example shows how to implement the same timer as in script "timer-class.php" with coroutines only: a loop that
+ * calls \Swoole\Coroutine::sleep(). Please check script "timer-class.php" to see the original implementation where
+ * class \Swoole\Timer is used.
  *
  * How to run this script:
- *     docker compose exec -t server bash -c "./timer/coroutine-style.php"
+ *     docker compose exec -t client bash -c "./timer/coroutine-style.php"
  */
+
 use Swoole\Coroutine;
 
 use function Swoole\Coroutine\run;

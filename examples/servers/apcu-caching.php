@@ -4,21 +4,22 @@
 declare(strict_types=1);
 
 /**
- * In this example we use APCu to count number of HTTP requests processed by each worker process in Swoole. From this
- * example, we can see that APCu caching in Swoole works the same way as in other PHP CLI applications, even when
- * multiple coroutines and multiple processes are involved.
+ * APCu is a PHP extension that keeps key-value data in shared memory, so the data stays available across requests
+ * (and, in Swoole, across worker processes). In this example we use APCu to count the number of HTTP requests processed
+ * by each worker process in Swoole. From this example, we can see that APCu caching in Swoole works the same way as in
+ * other PHP CLI applications, even when multiple coroutines and multiple processes are involved.
  *
- * The APCu cache is created in shared memory when the server starts, before the worker processes are started, so all
- * the worker processes share the same cache: each worker process increments its own counter (e.g., "counter_0" for
- * worker #0), and any worker process can read all the counters.
+ * The APCu cache is created in shared memory when PHP starts (when the APCu extension is loaded), before the server
+ * creates its worker processes, so all the worker processes share the same cache: each worker process increments its
+ * own counter (e.g., "counter_0" for worker #0), and any worker process can read all the counters.
+ *
+ * To show how it works, the script starts a server with 3 worker processes, then a separate process sends 99 HTTP
+ * requests to it concurrently, and finally asks the server for a summary of all the counters. Each worker process
+ * handles a different number of requests, but the counters add up to 99. Then the script shuts the server down.
  *
  * Before using APCu with Swoole, we need to install the APCu extension, have it enabled, and have option
  * "apc.enable_cli" set to "1". Dockerfile for the server contains the necessary commands to install and enable APCu:
  *     https://github.com/deminy/swoole-by-examples/blob/master/dockerfiles/server/Dockerfile
- *
- * To show that, the script starts a server with 3 worker processes, then a separate process sends 99 HTTP requests to
- * it concurrently, and finally asks the server for a summary of all the counters. Each worker process handles a
- * different number of requests, but the counters add up to 99. Then the script shuts the server down.
  *
  * APCu is installed only in the server container, so this example must run from there.
  *

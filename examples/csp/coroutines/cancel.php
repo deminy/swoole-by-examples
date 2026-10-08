@@ -6,10 +6,10 @@ declare(strict_types=1);
 /**
  * This example shows how to cancel a coroutine from another coroutine, using method \Swoole\Coroutine::cancel().
  *
- * Cancelling a coroutine doesn't kill it. Instead, if the coroutine is suspended waiting for something (sleeping,
+ * Canceling a coroutine doesn't kill it. Instead, if the coroutine is suspended waiting for something (sleeping,
  * reading from a socket, popping from a channel, etc.), the waiting operation is interrupted and returns a failure
- * right away; the coroutine then keeps running from there. The coroutine can call \Swoole\Coroutine::isCanceled() to tell a cancellation apart
- * from an ordinary failure, and decide what to do next (usually: clean up and return).
+ * right away; the coroutine then keeps running from there. The coroutine can call \Swoole\Coroutine::isCanceled() to
+ * tell a cancellation apart from an ordinary failure, and decide what to do next (usually: clean up and return).
  *
  * In this example:
  *   1. Coroutine #2 starts a 10-second sleep.

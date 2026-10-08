@@ -15,8 +15,8 @@ use function Swoole\Coroutine\go;
 
 class ServersTest extends ExampleTestCase
 {
-    // Not Supervisord-managed; a standalone script that starts its own TCP server AND client internally and
-    // self-terminates in ~5s with deterministic output.
+    // Self-driving: starts its own TCP server in a child process, connects to it as a client, and finishes in about
+    // 5s with deterministic output.
     public function testHeartbeat(): void
     {
         $result = $this->runExample('servers/heartbeat.php');
@@ -24,8 +24,8 @@ class ServersTest extends ExampleTestCase
         self::assertStringContainsString('Server side has successfully closed the connection', $result['output']);
     }
 
-    // Not Supervisord-managed; fully self-driving (its own curl request, reload, and shutdown are all scheduled
-    // internally via timers) - confirmed by testing: completes in ~150ms on its own.
+    // Self-driving: its own curl request, reload, and shutdown are all scheduled internally via timers, and it
+    // completes in about 150ms.
     public function testServerEvents(): void
     {
         $result = $this->runExample('servers/server-events.php');
@@ -33,8 +33,8 @@ class ServersTest extends ExampleTestCase
         self::assertStringContainsString('Event "onShutdown" is triggered.', $result['output']);
     }
 
-    // Not Supervisord-managed; like server-events.php above, it drives itself (schedules its own HTTP request
-    // internally and shuts itself down once its demonstration work completes) and finishes in ~1.2s.
+    // Self-driving: like server-events.php above, it schedules its own HTTP request internally and shuts itself
+    // down once its demonstration work completes, finishing in about 1.2s.
     public function testEnableCoroutine(): void
     {
         $result = $this->runExample('servers/enable-coroutine.php');
@@ -49,8 +49,8 @@ class ServersTest extends ExampleTestCase
         self::assertStringContainsString('Task data is delivered as a Swoole\Server\Task object.', $result['output']);
     }
 
-    // Not Supervisord-managed; a coroutine-style server that the script starts, sends three concurrent requests to, and
-    // shuts down itself, in about 1 second.
+    // Self-driving: a coroutine-style server that the script starts, sends three concurrent requests to, and shuts
+    // down itself, in about 1 second.
     public function testCoroutineHttpServer(): void
     {
         $result = $this->runExample('servers/coroutine-http-server.php');
@@ -58,10 +58,10 @@ class ServersTest extends ExampleTestCase
         for ($i = 1; $i <= 3; $i++) {
             self::assertMatchesRegularExpression("/Response to request #{$i}: Hello from coroutine #\\d+!/", $result['output']);
         }
-        self::assertStringContainsString('Three requests, each taking 1 second, finished in about 1 second(s) in total.', $result['output']);
+        self::assertStringContainsString('Three requests, each taking 1 second, finished in about 1 second in total.', $result['output']);
     }
 
-    // Not Supervisord-managed; self-driving (creates its own self-signed certificate, makes two HTTPS requests to
+    // Self-driving (creates its own self-signed certificate, makes two HTTPS requests to
     // itself, and shuts itself down).
     public function testHttps(): void
     {
@@ -71,7 +71,7 @@ class ServersTest extends ExampleTestCase
         self::assertStringContainsString('Client #2 (trusts the certificate): HTTP 200, body: Hello over HTTPS!', $result['output']);
     }
 
-    // Not Supervisord-managed; self-driving (a user process makes requests, updates the handler file, reloads the
+    // Self-driving (a user process makes requests, updates the handler file, reloads the
     // server, and shuts it down).
     public function testHotReload(): void
     {
@@ -85,7 +85,7 @@ class ServersTest extends ExampleTestCase
         self::assertNotSame($matches[1][0], $matches[1][1]);
     }
 
-    // Not Supervisord-managed; self-driving (worker #0 connects three WebSocket clients to the server, and shuts the
+    // Self-driving (worker #0 connects three WebSocket clients to the server, and shuts the
     // server down once the broadcast has been received).
     public function testWebsocketBroadcast(): void
     {
@@ -97,7 +97,7 @@ class ServersTest extends ExampleTestCase
         }
     }
 
-    // Not Supervisord-managed; self-driving (6 concurrent requests to itself, then shutdown) and finishes in about 2s.
+    // Self-driving (6 concurrent requests to itself, then shutdown) and finishes in about 2s.
     public function testDdosProtection(): void
     {
         $result = $this->runExample('servers/ddos-protection.php');
@@ -106,7 +106,7 @@ class ServersTest extends ExampleTestCase
         self::assertStringContainsString('Requests answered right away: 4; requests delayed by about 2 seconds: 2', $result['output']);
     }
 
-    // Not Supervisord-managed; self-driving (connects to itself, then watches the server side of the connection's
+    // Self-driving (connects to itself, then watches the server side of the connection's
     // keepalive timer in /proc/net/tcp for about 5s, through the first keepalive probe).
     public function testKeepalive(): void
     {
@@ -126,7 +126,7 @@ class ServersTest extends ExampleTestCase
         self::assertTrue($wentUp, $result['output']);
     }
 
-    // Not Supervisord-managed; self-driving (a user process talks to the server through phpredis, then shuts it down).
+    // Self-driving (a user process talks to the server through phpredis, then shuts it down).
     public function testRedisServer(): void
     {
         $result = $this->runExample('servers/redis.php');
@@ -137,7 +137,7 @@ class ServersTest extends ExampleTestCase
         );
     }
 
-    // Not Supervisord-managed; self-driving (streams 20 events to itself in about 2s, then shutdown).
+    // Self-driving (streams 20 events to itself in about 2s, then shutdown).
     public function testHttp1Sse(): void
     {
         $result = $this->runExample('servers/http1-sse.php');
@@ -148,7 +148,7 @@ class ServersTest extends ExampleTestCase
         self::assertStringContainsString('Content-Type of the response: text/event-stream; charset=utf-8', $result['output']);
     }
 
-    // Not Supervisord-managed; self-driving (a user process runs mosquitto_sub and mosquitto_pub against the broker, then
+    // Self-driving (a user process runs mosquitto_sub and mosquitto_pub against the broker, then
     // shuts it down). The Mosquitto command-line clients are installed only in the client container.
     public function testMqtt(): void
     {
@@ -172,7 +172,7 @@ class ServersTest extends ExampleTestCase
         self::assertStringContainsString('In this example we start an HTTP/2 server.', (string) $response->data);
     }
 
-    // Not Supervisord-managed; self-driving (shuts itself down after 2s, interrupting the cron job's 19-second wait).
+    // Self-driving (shuts itself down after 2s, interrupting the cron job's 19-second wait).
     public function testInterruptibleSleep(): void
     {
         $result = $this->runExample('servers/interruptible-sleep.php');
@@ -182,7 +182,7 @@ class ServersTest extends ExampleTestCase
         self::assertStringContainsString('[INTERRUPTIBLE-SLEEP] The cron job has exited.', $result['output']);
     }
 
-    // Not Supervisord-managed; self-driving (talks to itself over HTTP/1, HTTP/2, and WebSocket, then shutdown).
+    // Self-driving (talks to itself over HTTP/1, HTTP/2, and WebSocket, then shutdown).
     public function testMixedProtocolsSamePort(): void
     {
         $result = $this->runExample('servers/mixed-protocols-same-port.php');
@@ -193,7 +193,7 @@ class ServersTest extends ExampleTestCase
         );
     }
 
-    // Not Supervisord-managed; self-driving (starts an upstream HTTP server and the proxy, sends a request through the
+    // Self-driving (starts an upstream HTTP server and the proxy, sends a request through the
     // proxy, then shuts both down).
     public function testProxy(): void
     {
@@ -202,7 +202,7 @@ class ServersTest extends ExampleTestCase
         self::assertSame('Response through the proxy: HTTP 234, body: Hello from the upstream server!', trim($result['output']));
     }
 
-    // Not Supervisord-managed; self-driving. The primary port speaks HTTP, while the additional port has the inherited
+    // Self-driving: the primary port speaks HTTP, while the additional port has the inherited
     // HTTP protocol turned off, so it echoes an HTTP request back as raw bytes instead of parsing it.
     public function testMixedProtocolsPerPort(): void
     {
@@ -217,7 +217,7 @@ class ServersTest extends ExampleTestCase
         );
     }
 
-    // Not Supervisord-managed; self-driving (sends "hello" to each of its two ports, then shutdown).
+    // Self-driving (sends "hello" to each of its two ports, then shutdown).
     public function testMultiplePorts(): void
     {
         $result = $this->runExample('servers/multiple-ports.php');
@@ -271,7 +271,7 @@ class ServersTest extends ExampleTestCase
         }
     }
 
-    // Not Supervisord-managed; self-driving (a WebSocket round trip, then the server runs for 2.5s while its two user
+    // Self-driving (a WebSocket round trip, then the server runs for 2.5s while its two user
     // processes print their messages, then shutdown).
     public function testWebsocketIntegrated(): void
     {

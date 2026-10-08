@@ -9,26 +9,30 @@ declare(strict_types=1);
  * Hook flags in Swoole allow certain blocking I/O operations (e.g., sleep, file operations, etc.)
  * to be made coroutine-friendly, enabling them to run non-blockingly within coroutines.
  *
- * In this script:
- * - Five sub-coroutines are created within the main coroutine (initiated by `run()`).
- * - Each sub-coroutine sleeps for one second, but their execution behavior varies based on hook flag settings:
- *   1. The first three sub-coroutines run in non-blocking mode due to specific hook flags being set.
- *   2. The last two sub-coroutines run in blocking mode because certain hook flags are disabled.
+ * Method \Swoole\Runtime::setHookFlags() changes the hooks for the whole process, effective immediately. Since go()
+ * starts running the new coroutine right away, each sleep(1) call below runs under whatever hook flags were set just
+ * before it.
  *
- * Execution timing:
- * - The script takes approximately 3 seconds to complete.
- * - Sub-coroutines execute as follows:
- *   1. The first three (non-blocking) sub-coroutines complete last but run concurrently, taking ~1 second.
- *   2. The fourth (blocking) sub-coroutine finishes first, taking ~1 second.
- *   3. The fifth (blocking) sub-coroutine finishes second, taking ~1 second.
+ * In this script:
+ * - Five child coroutines are created within the main coroutine (initiated by `run()`).
+ * - Each child coroutine sleeps for one second, but their execution behavior varies based on hook flag settings:
+ *   1. The first three child coroutines run in non-blocking mode, since the sleep hook is enabled for them.
+ *   2. The last two child coroutines run in blocking mode, since the sleep hook is disabled for them.
+ *
+ * Execution timing (about 3 seconds in total):
+ * - The first three coroutines print 0, 1 and 2, and yield right away, since their sleep() calls are hooked.
+ * - The fourth coroutine's sleep() call is not hooked, so it blocks the whole process for 1 second (it prints 3, then
+ *   4), and so does the fifth one (it prints 5, then 6).
+ * - Only then does Swoole's event loop get control again; the three hooked sleeps finish about 1 second later, and the
+ *   three coroutines print 7.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./hooks/hook-flags.php"
  *
- * You can run following command to see how much time it takes to run the script:
+ * You can run the following command to see how much time it takes to run the script:
  *     docker compose exec -t client bash -c "time ./hooks/hook-flags.php"
  *
- * The printed numbers in the output illustrate the order of execution across different coroutines.
+ * The printed numbers in the output ("0123456777") illustrate the order of execution across different coroutines.
  */
 
 use Swoole\Constant;
@@ -38,7 +42,8 @@ use Swoole\Runtime;
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
-// Globally enable all hook flags to make blocking I/O operations coroutine-friendly by default.
+// Enable all hook flags, making blocking I/O operations coroutine-friendly. This is already the default; it is set
+// here only for clarity.
 Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_ALL]);
 
 run(function (): void {

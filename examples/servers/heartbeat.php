@@ -6,8 +6,14 @@ declare(strict_types=1);
 /**
  * In this example we show how to detect dead TCP connections with heartbeats.
  *
+ * Swoole can close idle connections by itself: with option "heartbeat_check_interval" set, the server checks all
+ * connections every N seconds, and closes those that haven't sent any data for "heartbeat_idle_time" seconds. This is
+ * done by the application server, unlike TCP keepalive (see example keepalive.php), which is done by the operating
+ * system. In this example the server checks every second and closes connections idle for 3 seconds; the client sends
+ * two pings 2 seconds apart (both answered), then waits 4 seconds and finds the connection closed.
+ *
  * How to run this script:
- *     docker compose exec -t server bash -c "./servers/heartbeat.php"
+ *     docker compose exec -t client bash -c "./servers/heartbeat.php"
  */
 
 use Swoole\Constant;
@@ -18,7 +24,7 @@ use Swoole\Server;
 
 use function Swoole\Coroutine\go;
 
-// In this example, we start a TCP server first. When a client is connected, the server checks activities from the
+// In this example, we start a TCP server first. When a client is connected, the server checks for activity from the
 // client every second. If there is no data received from the client within 3 seconds, the server closes the connection.
 $serverProcess = new Process(
     function (): never {
@@ -81,8 +87,9 @@ go(function (): void {
         sleep(2);
     }
 
-    // Then we wait 2 second and send a last message to the server. This message is sent 4 seconds after last message,
-    // thus the server has closed the connection due to inactivity and we should receive nothing from the server.
+    // Then we wait 2 seconds and send a last message to the server. This message is sent 4 seconds after the last
+    // message, thus the server has closed the connection due to inactivity and we should receive nothing from the
+    // server.
     sleep(2);
     $client->send('ping');
     $data = $client->recv();

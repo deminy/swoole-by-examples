@@ -51,8 +51,9 @@ provided Docker containers, and nearly every one is covered by an automated test
 
 ## Supported versions
 
-All the examples are written for and tested on **PHP 8.4+** and **Swoole 6.2+**. The Docker images, the Composer
-requirements, and the CI workflows all use these versions; the examples may not work on older versions of PHP or Swoole.
+All the examples are written for **PHP 8.4+** and **Swoole 6.2+**, and tested on PHP 8.4 with Swoole 6.2. The Docker
+images, the Composer requirements, and the CI workflows all use these versions; the examples may not work on older
+versions of PHP or Swoole.
 You don't need PHP, Swoole, or Composer installed locally: the only requirement is Docker with Compose v2 (the
 `docker compose` command).
 
@@ -76,12 +77,12 @@ as the working directory (which is why run commands use paths like `./csp/channe
 | Container | What runs there | How to use it |
 |---|---|---|
 | `client` | Standalone scripts, and clients that talk to the servers | `docker compose exec -t client bash -c "./csp/channel.php"` |
-| `server` | 8 long-running example servers (HTTP, WebSocket, TCP, UDP, ...), started automatically by Supervisord and reloaded when their script changes | Nothing to start: connect to `server:<port>` from the `client` container |
+| `server` | 8 long-running example servers (HTTP, WebSocket, TCP, UDP, ...), started automatically by Supervisord and restarted whenever a PHP file under `examples/` changes | Nothing to start: connect to `server:<port>` from the `client` container |
 | `zts` | The [thread examples](#threads), which need a thread-safe (ZTS) build of PHP | `docker compose exec -t zts php ./threads/map.php` |
 
 * **Every example documents its exact run command in its docblock**, along with any extra steps. The "Run from" column
-  in the tables below says where to run it: `client`, `server`, or "auto-started" for the servers that are already
-  running.
+  in the tables below says where to run it: `client`, `server`, `zts`, or "auto-started" for the servers that are
+  already running.
 * Run examples from the `client` container unless the docblock says otherwise. The two images differ: for example, only
   `client` has the `mysqli` extension, and only `server` has APCu and System V message queues.
 * Server ports are not published to your host (except port 9801, for [Rock Paper Scissors](#putting-it-all-together)),
@@ -103,9 +104,11 @@ The images are built from the [official Swoole image](https://hub.docker.com/r/p
 * **CSP and channels**: the concurrency style Swoole shares with Go (CSP stands for Communicating Sequential Processes).
   Coroutines pass data to each other through channels instead of sharing variables.
 * **Runtime hooks**: the switch that makes ordinary blocking PHP code (`sleep()`, PDO, mysqli, curl, phpredis, file
-  functions, ...) non-blocking inside coroutines, without changing the code.
+  functions, ...) non-blocking inside coroutines, without changing the code. `Swoole\Coroutine\run()` turns them on
+  for a script; a server turns them on with its `hook_flags` setting.
 * **Servers**: Swoole has built-in HTTP, WebSocket, TCP, UDP, and other servers, with no Nginx or PHP-FPM in front. A
-  server runs a master process plus worker processes, and your code reacts to events such as "a request arrived".
+  server runs several worker processes (managed by a manager process), and your code reacts to events such as "a
+  request arrived".
 * **Processes and shared memory**: for CPU-bound work or isolation, Swoole manages pools of worker processes, which
   share data through shared-memory structures (`Swoole\Table`, `Swoole\Atomic`) and locks.
 
@@ -117,7 +120,7 @@ The same work, done the PHP-FPM way and the Swoole way. Read these in order.
 |---|---|---|
 | [Blocking I/O](examples/io/blocking-io.php) | A plain PHP script whose two simulated I/O calls run one after the other, taking about 3 seconds | client |
 | [Non-blocking I/O](examples/io/non-blocking-io.php) ([debug version](examples/io/non-blocking-io-debug.php)) | The same work in two coroutines that wait at the same time, taking about 2 seconds; the debug version prints the order in which they interleave | client |
-| [Blocking vs non-blocking](examples/io/blocking-vs-non-blocking.php) | A function that starts a coroutine returns right away, while the coroutine it started keeps running | client |
+| [Blocking vs non-blocking](examples/io/blocking-vs-non-blocking.php) | A function that starts a coroutine returns as soon as that coroutine pauses in a non-blocking way, while the coroutine keeps running in the background | client |
 | [1,000,000 coroutines](examples/csp/coroutines/benchmark.php) | How cheap coroutines are: start a million of them in one process, each sleeping for 5 seconds (needs about 8 GB of RAM) | client |
 
 ## Coroutine basics
@@ -156,6 +159,8 @@ concurrently inside coroutines, without changing their code. In the database and
 | [Hook flags](examples/hooks/hook-flags.php) | Choose which kinds of blocking functions get hooked: coroutines with the hooks enabled run concurrently, the others block | client |
 
 ### curl
+
+Both examples send their requests to the auto-started HTTP/1 server in the `server` container.
 
 | Example | What it shows | Run from |
 |---|---|---|
@@ -210,16 +215,19 @@ container; the low-level socket example creates its own server socket.
 
 Some servers below are auto-started in the `server` container, and their docblocks show how to send requests to them.
 The others ("client" in the Run from column) start their own server on a random port, send it requests, print what
-happened, and shut down, so they run like any other script. A server runs in one of two modes: in `SWOOLE_BASE` mode (the default), each worker process accepts and handles its own
+happened, and shut down, so they run like any other script.
+
+A server runs in one of two modes: in `SWOOLE_BASE` mode (the default), each worker process accepts and handles its own
 connections; in `SWOOLE_PROCESS` mode, a master process owns all the connections and forwards their data to the worker
-processes, so any worker can reach any connection (see [WebSocket broadcasting](examples/servers/websocket-broadcast.php)).
+processes, so any worker can reach any connection (see
+[WebSocket broadcasting](examples/servers/websocket-broadcast.php)).
 
 ### Your first server
 
 | Example | What it shows | Run from |
 |---|---|---|
 | [HTTP/1 server](examples/servers/http1.php) | Custom status codes, static file serving, and gzip compression | auto-started, port 9501 |
-| [Server events](examples/servers/server-events.php) | Which callbacks (`onStart`, `onWorkerStart`, `onReceive`, `onTask`, ...) fire, in which process, and in what order, including during a reload | `docker run`, see docblock |
+| [Server events](examples/servers/server-events.php) | Which callbacks (`onStart`, `onWorkerStart`, `onReceive`, `onTask`, ...) fire, in which process, and in what order, including during a reload | client |
 | [Coroutines in a server](examples/servers/enable-coroutine.php) | The `enable_coroutine`, `task_enable_coroutine`, and `hook_flags` settings, and why a server enables no runtime hooks by default | client |
 | [Coroutine-style HTTP server](examples/servers/coroutine-http-server.php) | `Swoole\Coroutine\Http\Server`: a server that runs inside a coroutine in the current process, with no worker processes | client |
 | [Hot reload](examples/servers/hot-reload.php) | Load updated code into a running server with `$server->reload()`, which restarts the worker processes gracefully | client |
@@ -253,7 +261,7 @@ processes, so any worker can reach any connection (see [WebSocket broadcasting](
 
 | Example | What it shows | Run from |
 |---|---|---|
-| [Heartbeat](examples/servers/heartbeat.php) | The server closes connections that have sent nothing for a given number of seconds | server |
+| [Heartbeat](examples/servers/heartbeat.php) | The server closes connections that have sent nothing for a given number of seconds | client |
 | [TCP keepalive](examples/servers/keepalive.php) | Let the operating system probe idle connections and drop dead ones | client |
 | [Delayed receive (DDoS protection)](examples/servers/ddos-protection.php) | Delay reading from a new connection until your code approves it (`enable_delay_receive` and `Server::confirm()`) | client |
 
@@ -267,9 +275,9 @@ processes, so any worker can reach any connection (see [WebSocket broadcasting](
 
 ### Process pools
 
-`Swoole\Process\Pool` keeps a fixed set of worker processes running, restarting any that exit. The examples differ in how
-outside code sends work to the workers through IPC (inter-process communication); in each of them, one worker process
-plays the client, sending work to the others.
+`Swoole\Process\Pool` keeps a fixed set of worker processes running, restarting any that exit. The examples differ in
+how work reaches the workers through IPC (inter-process communication). In the message-queue, TCP and Unix-socket
+examples, one worker process plays the client and sends work to the others.
 
 | Example | What it shows | Run from |
 |---|---|---|
@@ -320,10 +328,10 @@ data through thread-safe containers instead. These examples need a thread-safe (
 
 | Example | What it shows | Run from |
 |---|---|---|
-| [`Swoole\Timer`](examples/timer/timer-class.php) | Run code after a delay or at a fixed interval, like JavaScript's `setTimeout()` and `setInterval()` | server |
-| [Timers with coroutines](examples/timer/coroutine-style.php) | The same, implemented with plain coroutines and sleeps | server |
+| [`Swoole\Timer`](examples/timer/timer-class.php) | Run code after a delay or at a fixed interval, like JavaScript's `setTimeout()` and `setInterval()` | client |
+| [Timers with coroutines](examples/timer/coroutine-style.php) | The same, implemented with plain coroutines and sleeps | client |
 
-Cron jobs below are recurring jobs implemented in six different ways, without the system cron.
+The examples below run recurring jobs (cron jobs) in seven different ways, without the system cron.
 
 ### Standalone cron jobs
 
@@ -358,15 +366,17 @@ The scheduler runs inside an application server, following the server's lifecycl
 
 ### Deadlocks: how they happen
 
-A deadlock happens when every coroutine is waiting and nothing can wake them up. Swoole detects this and reports it.
+A deadlock happens when every coroutine is waiting and nothing can wake them up. When coroutines wait on Swoole's own
+primitives (such as channels), Swoole detects this and reports it. When they block on something Swoole can't see, such
+as a file lock or a `Swoole\Lock`, the program just hangs.
 
 | Example | What it shows | Run from |
 |---|---|---|
 | [Pop from an empty channel](examples/csp/deadlocks/an-empty-channel.php) | The only coroutine waits for data that never comes | client |
 | [Push to a full channel](examples/csp/deadlocks/channel-is-full.php) | The only coroutine waits for space that never frees up | client |
-| [File locking](examples/csp/deadlocks/file-locking.php) | Lock a file that is already locked and never released | client |
+| [File locking](examples/csp/deadlocks/file-locking.php) | Lock a file that is already locked and never released: the program hangs, with no deadlock report | client |
 | [`Swoole\Lock` across coroutines](examples/csp/deadlocks/swoole-lock.php) | Acquire a locked `Swoole\Lock` from another coroutine: the program just hangs | client |
-| [Server shutdown](examples/csp/deadlocks/server-shutdown.php) | Shut down or reload a server improperly | `docker run`, see docblock |
+| [Server shutdown](examples/csp/deadlocks/server-shutdown.php) | Shut down a server while a coroutine is still running | client |
 
 ### Deadlocks: detecting and handling them
 
@@ -401,8 +411,8 @@ This repository's own test suite uses it to run a test for nearly every example:
 * The base test class [tests/Support/ExampleTestCase.php](tests/Support/ExampleTestCase.php) extends
   `Deminy\Counit\TestCase`.
 * There is one test class per topic under [tests/](tests/). Most tests run their example as a subprocess and check its
-  output, with at most 8 examples running at once; tests for the auto-started servers connect to them using Swoole's
-  coroutine clients instead.
+  output, with at most 8 examples running at once; the auto-started servers are tested by connecting to them, either
+  directly with Swoole's coroutine clients or through the client examples.
 
 To run the tests (`composer.json` is at the repository root, hence the `-w /var/www`):
 
@@ -420,9 +430,10 @@ thread examples. The client suite takes about a minute.
 <details>
 <summary>Why some tests run in a separate process, and which example isn't tested</summary>
 
-* Tests for examples that may hang forever by design (the deadlock demos, the process-blocking `io/block-*` examples) or
-  that depend on the preemptive scheduler run one at a time in a separate, non-coroutine process, using PHPUnit's
-  `#[RunInSeparateProcess]` attribute and `ExampleTestCase::runIsolated()`. Running many such subprocesses concurrently
+* Tests for examples that may hang forever by design (the deadlock demos), that block the whole process (the
+  `io/block-*-using-swoole-lock.php` examples), or that depend on the preemptive scheduler run one at a time in a
+  separate, non-coroutine process, using PHPUnit's `#[RunInSeparateProcess]` attribute and
+  `ExampleTestCase::runIsolated()`. Running many such subprocesses concurrently
   proved unreliable, so these trade speed for reliability, and they account for most of the suite's running time.
 * `csp/coroutines/benchmark.php` is skipped (it creates 1,000,000 coroutines).
 

@@ -8,8 +8,9 @@ declare(strict_types=1);
  *
  * A \Swoole\WebSocket\Server is also an HTTP server: requests that aren't WebSocket handshakes are handled by its
  * 'request' callback. With option "open_http2_protocol" turned on, the same port also accepts HTTP/2 connections, and
- * their requests are handled by the same 'request' callback. The server tells the protocols apart by the first bytes
- * that each client sends.
+ * their requests are handled by the same 'request' callback. The server tells HTTP/2 connections apart by the fixed
+ * "connection preface" they start with, and WebSocket connections by the "Upgrade: websocket" header of their first
+ * HTTP request.
  *
  * To show that, the script starts the server, then sends an HTTP/1 request, an HTTP/2 request, and a WebSocket message
  * to the same port, and prints the three replies. Then the script shuts the server down.

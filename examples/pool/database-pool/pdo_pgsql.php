@@ -12,14 +12,14 @@ declare(strict_types=1);
  *   - Executes a simulated slow query that takes approximately 1 second.
  *   - Returns the connection back to the pool.
  *
- * Thanks to connection pooling and coroutine concurrency, the script completes
- * 1,000 sequential 1-second queries in just over 10 seconds (actual time may vary
- * depending on your hardware and runtime environment).
+ * Thanks to connection pooling and coroutine concurrency, the script runs 1,000 one-second queries (over 16 minutes if
+ * run one after another) in just over 10 seconds: 100 connections handle the queries 100 at a time, in 1,000 / 100 =
+ * 10 rounds (actual time may vary depending on your hardware and runtime environment).
  *
- * You can use following command to run this script:
+ * You can use the following command to run this script:
  *     docker compose exec -t client bash -c "./pool/database-pool/pdo_pgsql.php"
  *
- * You can run following command to see how much time it takes to run the script:
+ * You can run the following command to see how much time it takes to run the script:
  *     docker compose exec -t client bash -c "time ./pool/database-pool/pdo_pgsql.php"
  */
 

@@ -67,7 +67,7 @@ Timer::after(1_000, function (): void {
     Process::kill(posix_getpid(), SIGTERM);
 });
 
-// Unlike in example "event-listening-1.php", here the event loop keeps running until the exit condition is met.
+// Unlike in example "default-exit-condition.php", here the event loop keeps running until the exit condition is met.
 //
 // NOTE: In most cases it's not necessary nor recommended to use method `Swoole\Event::wait()` directly in your code.
 // The example in this file is just for demonstration purpose.

@@ -12,17 +12,17 @@ declare(strict_types=1);
  *   - Executes a simulated slow query that takes approximately 1 second.
  *   - Returns the connection back to the pool.
  *
- * Thanks to connection pooling and coroutine concurrency, the script completes
- * 1,024 sequential 1-second queries in just over 8 seconds (actual time may vary
- * depending on your hardware and runtime environment).
+ * Thanks to connection pooling and coroutine concurrency, the script runs 1,024 one-second queries (over 17 minutes if
+ * run one after another) in just over 8 seconds: 128 connections handle the queries 128 at a time, in 1,024 / 128 = 8
+ * rounds (actual time may vary depending on your hardware and runtime environment).
  *
  * This pool is created using the mysqli extension; alternatively, you can use the PDO
  * MySQL extension.
  *
- * You can use following command to run this script:
+ * You can use the following command to run this script:
  *     docker compose exec -t client bash -c "./pool/database-pool/mysqli.php"
  *
- * You can run following command to see how much time it takes to run the script:
+ * You can run the following command to see how much time it takes to run the script:
  *     docker compose exec -t client bash -c "time ./pool/database-pool/mysqli.php"
  */
 

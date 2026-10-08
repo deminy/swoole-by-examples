@@ -4,7 +4,7 @@
 declare(strict_types=1);
 
 /**
- * This example shows how deadlock happens when the only coroutine yields its execution. There is no any other coroutine
+ * This example shows how a deadlock happens when the only coroutine yields its execution. There is no other coroutine
  * to execute, and the coroutine never gets resumed. Inside that coroutine, whatever code after the yield statement will
  * never be executed.
  *

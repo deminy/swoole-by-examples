@@ -34,23 +34,25 @@ non-ignorable error.
 ## Development environment
 
 ```bash
-docker compose up -d          # starts both containers; give it a few seconds for Supervisord-managed servers to bind
+docker compose up -d          # starts all six services (three PHP containers plus Redis, MySQL, PostgreSQL); give it a
+                              # few seconds for the Supervisord-managed servers to bind
 docker compose exec -ti server bash
 docker compose exec -ti client bash
 ```
 
-Both containers mount the whole repo root at `/var/www`, with `/var/www/examples` as the working directory (set
-via `WORKDIR` in both Dockerfiles, so the run commands documented in the examples' docblocks work as-is). The
-**client** container is where client-side/standalone scripts are normally run (the `redis`/`mysql`/`postgresql`
-services are reachable from both PHP containers, which share the Compose default network);
+All three PHP containers mount the whole repo root at `/var/www`, with `/var/www/examples` as the working directory
+(set via `WORKDIR` in both Dockerfiles, and `working_dir` in `docker-compose.yml` for `zts`, so the run commands
+documented in the examples' docblocks work as-is). The **client** container is where client-side/standalone scripts
+are normally run (the `redis`/`mysql`/`postgresql` services are reachable from all three PHP containers, which share
+the Compose default network);
 the **server** container additionally runs 8 persistent, Supervisord-managed application servers (listed in
 `docker-compose.yml`'s `AUTORELOAD_PROGRAMS` env var) that many client-side examples connect to.
 
 Running a single example: each example's docblock documents its own exact run command (which container, any
-required args), e.g. `docker compose exec -t client bash -c "./clients/http1.php"`. A few examples must run from
-`server` specifically — either because they say so in their docblock, or because they depend on
-extensions installed only in the server image (`servers/apcu-caching.php` needs APCu, and
-`pool/process-pool/pool-msgqueue.php` needs "sysvmsg"). `examples/hooks/redis/predis.php` requires
+required args), e.g. `docker compose exec -t client bash -c "./clients/http1.php"`. Two examples must run from
+`server`, because they depend on extensions installed only in the server image (`servers/apcu-caching.php` needs
+APCu, and `pool/process-pool/pool-msgqueue.php` needs "sysvmsg"); everything else that isn't ZTS-only runs from
+`client`. `examples/hooks/redis/predis.php` requires
 `composer global require predis/predis=~3.0` inside the container first: the script deliberately loads Composer's
 *global* autoloader (`$HOME/.composer/vendor/autoload.php`), so the project-level `composer install` — which also
 installs predis, but only so PHPStan can resolve its symbols — does not satisfy it.
@@ -67,7 +69,7 @@ bodies across different tests run concurrently. `vendor/` isn't committed; insta
 tests.
 
 ```bash
-docker compose exec -T -w /var/www client composer install -n -q --no-progress   # once is enough — both containers share the same mount
+docker compose exec -T -w /var/www client composer install -n -q --no-progress   # once is enough — all three PHP containers share the same mount
 docker compose exec -T -w /var/www client ./vendor/bin/counit --testsuite client
 docker compose exec -T -w /var/www server ./vendor/bin/counit --testsuite server
 docker compose exec -T -w /var/www zts ./vendor/bin/counit --testsuite zts
@@ -85,13 +87,13 @@ Run a single test class or method with `--filter` (from `/var/www` inside a cont
 
 Almost everything is in the `client` suite; only `tests/Server/PoolTest.php` and `tests/Server/ServersTest.php` are
 in `server` (same reason as above: their examples need the APCu and "sysvmsg" extensions, installed only in the server
-image). `csp/coroutines/benchmark.php` is
-intentionally skipped (`self::markTestSkipped()` in `CspTest`, it creates 1,000,000 coroutines). The ZTS-only
+image). `csp/coroutines/benchmark.php` is intentionally skipped (`self::markTestSkipped()` in `CspTest`, it creates 1,000,000 coroutines). The ZTS-only
 examples (`locks/lock-across-threads.php` and `threads/*.php`) are covered by `tests/Zts/ThreadsTest.php` in the
 `zts` suite, which runs in the `zts` container.
 
-A handful of tests — ones covering examples that may hang forever by design (the deadlock demos, the
-process-blocking `io/block-*` examples) or that depend on Swoole's preemptive scheduler actually firing
+A handful of tests — ones covering examples that may hang forever by design (the deadlock demos), that block the
+whole process (`io/block-a-process-using-swoole-lock.php` and `io/block-processes-using-swoole-lock.php`), or that
+depend on Swoole's preemptive scheduler actually firing
 (`csp/scheduling/toggle-preemptive-scheduler.php`, `preemptive.php` and `non-preemptive.php` — all of
 `SchedulingTest`) — run under PHPUnit's `#[RunInSeparateProcess]` attribute instead of the default coroutine style,
 and call `ExampleTestCase::runIsolated()` instead of `runExample()`. Running many
@@ -147,9 +149,9 @@ examples.
 Every new example must also come with a unit test, written the same way as the existing ones (see **`tests/`**
 below): one test method per example, added to the topic's test class (or a new test class for a new topic),
 normally driving the example through `runExample()` and asserting on its output. Tests for ZTS-only examples go in
-`tests/Zts/` (the `zts` suite) instead, since only the `zts` container can run them.
-Persistent, Supervisord-managed servers — mostly under `examples/servers/`, plus the three `pool-*` programs
-whose scripts live in `examples/pool/process-pool/` — are wired up via
+`tests/Zts/` (the `zts` suite) instead, since only the `zts` container can run them. Every new example also needs a
+row in the matching `README.md` table, with a "Run from" value that matches its docblock.
+Persistent, Supervisord-managed servers (all under `examples/servers/`) are wired up via
 `dockerfiles/server/rootfilesystem/etc/supervisor/service.d/*.conf` and the `AUTORELOAD_PROGRAMS` env var in
 `docker-compose.yml`; adding a new persistent-server example means adding both.
 
@@ -160,8 +162,8 @@ Every call to `Swoole\Event::wait()` must be preceded by these two comment lines
 // The example in this file is just for demonstration purpose.
 ```
 
-Some examples reference specific line numbers in their docblocks/comments (e.g., "uncomment line 41 and line
-32" in `csp/deadlocks/server-shutdown.php`; find them all with `grep -rnEi 'lines? [0-9]+' examples/`). Any
+Some examples reference specific line numbers in their docblocks/comments (e.g., "uncomment line 46 and line
+37" in `csp/deadlocks/server-shutdown.php`; find them all with `grep -rnEi 'lines? [0-9]+' examples/`). Any
 edit that shifts lines in such a file — even adding a single line above a referenced statement — silently
 breaks those references, so whenever an example is updated, check its line-number references against the
 actual line numbers (e.g., with `cat -n`) and update them accordingly.
@@ -176,14 +178,15 @@ actual line numbers (e.g., with `cat -n`) and update them accordingly.
 - `runIsolated($path, $timeout, $args)` — for `#[RunInSeparateProcess]`-marked test methods only (see "Running
   tests" above); same idea, plain blocking primitives instead of coroutine ones.
 
-`tests/Client/ServersTest.php` covers the persistent Supervisord-managed servers directly, using Swoole's
-coroutine HTTP/HTTP2/TCP clients to connect out to the `server` container. The other server examples aren't
-Supervisord-managed: they're self-driving scripts that start their own server on a random port (port 0), send it
+`tests/Client/ServersTest.php` runs the self-driving server examples, and connects directly (with Swoole's coroutine
+HTTP/HTTP2 clients) to some of the persistent Supervisord-managed servers in the `server` container; the rest of
+those servers are exercised by `ClientsTest`, whose client examples connect to them. The server examples that aren't
+Supervisord-managed are self-driving scripts that start their own server on a random port (port 0), send it
 requests, print what happened, and shut it down, so their tests just run them like any other example and check the
 output. New server examples should be self-driving too, unless another example needs to connect to them or the lesson
 needs a long-running server (e.g. `rock-paper-scissors.php`, played in a browser).
 
-**CI** (`.github/workflows/`): `tests.yml` runs coding style checks, static analysis, and both counit test
+**CI** (`.github/workflows/`): `tests.yml` runs coding style checks, static analysis, and all three counit test
 suites on every push/PR, in a Compose environment whose server/client images it builds from `dockerfiles/`
 itself (not the published ones — so image changes are exercised before ever being published).
 `build_docker_images.yml` builds and publishes `deminy/swoole-by-examples:{server,client}-6.2` to Docker Hub

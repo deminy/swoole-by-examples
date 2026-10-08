@@ -50,7 +50,7 @@ class DeadlocksTest extends ExampleTestCase
     }
 
     // Takes ~5-10s: Swoole's worker-exit-timeout mechanism forces the stuck worker down before the deadlock
-    // message prints (confirmed by testing - it does terminate on its own, unlike the two below).
+    // message prints (confirmed by testing - it does terminate on its own, unlike the three below).
     public function testServerShutdown(): void
     {
         $result = $this->runExample('csp/deadlocks/server-shutdown.php');
@@ -68,9 +68,8 @@ class DeadlocksTest extends ExampleTestCase
         self::assertTrue($result['timedOut'], $result['output']);
     }
 
-    // Not documented as hanging forever, but confirmed by testing: an flock() wait that Swoole's coroutine
-    // deadlock detector can't see (it's a raw OS syscall, not a coroutine-native primitive), so it genuinely
-    // never returns.
+    // Documented to hang forever: the hooked flock() keeps the coroutine waiting for a lock that is never released,
+    // and Swoole's coroutine deadlock detector doesn't catch this case, so it genuinely never returns.
     #[RunInSeparateProcess]
     public function testFileLockingHangsForever(): void
     {

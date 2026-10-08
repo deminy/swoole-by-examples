@@ -4,11 +4,12 @@
 declare(strict_types=1);
 
 /**
- * This example shows how to do multiprocessing without IPC (inter-process communication). It doesn't listen or
+ * This example shows how to do multiprocessing without IPC (inter-process communication). It doesn't listen for or
  * accept any external messages, and you should implement your business logic in the "workerStart" callback.
  *
- * This example creates a pool of size one (one process only in the pool), with three worker processes created
- * sequentially.
+ * This example creates a pool of size one. When the "workerStart" callback returns, the worker process exits, and the
+ * pool manager automatically starts a new one to keep the pool size at one; that is why the output shows three worker
+ * processes started one after another. The pool is shut down once the third worker has stopped.
  *
  * To run this script:
  *     docker compose exec -t client bash -c "./pool/process-pool/pool-standalone.php"

@@ -39,8 +39,9 @@ $joined = socket_set_option(
     IPPROTO_IP,
     MCAST_JOIN_GROUP,
     [
-        'group'     => MULTICAST_GROUP, // The multicast group address to join.
-        'interface' => 0,               // 0 means the default network interface; a name (e.g., eth0) or an index also works.
+        'group' => MULTICAST_GROUP, // The multicast group address to join.
+        // 0 means the default network interface; a name (e.g., eth0) or an index also works.
+        'interface' => 0,
     ]
 );
 if ($joined === false) {

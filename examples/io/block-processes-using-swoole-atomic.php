@@ -11,8 +11,8 @@ declare(strict_types=1);
  * Class \Swoole\Atomic is backed by shared memory, so an Atomic object created before the child processes are started
  * is shared by all of them:
  *   - Method wait(float $timeout = 1.0) blocks the calling process while the value is 0. It returns true once another
- *     process wakes it up (setting the value back from 1 to 0), or false when the timeout expires. A timeout of -1
- *     means to wait forever.
+ *     process calls wakeup() (wait() then sets the value back from 1 to 0), or false when the timeout expires. A
+ *     timeout of -1 means to wait forever.
  *   - Method wakeup() sets the value from 0 to 1 and wakes up the blocked process. It does nothing if the value is
  *     already non-zero (e.g., after a call to set()), so don't mix set() into the wait()/wakeup() handshake.
  *   - Method wakeup(int $count) can unblock several processes that are already waiting, but it still stores a single

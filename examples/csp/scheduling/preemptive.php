@@ -5,7 +5,14 @@ declare(strict_types=1);
 
 /**
  * In this example, while the first coroutine keeps busy running all the time, the second coroutine still has a chance
- * getting executed after a while, which throws an exception out and terminates the execution.
+ * of getting executed after a while, which throws an exception and terminates the execution.
+ *
+ * With php.ini directive "swoole.enable_preemptive_scheduler" turned on, Swoole interrupts a coroutine that has been
+ * running for too long (about 10 milliseconds) and lets other coroutines run. So the second coroutine gets a turn and
+ * throws an exception, which stops the script with an "Uncaught Exception: Quitting." fatal error.
+ *
+ * Without the preemptive scheduler, the second coroutine never gets a turn; see example "non-preemptive.php" under the
+ * same directory.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/scheduling/preemptive.php"

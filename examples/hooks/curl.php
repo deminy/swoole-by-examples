@@ -4,7 +4,7 @@
 declare(strict_types=1);
 
 /**
- * In this example, six non-blocking HTTP/1 requests are made by enabling option "SWOOLE_HOOK_CURL" for the curl
+ * In this example, six non-blocking HTTP/1 requests are made by enabling hook flag SWOOLE_HOOK_CURL for the curl
  * extension.
  * Each request takes about two seconds to finish; however, since the requests are made in non-blocking mode, it takes
  * barely over two seconds to finish all the requests.
@@ -16,17 +16,19 @@ declare(strict_types=1);
  * How to run this script:
  *     docker compose exec -t client bash -c "./hooks/curl.php"
  *
- * You can run following command to see how much time it takes to run the script:
+ * You can run the following command to see how much time it takes to run the script:
  *     docker compose exec -t client bash -c "time ./hooks/curl.php"
  */
 
 use Swoole\Constant;
 use Swoole\Coroutine;
-use Swoole\Coroutine\Http\Client;
 
 use function Swoole\Coroutine\go;
 use function Swoole\Coroutine\run;
 
+// SWOOLE_HOOK_CURL is not included in SWOOLE_HOOK_ALL (the default hook flags), which uses the newer
+// SWOOLE_HOOK_NATIVE_CURL instead (see native-curl.php). The two flags are alternatives; this example enables the older
+// SWOOLE_HOOK_CURL explicitly.
 Coroutine::set([Constant::OPTION_HOOK_FLAGS => SWOOLE_HOOK_CURL]);
 
 run(function (): void {

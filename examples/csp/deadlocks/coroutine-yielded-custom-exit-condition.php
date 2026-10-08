@@ -4,12 +4,14 @@
 declare(strict_types=1);
 
 /**
- * This example shows how deadlock happens when the only coroutine yields its execution. There is no any other coroutine
+ * This example shows how a deadlock happens when the only coroutine yields its execution. There is no other coroutine
  * to execute, and the coroutine never gets resumed. Inside that coroutine, whatever code after the yield statement will
  * never be executed.
  *
  * This example sets a customized exit condition so that the program will finish its execution after all coroutines
- * finish execution. The program will never exit since the exit condition won't meet.
+ * finish execution. The program will never exit since the exit condition is never met. With a custom exit condition,
+ * Swoole's deadlock check doesn't run either: the script hangs forever without printing any deadlock information
+ * (press Ctrl+C to stop it).
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/deadlocks/coroutine-yielded-custom-exit-condition.php"

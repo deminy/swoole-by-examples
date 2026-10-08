@@ -8,7 +8,8 @@ declare(strict_types=1);
  *
  * A Swoole server loads your code once and keeps it in memory, so editing a PHP file has no effect until the code is
  * loaded again. Method $server->reload() tells every worker process to restart: each one finishes the requests it is
- * handling first, then exits and is replaced by a new worker process, which runs the "onWorkerStart" callback again.
+ * handling first (for up to "max_wait_time" seconds, 3 by default; then it is killed), then exits and is replaced by a
+ * new worker process, which runs the "onWorkerStart" callback again.
  * In SWOOLE_PROCESS mode (used here), the master process keeps accepting connections during a reload, so no request is
  * lost. In SWOOLE_BASE mode (the default), connections that arrive while the old worker processes are finishing their
  * requests may be dropped.

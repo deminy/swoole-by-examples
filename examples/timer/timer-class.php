@@ -4,10 +4,12 @@
 declare(strict_types=1);
 
 /**
- * How to run this script:
- *     docker compose exec -t server bash -c "./timer/timer-class.php"
+ * This example shows class \Swoole\Timer: a recurring timer (method tick()) that runs a callback every 100
+ * milliseconds, a one-off timer (method after()) that clears it at the 500th millisecond, and method exists() to check
+ * whether a timer is still active.
  *
- * Check the output and see how Timer works in Swoole.
+ * How to run this script:
+ *     docker compose exec -t client bash -c "./timer/timer-class.php"
  *
  * The example can be implemented using coroutines only (without the \Swoole\Timer class). Please check script
  * "coroutine-style.php" for details.

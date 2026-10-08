@@ -21,3 +21,5 @@ declare(strict_types=1);
     sleep(1);
     echo '2';
 })();
+
+echo PHP_EOL;

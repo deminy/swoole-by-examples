@@ -4,8 +4,8 @@
 declare(strict_types=1);
 
 /**
- * This script takes about 1 second to finish, with 2,000 coroutines created in a for loop. Without coroutine enabled,
- * this script takes about 2,000 seconds to finish.
+ * This script takes about 1 second to finish, with 2,000 coroutines created in a for loop. Without coroutines (running
+ * the 2,000 sleep(1) calls one after another), this script would take about 2,000 seconds to finish.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./csp/coroutines/many-coroutines-in-a-loop.php"
@@ -21,7 +21,8 @@ use function Swoole\Coroutine\run;
 run(function (): void {
     for ($i = 0; $i < 2_000; $i++) {
         go(function (): void {
-            // Note that we use the PHP function sleep() directly.
+            // Note that we use the PHP function sleep() directly. Function run() turns on runtime hooks, so the plain
+            // sleep() pauses only the current coroutine (see example "enable-and-disable.php").
             sleep(1);
         });
     }
