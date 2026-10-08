@@ -76,7 +76,7 @@ as the working directory (which is why run commands use paths like `./csp/channe
 | Container | What runs there | How to use it |
 |---|---|---|
 | `client` | Standalone scripts, and clients that talk to the servers | `docker compose exec -t client bash -c "./csp/channel.php"` |
-| `server` | 16 long-running example servers (HTTP, WebSocket, TCP, MQTT, ...), started automatically by Supervisord and reloaded when their script changes | Nothing to start: connect to `server:<port>` from the `client` container |
+| `server` | 9 long-running example servers (HTTP, WebSocket, TCP, UDP, ...), started automatically by Supervisord and reloaded when their script changes | Nothing to start: connect to `server:<port>` from the `client` container |
 | `zts` | The [thread examples](#threads), which need a thread-safe (ZTS) build of PHP | `docker compose exec -t zts php ./threads/map.php` |
 
 * **Every example documents its exact run command in its docblock**, along with any extra steps. The "Run from" column
@@ -238,8 +238,8 @@ processes, so any worker can reach any connection (see [WebSocket broadcasting](
 | [UDP server](examples/servers/udp.php) | An echo server for UDP datagrams | auto-started, port 9506 |
 | [UDP multicast](examples/misc/multicast.php) | A UDP server that joins an IP multicast group and receives datagrams sent to the group address | client |
 | [Redis server](examples/servers/redis.php) | A server speaking the Redis protocol (minimal `GET`/`SET`), usable from any Redis client | client |
-| [MQTT broker](examples/servers/mqtt.php) | A minimal publish/subscribe broker built on the `open_mqtt_protocol` setting, tested with the Mosquitto command-line clients | auto-started, port 9514 |
-| [Reverse proxy](examples/servers/proxy.php) | A TCP-level reverse proxy relaying each connection to the HTTP/1 server | auto-started, port 9520 |
+| [MQTT broker](examples/servers/mqtt.php) | A minimal publish/subscribe broker built on the `open_mqtt_protocol` setting, tested with the Mosquitto command-line clients | client |
+| [Reverse proxy](examples/servers/proxy.php) | A TCP-level reverse proxy relaying each connection to an upstream HTTP server | client |
 
 ### Multiple ports and protocols
 
@@ -261,22 +261,22 @@ processes, so any worker can reach any connection (see [WebSocket broadcasting](
 
 | Example | What it shows | Run from |
 |---|---|---|
-| [APCu caching](examples/servers/apcu-caching.php) | APCu works in Swoole the same way as in any PHP CLI application; per-worker request counters show that its cache is per process | auto-started, port 9513 |
+| [APCu caching](examples/servers/apcu-caching.php) | APCu works in Swoole the same way as in any PHP CLI application; per-worker request counters show that all worker processes share the cache | server |
 
 ## Processes and shared memory
 
 ### Process pools
 
 `Swoole\Process\Pool` keeps a fixed set of worker processes running, restarting any that exit. The examples differ in how
-outside code sends work to the workers through IPC (inter-process communication).
+outside code sends work to the workers through IPC (inter-process communication); in each of them, one worker process
+plays the client, sending work to the others.
 
 | Example | What it shows | Run from |
 |---|---|---|
 | [Standalone pool](examples/pool/process-pool/pool-standalone.php) | Workers just run your code; nothing is sent to them | client |
-| [Pool with a message queue](examples/pool/process-pool/pool-msgqueue.php) | Send work to the pool through a System V message queue | auto-started |
-| [Pool with a TCP socket](examples/pool/process-pool/pool-tcp-socket.php) | Send work to the pool over TCP | auto-started, port 9701 |
-| [Pool with a Unix socket](examples/pool/process-pool/pool-unix-socket.php) | Send work to the pool over a Unix socket | auto-started |
-| [Pool client](examples/pool/process-pool/client.php) | Talks to the three pools above, through the message queue, the TCP socket, and the Unix socket | server |
+| [Pool with a message queue](examples/pool/process-pool/pool-msgqueue.php) | Send work to the pool through a System V message queue | server |
+| [Pool with a TCP socket](examples/pool/process-pool/pool-tcp-socket.php) | Send work to the pool over TCP | client |
+| [Pool with a Unix socket](examples/pool/process-pool/pool-unix-socket.php) | Send work to the pool over a Unix socket | client |
 | [Detach a worker](examples/pool/process-pool/detach.php) | Let a worker escape the pool manager's control to finish a long task at its own pace | client |
 
 ### Sharing data between processes
@@ -351,7 +351,7 @@ The scheduler runs inside an application server, following the server's lifecycl
 | Example | What it shows | Run from |
 |---|---|---|
 | [Integrated HTTP/1 server](examples/servers/http1-integrated.php) | One HTTP server that also runs cron jobs, and hands slow work to task worker processes (`task()`, `taskwait()`, `taskWaitMulti()`, `taskCo()`) | auto-started, port 9502 |
-| [Integrated WebSocket server](examples/servers/websocket-integrated.php) | A WebSocket server with separate processes for a cron job and for consuming a task queue | auto-started, port 9508 |
+| [Integrated WebSocket server](examples/servers/websocket-integrated.php) | A WebSocket server with separate processes for a cron job and for consuming a task queue | client |
 | [Rock Paper Scissors](examples/servers/rock-paper-scissors.php) | The server holds the first two players' HTTP requests open, and answers all three players at once when the last one arrives, which PHP-FPM can't do | auto-started, port 9801 (also open on your host: `http://127.0.0.1:9801?name=A`) |
 
 ## Pitfalls and advanced topics
@@ -413,8 +413,9 @@ docker compose exec -T -w /var/www server ./vendor/bin/counit --testsuite server
 docker compose exec -T -w /var/www zts ./vendor/bin/counit --testsuite zts
 ```
 
-Almost every test is in the `client` suite. The `server` suite holds the one test that needs the `server` container's
-own filesystem, and the `zts` suite holds the tests for the thread examples. The client suite takes about a minute.
+Almost every test is in the `client` suite. The `server` suite holds the tests for the examples that need PHP
+extensions installed only in the `server` container (APCu and "sysvmsg"), and the `zts` suite holds the tests for the
+thread examples. The client suite takes about a minute.
 
 <details>
 <summary>Why some tests run in a separate process, and which example isn't tested</summary>

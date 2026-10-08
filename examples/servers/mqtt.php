@@ -4,7 +4,7 @@
 declare(strict_types=1);
 
 /**
- * In this example we start a minimal MQTT broker on port 9514.
+ * In this example we start a minimal MQTT broker.
  *
  * Swoole itself does not implement the MQTT protocol; what the server setting "open_mqtt_protocol" does is
  * packet framing: it makes the server parse MQTT fixed headers, so that each "receive" event carries exactly
@@ -19,17 +19,17 @@ declare(strict_types=1);
  * process; with multiple workers, connections would land in different processes and the table would have to be
  * shared (e.g., in Redis or a \Swoole\Table).
  *
- * This script is managed by Supervisord inside the "server" container, thus there is no need to start it manually.
+ * To show that the broker works with real MQTT clients, the script starts the broker, then uses the Mosquitto
+ * command-line clients (installed only in the client container) in a separate process: mosquitto_sub subscribes to a
+ * topic and waits for one message, and mosquitto_pub publishes a message to the same topic. The script prints what the
+ * subscriber received, then shuts the broker down.
  *
- * How to verify the broker (using the Mosquitto command-line clients installed in the "client" container):
- * 1. In a first terminal, subscribe to a topic:
- *        docker compose exec -ti client mosquitto_sub -h server -p 9514 -t "test/topic"
- * 2. In a second terminal, publish a message to the same topic:
- *        docker compose exec -ti client mosquitto_pub -h server -p 9514 -t "test/topic" -m "Hello, MQTT"
- *    The first terminal now prints "Hello, MQTT".
+ * How to run this script:
+ *     docker compose exec -t client bash -c "./servers/mqtt.php"
  */
 
 use Swoole\Constant;
+use Swoole\Process;
 use Swoole\Server;
 
 // MQTT 3.1.1 control packet types (the ones handled by this example).
@@ -72,7 +72,8 @@ function decodeString(string $data, int &$offset): string
 // The subscription table: topic => a list of subscribed connections (as keys of an array).
 $subscriptions = [];
 
-$server = new Server('0.0.0.0', 9514);
+// Port 0 makes the server listen on a random unused port; the port picked is exposed as $server->port.
+$server = new Server('127.0.0.1', 0);
 $server->set(
     [
         Constant::OPTION_WORKER_NUM         => 1,    // A single worker process, so the subscription table can be a plain array.
@@ -136,5 +137,32 @@ $server->on('close', function (Server $server, int $fd) use (&$subscriptions): v
         }
     }
 });
+
+// The MQTT clients, in a separate process: a subscriber and a publisher, using the Mosquitto command-line clients.
+$clients = new Process(
+    function () use ($server): void {
+        $options = ['-h', '127.0.0.1', '-p', (string) $server->port, '-t', 'test/topic'];
+
+        // Subscribe to the topic in the background, and wait (up to 5 seconds) for one message.
+        $subscriber = proc_open(['mosquitto_sub', ...$options, '-C', '1', '-W', '5'], [1 => ['pipe', 'w']], $pipes);
+        if ($subscriber === false) {
+            echo 'Failed to start mosquitto_sub.', PHP_EOL;
+            $server->shutdown();
+            return;
+        }
+
+        // Publish the message, repeatedly until the subscriber has received it: the subscriber needs a moment to
+        // connect and subscribe, and messages published before that have no subscriber and are dropped (QoS 0).
+        for ($i = 0; $i < 50 && proc_get_status($subscriber)['running']; $i++) {
+            exec('mosquitto_pub ' . implode(' ', array_map('escapeshellarg', [...$options, '-m', 'Hello, MQTT'])));
+            usleep(100_000);
+        }
+        echo 'The subscriber received: ', trim((string) stream_get_contents($pipes[1])), PHP_EOL;
+        proc_close($subscriber);
+
+        $server->shutdown();
+    }
+);
+$server->addProcess($clients);
 
 $server->start();

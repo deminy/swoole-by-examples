@@ -43,14 +43,14 @@ Both containers mount the whole repo root at `/var/www`, with `/var/www/examples
 via `WORKDIR` in both Dockerfiles, so the run commands documented in the examples' docblocks work as-is). The
 **client** container is where client-side/standalone scripts are normally run (the `redis`/`mysql`/`postgresql`
 services are reachable from both PHP containers, which share the Compose default network);
-the **server** container additionally runs 16 persistent, Supervisord-managed application servers (listed in
+the **server** container additionally runs 9 persistent, Supervisord-managed application servers (listed in
 `docker-compose.yml`'s `AUTORELOAD_PROGRAMS` env var) that many client-side examples connect to.
 
 Running a single example: each example's docblock documents its own exact run command (which container, any
 required args), e.g. `docker compose exec -t client bash -c "./clients/http1.php"`. A few examples must run from
 `server` specifically — either because they say so in their docblock, or because they depend on
-container-local state (e.g. `pool/process-pool/client.php`'s Unix-socket connection only works from `server`,
-since that socket file lives in `server`'s own filesystem). `examples/hooks/redis/predis.php` requires
+extensions installed only in the server image (`servers/apcu-caching.php` needs APCu, and
+`pool/process-pool/pool-msgqueue.php` needs "sysvmsg"). `examples/hooks/redis/predis.php` requires
 `composer global require predis/predis=~3.0` inside the container first: the script deliberately loads Composer's
 *global* autoloader (`$HOME/.composer/vendor/autoload.php`), so the project-level `composer install` — which also
 installs predis, but only so PHPStan can resolve its symbols — does not satisfy it.
@@ -83,8 +83,9 @@ Run a single test class or method with `--filter` (from `/var/www` inside a cont
 ./vendor/bin/counit --testsuite client --filter '::testDefer$'
 ```
 
-Almost everything is in the `client` suite; only `tests/Server/PoolProcessTest.php` is in `server` (same reason
-as `pool/process-pool/client.php` above — it needs `server`'s own filesystem). `csp/coroutines/benchmark.php` is
+Almost everything is in the `client` suite; only `tests/Server/PoolTest.php` and `tests/Server/ServersTest.php` are
+in `server` (same reason as above: their examples need the APCu and "sysvmsg" extensions, installed only in the server
+image). `csp/coroutines/benchmark.php` is
 intentionally skipped (`self::markTestSkipped()` in `CspTest`, it creates 1,000,000 coroutines). The ZTS-only
 examples (`locks/lock-across-threads.php` and `threads/*.php`) are covered by `tests/Zts/ThreadsTest.php` in the
 `zts` suite, which runs in the `zts` container.
@@ -169,7 +170,7 @@ actual line numbers (e.g., with `cat -n`) and update them accordingly.
 (`tests/Client/CspTest.php`, `CronjobsTest.php`, `EventsTest.php`, `HooksTest.php`, `LocksTest.php`,
 `IoTest.php`, `MiscTest.php`, `TimerTest.php`,
 `PoolTest.php`, `ClientsTest.php`, `DeadlocksTest.php`, `SchedulingTest.php`, `ServersTest.php`, plus
-`tests/Server/PoolProcessTest.php` and `tests/Zts/ThreadsTest.php`), one test method per example. `tests/Support/ExampleTestCase.php` is the shared base every test class extends, providing:
+`tests/Server/PoolTest.php`, `tests/Server/ServersTest.php` and `tests/Zts/ThreadsTest.php`), one test method per example. `tests/Support/ExampleTestCase.php` is the shared base every test class extends, providing:
 - `runExample($path, $args, $timeout)` — the default; runs an example to completion via a coroutine-friendly
   `proc_open()`, capped at 8 concurrent in-flight calls via a shared `Channel` semaphore.
 - `runIsolated($path, $timeout, $args)` — for `#[RunInSeparateProcess]`-marked test methods only (see "Running

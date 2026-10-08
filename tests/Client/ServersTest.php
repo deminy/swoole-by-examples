@@ -10,7 +10,6 @@ use Swoole\Coroutine\Http2\Client as Http2Client;
 use Swoole\Coroutine\Http\Client as HttpClient;
 use Swoole\Http2\Request as Http2Request;
 use Swoole\Http2\Response as Http2Response;
-use Swoole\WebSocket\Frame;
 use Tests\Support\ExampleTestCase;
 
 use function Swoole\Coroutine\go;
@@ -141,43 +140,13 @@ class ServersTest extends ExampleTestCase
         self::assertStringContainsString('Content-Type of the response: text/event-stream; charset=utf-8', $result['output']);
     }
 
-    // A publish/subscribe round trip against the minimal MQTT broker, using hand-crafted MQTT 3.1.1 packets
-    // over a raw TCP connection (so the test does not depend on any MQTT client library or tool).
+    // Not Supervisord-managed; self-driving (a user process runs mosquitto_sub and mosquitto_pub against the broker, then
+    // shuts it down). The Mosquitto command-line clients are installed only in the client container.
     public function testMqtt(): void
     {
-        $mqttString    = static fn (string $s): string => pack('n', strlen($s)) . $s;
-        $connectPacket = static function (string $clientId) use ($mqttString): string {
-            $body = $mqttString('MQTT') . "\x04\x02\x00\x3c" . $mqttString($clientId);
-            return "\x10" . chr(strlen($body)) . $body;
-        };
-
-        $newConnection = static function (string $clientId) use ($connectPacket): TcpClient {
-            $client = new TcpClient(SWOOLE_SOCK_TCP);
-            $client->set(['open_mqtt_protocol' => true, 'timeout' => 5]);
-            self::assertTrue($client->connect('server', 9514, 5));
-            $client->send($connectPacket($clientId));
-            self::assertSame("\x20\x02\x00\x00", $client->recv(), 'expected a CONNACK packet'); // CONNACK, connection accepted.
-            return $client;
-        };
-
-        $subscriber = $newConnection('phpunit-sub');
-        $subscribeBody = pack('n', 1) . $mqttString('test/topic') . "\x00"; // Packet #1, topic "test/topic", QoS 0.
-        $subscriber->send("\x82" . chr(strlen($subscribeBody)) . $subscribeBody);
-        self::assertSame("\x90\x03\x00\x01\x00", $subscriber->recv(), 'expected a SUBACK packet');
-
-        $publisher   = $newConnection('phpunit-pub');
-        $publishBody = $mqttString('test/topic') . 'Hello, MQTT';
-        $publisher->send("\x30" . chr(strlen($publishBody)) . $publishBody);
-
-        $forwarded = $subscriber->recv();
-        self::assertStringContainsString('test/topic', $forwarded);
-        self::assertStringContainsString('Hello, MQTT', $forwarded);
-
-        $subscriber->send("\xc0\x00"); // PINGREQ.
-        self::assertSame("\xd0\x00", $subscriber->recv(), 'expected a PINGRESP packet');
-
-        $subscriber->close();
-        $publisher->close();
+        $result = $this->runExample('servers/mqtt.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertSame('The subscriber received: Hello, MQTT', trim($result['output']));
     }
 
     public function testHttp2(): void
@@ -205,37 +174,6 @@ class ServersTest extends ExampleTestCase
         self::assertStringContainsString('[INTERRUPTIBLE-SLEEP] The cron job has exited.', $result['output']);
     }
 
-    public function testApcuCaching(): void
-    {
-        $jobs = [];
-        for ($i = 0; $i < 10; $i++) {
-            $jobs[] = static function (): bool {
-                $client = new HttpClient('server', 9513);
-                $client->set(['timeout' => 5]);
-                $ok = $client->get('/');
-                return $ok && $client->statusCode === 200 && trim((string) $client->body) === 'OK';
-            };
-        }
-
-        $results = [];
-        $chan    = new Channel(count($jobs));
-        foreach ($jobs as $job) {
-            go(function () use ($job, $chan): void {
-                $chan->push($job());
-            });
-        }
-        for ($i = 0; $i < count($jobs); $i++) {
-            $results[] = $chan->pop();
-        }
-        self::assertNotContains(false, $results, '10 concurrent GET / requests: not all returned "OK"');
-
-        $client = new HttpClient('server', 9513);
-        $client->set(['timeout' => 5]);
-        $client->get('/summary');
-        self::assertSame(200, $client->statusCode);
-        self::assertMatchesRegularExpression('/counter_\d+: \d+/', (string) $client->body);
-    }
-
     // Not Supervisord-managed; self-driving (talks to itself over HTTP/1, HTTP/2, and WebSocket, then shutdown).
     public function testMixedProtocolsSamePort(): void
     {
@@ -247,16 +185,13 @@ class ServersTest extends ExampleTestCase
         );
     }
 
-    // The proxy forwards raw bytes to the HTTP/1 server (127.0.0.1:9501 inside the "server" container), whose
-    // customized "234 Test" status line is relayed back - proving the request really went through the proxy.
+    // Not Supervisord-managed; self-driving (starts an upstream HTTP server and the proxy, sends a request through the
+    // proxy, then shuts both down).
     public function testProxy(): void
     {
-        $client = new HttpClient('server', 9520);
-        $client->set(['timeout' => 5]);
-        $ok = $client->get('/');
-        self::assertTrue($ok);
-        self::assertSame(234, $client->statusCode);
-        self::assertNotEmpty((string) $client->body);
+        $result = $this->runExample('servers/proxy.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertSame('Response through the proxy: HTTP 234, body: Hello from the upstream server!', trim($result['output']));
     }
 
     // Not Supervisord-managed; self-driving. The primary port speaks HTTP, while the additional port has the inherited
@@ -328,14 +263,14 @@ class ServersTest extends ExampleTestCase
         }
     }
 
+    // Not Supervisord-managed; self-driving (a WebSocket round trip, then the server runs for 2.5s while its two user
+    // processes print their messages, then shutdown).
     public function testWebsocketIntegrated(): void
     {
-        $ws = new HttpClient('server', 9508);
-        $ws->set(['timeout' => 5]);
-        self::assertTrue($ws->upgrade('/'));
-        $ws->push('Swoole');
-        $frame = $ws->recv();
-        self::assertInstanceOf(Frame::class, $frame);
-        self::assertSame('Hello, Swoole', $frame->data);
+        $result = $this->runExample('servers/websocket-integrated.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertStringContainsString('Reply from the WebSocket server: Hello, Swoole', $result['output']);
+        self::assertGreaterThanOrEqual(2, substr_count($result['output'], 'Task processed.'), $result['output']);
+        self::assertGreaterThanOrEqual(1, substr_count($result['output'], 'Cron job executed.'), $result['output']);
     }
 }

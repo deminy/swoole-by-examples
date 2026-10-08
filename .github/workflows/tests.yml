@@ -47,8 +47,8 @@ jobs:
       - name: Run Static Analysis
         run: docker compose exec -T -w /var/www client ./vendor/bin/phpstan analyse --no-progress --memory-limit 2G
 
-      # Almost everything is in the client suite; only tests needing the server container's own filesystem are in
-      # the server suite (see tests/Server/PoolProcessTest.php).
+      # Almost everything is in the client suite; only tests for examples needing PHP extensions installed in the server
+      # image alone (APCu, sysvmsg) are in the server suite, and tests for ZTS-only examples are in the zts suite.
       - name: Run Unit Tests
         run: |
           docker compose exec -T -w /var/www client ./vendor/bin/counit --testsuite client

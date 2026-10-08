@@ -8,7 +8,7 @@ FROM phpswoole/swoole:${SWOOLE_VERSION}-php${PHP_VERSION}
 
 COPY ./rootfilesystem /
 
-# 1. The System V messages support is to run the example from script "./examples/pool/process-pool/client.php".
+# 1. The System V messages support is to run the example from script "./examples/pool/process-pool/pool-msgqueue.php".
 # 2. The APCu extension is to run the example from script "./examples/servers/apcu-caching.php".
 # 3. Package inotify-tools is for the autoreload feature of the base image (see environment variable
 #    AUTORELOAD_PROGRAMS in docker-compose.yml). Without it, the base image installs the package each time a container

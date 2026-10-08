@@ -6,8 +6,8 @@ namespace Tests\Client;
 
 use Tests\Support\ExampleTestCase;
 
-// pool/process-pool/client.php is NOT covered here - see tests/Server/PoolProcessTest.php; it must run from the
-// `server` container.
+// pool/process-pool/pool-msgqueue.php is NOT covered here - see tests/Server/PoolTest.php; it must run from the
+// `server` container, the only one with PHP extension "sysvmsg".
 class PoolTest extends ExampleTestCase
 {
     public function testDatabasePoolMysqli(): void
@@ -40,6 +40,22 @@ class PoolTest extends ExampleTestCase
         // manager exits as soon as the replacement worker starts, without waiting for the detached worker (that
         // being the very behavior the example demonstrates), so that message is printed ~2s after the example's
         // main process has exited - past the point where runExample() stops capturing output.
+    }
+
+    // Self-driving: the first worker process sends a message to the pool and prints the reply, then shuts the pool
+    // down.
+    public function testProcessPoolTcpSocket(): void
+    {
+        $result = $this->runExample('pool/process-pool/pool-tcp-socket.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertMatchesRegularExpression('/^Reply from the pool: Hello, TCP socket! \(from process #[12]\)$/', trim($result['output']));
+    }
+
+    public function testProcessPoolUnixSocket(): void
+    {
+        $result = $this->runExample('pool/process-pool/pool-unix-socket.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertMatchesRegularExpression('/^Reply from the pool: Hello, Unix socket! \(from process #[12]\)$/', trim($result['output']));
     }
 
     public function testProcessPoolStandalone(): void
