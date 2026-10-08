@@ -12,8 +12,10 @@ jobs:
 
       # composer.json lives at the repository root (/var/www), while the containers default to /var/www/examples,
       # hence the explicit `-w /var/www`. Both containers mount the repository root, so installing dependencies
-      # once from the client container serves the server container as well. The sleep gives the Supervisord-managed
-      # servers and the database containers time to become ready before anything connects to them.
+      # once from the client container serves the server container as well. Before anything connects to them, the
+      # workflow waits (up to 60 seconds) until "supervisorctl status" lists every Supervisord-managed server as
+      # RUNNING, and fails if they aren't by then. (The command's exit status alone isn't enough: it is 0 while the
+      # programs are still STARTING.)
       # The server/client images are built here from the repository's own Dockerfiles rather than pulled: the
       # published images on Docker Hub are only updated by the build_docker_images workflow AFTER a push to master,
       # so a push that changes the images themselves (e.g., adding a new Supervisord-managed server example) would
@@ -25,6 +27,13 @@ jobs:
           docker build -t deminy/swoole-by-examples:server-6.2 dockerfiles/server
           docker build -t deminy/swoole-by-examples:client-6.2 dockerfiles/client
           docker compose up -d
+          for i in $(seq 60); do
+            states=$(docker compose exec -T server supervisorctl status 2>/dev/null | awk '{print $2}' | sort -u)
+            [ "$states" = "RUNNING" ] && break
+            sleep 1
+          done
+          docker compose exec -T server supervisorctl status
+          [ "$states" = "RUNNING" ]
 
           docker compose exec -T client php -v
           docker compose exec -T client php --ri swoole
