@@ -10,6 +10,9 @@
         <testsuite name="server">
             <directory>tests/Server</directory>
         </testsuite>
+        <testsuite name="zts">
+            <directory>tests/Zts</directory>
+        </testsuite>
     </testsuites>
     <extensions>
         <bootstrap class="Deminy\Counit\CounitExtension"/>

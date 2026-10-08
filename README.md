@@ -69,14 +69,15 @@ docker compose exec -t client bash -c "time ./csp/coroutines/many-coroutines-in-
 
 ## How to run the examples
 
-`docker compose up -d` starts two PHP containers, plus the `redis`, `mysql`, and `postgresql` services that the database
-and Redis examples connect to. Both PHP containers mount this repository at `/var/www`, with `/var/www/examples` as the
-working directory (which is why run commands use paths like `./csp/channel.php`):
+`docker compose up -d` starts three PHP containers, plus the `redis`, `mysql`, and `postgresql` services that the
+database and Redis examples connect to. The PHP containers mount this repository at `/var/www`, with `/var/www/examples`
+as the working directory (which is why run commands use paths like `./csp/channel.php`):
 
 | Container | What runs there | How to use it |
 |---|---|---|
 | `client` | Standalone scripts, and clients that talk to the servers | `docker compose exec -t client bash -c "./csp/channel.php"` |
 | `server` | 23 long-running example servers (HTTP, WebSocket, TCP, MQTT, ...), started automatically by Supervisord and reloaded when their script changes | Nothing to start: connect to `server:<port>` from the `client` container |
+| `zts` | The [thread examples](#threads), which need a thread-safe (ZTS) build of PHP | `docker compose exec -t zts php ./threads/map.php` |
 
 * **Every example documents its exact run command in its docblock**, along with any extra steps. The "Run from" column
   in the tables below says where to run it: `client`, `server`, or "auto-started" for the servers that are already
@@ -298,14 +299,14 @@ outside code sends work to the workers through IPC (inter-process communication)
 ### Threads
 
 Swoole 6 can also run PHP code in multiple threads (`Swoole\Thread`). Threads don't share PHP variables; they share
-data through thread-safe containers instead. These examples need a thread-safe (ZTS) build of PHP, which the
-containers don't provide: run them with the `phpswoole/swoole:6.2-php8.4-zts` image, as shown in their docblocks.
+data through thread-safe containers instead. These examples need a thread-safe (ZTS) build of PHP, so they run in the
+`zts` container.
 
 | Example | What it shows | Run from |
 |---|---|---|
-| [Lock across threads](examples/locks/lock-across-threads.php) | `Swoole\Thread\Lock`: a mutex shared by threads | ZTS image, see docblock |
-| [Shared map](examples/threads/map.php) | `Swoole\Thread\Map`: four threads update one map; an atomic `incr()` never loses an update, a read-then-write does | ZTS image, see docblock |
-| [Work queue](examples/threads/queue.php) | `Swoole\Thread\Queue`: worker threads take jobs from a shared queue, the basic shape of a thread pool | ZTS image, see docblock |
+| [Lock across threads](examples/locks/lock-across-threads.php) | `Swoole\Thread\Lock`: a mutex shared by threads | zts |
+| [Shared map](examples/threads/map.php) | `Swoole\Thread\Map`: four threads update one map; an atomic `incr()` never loses an update, a read-then-write does | zts |
+| [Work queue](examples/threads/queue.php) | `Swoole\Thread\Queue`: worker threads take jobs from a shared queue, the basic shape of a thread pool | zts |
 
 ## Signals and the event loop
 
@@ -409,20 +410,20 @@ To run the tests (`composer.json` is at the repository root, hence the `-w /var/
 docker compose exec -T -w /var/www client composer install -n -q --no-progress
 docker compose exec -T -w /var/www client ./vendor/bin/counit --testsuite client
 docker compose exec -T -w /var/www server ./vendor/bin/counit --testsuite server
+docker compose exec -T -w /var/www zts ./vendor/bin/counit --testsuite zts
 ```
 
-Almost every test is in the `client` suite; the `server` suite holds the one test that needs the `server` container's
-own filesystem. The client suite takes about a minute.
+Almost every test is in the `client` suite. The `server` suite holds the one test that needs the `server` container's
+own filesystem, and the `zts` suite holds the tests for the thread examples. The client suite takes about a minute.
 
 <details>
-<summary>Why some tests run in a separate process, and which examples aren't tested</summary>
+<summary>Why some tests run in a separate process, and which example isn't tested</summary>
 
 * Tests for examples that may hang forever by design (the deadlock demos, the process-blocking `io/block-*` examples) or
   that depend on the preemptive scheduler run one at a time in a separate, non-coroutine process, using PHPUnit's
   `#[RunInSeparateProcess]` attribute and `ExampleTestCase::runIsolated()`. Running many such subprocesses concurrently
   proved unreliable, so these trade speed for reliability, and they account for most of the suite's running time.
-* `csp/coroutines/benchmark.php` is skipped (it creates 1,000,000 coroutines), and `locks/lock-across-threads.php` and
-  the `threads/` examples have no test, since they need a ZTS build of PHP that neither container image provides.
+* `csp/coroutines/benchmark.php` is skipped (it creates 1,000,000 coroutines).
 
 </details>
 

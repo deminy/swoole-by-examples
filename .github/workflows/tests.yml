@@ -44,3 +44,4 @@ jobs:
         run: |
           docker compose exec -T -w /var/www client ./vendor/bin/counit --testsuite client
           docker compose exec -T -w /var/www server ./vendor/bin/counit --testsuite server
+          docker compose exec -T -w /var/www zts ./vendor/bin/counit --testsuite zts

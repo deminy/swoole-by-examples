@@ -23,9 +23,10 @@ declare(strict_types=1);
  * thread would then wait forever for the missing result. A real thread pool must handle that, e.g., by catching
  * exceptions in the worker and pushing an error result instead.
  *
- * This example requires a ZTS build of PHP, which neither container of this repository provides. Run it with the
- * official ZTS image of Swoole instead:
- *     docker run --rm -v "$(pwd):/var/www" -ti phpswoole/swoole:6.2-php8.4-zts php ./examples/threads/queue.php
+ * This example requires a ZTS build of PHP, so it runs in the "zts" container (the official ZTS image of Swoole).
+ *
+ * How to run this script:
+ *     docker compose exec -t zts php ./threads/queue.php
  */
 
 use Swoole\Thread;

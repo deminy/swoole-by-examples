@@ -19,9 +19,10 @@ declare(strict_types=1);
  *      result is less than 40,000, often by a lot.
  *   3. Each thread records its own entry in the map, e.g., "thread-1".
  *
- * This example requires a ZTS build of PHP, which neither container of this repository provides. Run it with the
- * official ZTS image of Swoole instead:
- *     docker run --rm -v "$(pwd):/var/www" -ti phpswoole/swoole:6.2-php8.4-zts php ./examples/threads/map.php
+ * This example requires a ZTS build of PHP, so it runs in the "zts" container (the official ZTS image of Swoole).
+ *
+ * How to run this script:
+ *     docker compose exec -t zts php ./threads/map.php
  */
 
 use Swoole\Thread;

@@ -6,11 +6,8 @@ namespace Tests\Client;
 
 use Tests\Support\ExampleTestCase;
 
-// examples/locks/lock-across-threads.php is intentionally NOT covered here, and neither are the examples under
-// examples/threads/ (which have no test class of their own for the same reason): they require a ZTS build of
-// PHP/Swoole, which the `client` container (phpswoole/swoole:6.2-php8.4, non-ZTS) does not provide, and there is
-// no access to a separate ZTS container or the Docker socket to start one from inside this container. Verify them
-// manually per their own docblocks, e.g.: `docker run --rm -v "$(pwd):/var/www" -ti phpswoole/swoole:6.2-php8.4-zts php ./examples/locks/lock-across-threads.php`.
+// examples/locks/lock-across-threads.php needs a ZTS build of PHP; it is covered by tests/Zts/ThreadsTest.php, which
+// runs in the `zts` container.
 class LocksTest extends ExampleTestCase
 {
     public function testLockAcrossCoroutines(): void

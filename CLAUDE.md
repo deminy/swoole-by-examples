@@ -10,7 +10,7 @@ changes should keep individual examples minimal, focused on the one concept they
 isolation. Licensed under CC BY-NC-ND 4.0 (see `LICENSE.txt`).
 
 No PHP/Swoole/Composer needs to be installed on the host — the only prerequisite is Docker with Compose v2 (the
-`docker compose` subcommand). Everything runs via Docker Compose: two PHP containers (`server`, `client`) plus
+`docker compose` subcommand). Everything runs via Docker Compose: three PHP containers (`server`, `client`, `zts`) plus
 three backing datastore services (`redis`, `mysql`, `postgresql`) that the database/Redis examples connect to,
 with hostnames and credentials defined in `docker-compose.yml`'s environment blocks. Compose *pulls* the
 pre-built images `deminy/swoole-by-examples:server-6.2` / `client-6.2` (both `phpswoole/swoole:6.2-php8.4` based,
@@ -55,7 +55,8 @@ since that socket file lives in `server`'s own filesystem). `examples/hooks/redi
 *global* autoloader (`$HOME/.composer/vendor/autoload.php`), so the project-level `composer install` — which also
 installs predis, but only so PHPStan can resolve its symbols — does not satisfy it.
 `examples/locks/lock-across-threads.php` and the examples under `examples/threads/` need a ZTS build of
-PHP/Swoole, which neither container image provides; run them via the ZTS image, e.g. `docker run --rm -v "$(pwd):/var/www" -ti phpswoole/swoole:6.2-php8.4-zts php ./examples/locks/lock-across-threads.php`.
+PHP/Swoole, which the `server` and `client` images don't provide; they run in the `zts` container instead (the
+official `phpswoole/swoole:6.2-php8.4-zts` image, used as-is), e.g. `docker compose exec -t zts php ./threads/map.php`.
 
 ## Running tests
 
@@ -69,6 +70,7 @@ tests.
 docker compose exec -T -w /var/www client composer install -n -q --no-progress   # once is enough — both containers share the same mount
 docker compose exec -T -w /var/www client ./vendor/bin/counit --testsuite client
 docker compose exec -T -w /var/www server ./vendor/bin/counit --testsuite server
+docker compose exec -T -w /var/www zts ./vendor/bin/counit --testsuite zts
 ```
 
 Note the `-w /var/www`: `composer.json` lives at the repo root, while the containers' default working directory
@@ -83,9 +85,9 @@ Run a single test class or method with `--filter` (from `/var/www` inside a cont
 
 Almost everything is in the `client` suite; only `tests/Server/PoolProcessTest.php` is in `server` (same reason
 as `pool/process-pool/client.php` above — it needs `server`'s own filesystem). `csp/coroutines/benchmark.php` is
-intentionally skipped (`self::markTestSkipped()` in `CspTest`, it creates 1,000,000 coroutines), and
-`locks/lock-across-threads.php` and `threads/*.php` are intentionally not covered at all (ZTS requirement, see
-`LocksTest`'s header comment).
+intentionally skipped (`self::markTestSkipped()` in `CspTest`, it creates 1,000,000 coroutines). The ZTS-only
+examples (`locks/lock-across-threads.php` and `threads/*.php`) are covered by `tests/Zts/ThreadsTest.php` in the
+`zts` suite, which runs in the `zts` container.
 
 A handful of tests — ones covering examples that may hang forever by design (the deadlock demos, the
 process-blocking `io/block-*` examples) or that depend on Swoole's preemptive scheduler actually firing
@@ -143,8 +145,8 @@ meant to be copy-paste-runnable and documents its own invocation in a docblock �
 examples.
 Every new example must also come with a unit test, written the same way as the existing ones (see **`tests/`**
 below): one test method per example, added to the topic's test class (or a new test class for a new topic),
-normally driving the example through `runExample()` and asserting on its output. The one exception is ZTS-only
-examples, which can't run in either container (see `LocksTest`'s header comment).
+normally driving the example through `runExample()` and asserting on its output. Tests for ZTS-only examples go in
+`tests/Zts/` (the `zts` suite) instead, since only the `zts` container can run them.
 Persistent, Supervisord-managed servers — mostly under `examples/servers/`, plus the three `pool-*` programs
 whose scripts live in `examples/pool/process-pool/` — are wired up via
 `dockerfiles/server/rootfilesystem/etc/supervisor/service.d/*.conf` and the `AUTORELOAD_PROGRAMS` env var in
@@ -166,8 +168,8 @@ actual line numbers (e.g., with `cat -n`) and update them accordingly.
 **`tests/`** mirrors `examples/`'s subdirectory structure: one test class per topic
 (`tests/Client/CspTest.php`, `CronjobsTest.php`, `EventsTest.php`, `HooksTest.php`, `LocksTest.php`,
 `IoTest.php`, `MiscTest.php`, `TimerTest.php`,
-`PoolTest.php`, `ClientsTest.php`, `DeadlocksTest.php`, `SchedulingTest.php`, `ServersTest.php`), one test method
-per example. `tests/Support/ExampleTestCase.php` is the shared base every test class extends, providing:
+`PoolTest.php`, `ClientsTest.php`, `DeadlocksTest.php`, `SchedulingTest.php`, `ServersTest.php`, plus
+`tests/Server/PoolProcessTest.php` and `tests/Zts/ThreadsTest.php`), one test method per example. `tests/Support/ExampleTestCase.php` is the shared base every test class extends, providing:
 - `runExample($path, $args, $timeout)` — the default; runs an example to completion via a coroutine-friendly
   `proc_open()`, capped at 8 concurrent in-flight calls via a shared `Channel` semaphore.
 - `runIsolated($path, $timeout, $args)` — for `#[RunInSeparateProcess]`-marked test methods only (see "Running

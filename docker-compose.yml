@@ -22,6 +22,16 @@ services:
       - server
     volumes:
       - .:/var/www
+  # A thread-safe (ZTS) build of PHP, which the examples under examples/threads/ (and locks/lock-across-threads.php)
+  # need; the server and client images are non-ZTS. The official image is used as-is, with the same layout as the
+  # other two containers.
+  zts:
+    image: phpswoole/swoole:6.2-php8.4-zts
+    environment:
+      DISABLE_DEFAULT_SERVER: 1
+    working_dir: /var/www/examples
+    volumes:
+      - .:/var/www
   redis:
     image: redis:8-alpine
   mysql:
