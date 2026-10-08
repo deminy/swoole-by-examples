@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Client;
 
 use Swoole\Coroutine\Channel;
-use Swoole\Coroutine\Client as TcpClient;
 use Swoole\Coroutine\Http2\Client as Http2Client;
 use Swoole\Coroutine\Http\Client as HttpClient;
 use Swoole\Http2\Request as Http2Request;
@@ -107,15 +106,24 @@ class ServersTest extends ExampleTestCase
         self::assertStringContainsString('Requests answered right away: 4; requests delayed by about 2 seconds: 2', $result['output']);
     }
 
+    // Not Supervisord-managed; self-driving (connects to itself, then watches the server side of the connection's
+    // keepalive timer in /proc/net/tcp for about 5s, through the first keepalive probe).
     public function testKeepalive(): void
     {
-        $client = new TcpClient(SWOOLE_SOCK_TCP);
-        $client->set(['timeout' => 5]);
-        self::assertTrue($client->connect('server', 9602, 5));
-        $client->send('ping');
-        $response = $client->recv();
-        $client->close();
-        self::assertSame('ping', $response);
+        $result = $this->runExample('servers/keepalive.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertStringContainsString('Reply from the server: ping', $result['output']);
+        self::assertSame(10, preg_match_all('/^The next keepalive probe will be sent in (\d\.\d) seconds\.$/m', $result['output'], $matches), $result['output']);
+        $timesLeft = array_map(floatval(...), $matches[1]);
+
+        // The countdown starts at the 3-second idle time. Once the first probe has been sent and answered, the timer is
+        // set again, so the time left goes up at some point. (Where exactly the samples land varies a little.)
+        self::assertGreaterThanOrEqual(2.5, $timesLeft[0], $result['output']);
+        $wentUp = false;
+        for ($i = 1, $n = count($timesLeft); $i < $n; $i++) {
+            $wentUp = $wentUp || $timesLeft[$i] > $timesLeft[$i - 1];
+        }
+        self::assertTrue($wentUp, $result['output']);
     }
 
     // Not Supervisord-managed; self-driving (a user process talks to the server through phpredis, then shuts it down).

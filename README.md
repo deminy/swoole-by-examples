@@ -76,7 +76,7 @@ as the working directory (which is why run commands use paths like `./csp/channe
 | Container | What runs there | How to use it |
 |---|---|---|
 | `client` | Standalone scripts, and clients that talk to the servers | `docker compose exec -t client bash -c "./csp/channel.php"` |
-| `server` | 9 long-running example servers (HTTP, WebSocket, TCP, UDP, ...), started automatically by Supervisord and reloaded when their script changes | Nothing to start: connect to `server:<port>` from the `client` container |
+| `server` | 8 long-running example servers (HTTP, WebSocket, TCP, UDP, ...), started automatically by Supervisord and reloaded when their script changes | Nothing to start: connect to `server:<port>` from the `client` container |
 | `zts` | The [thread examples](#threads), which need a thread-safe (ZTS) build of PHP | `docker compose exec -t zts php ./threads/map.php` |
 
 * **Every example documents its exact run command in its docblock**, along with any extra steps. The "Run from" column
@@ -254,7 +254,7 @@ processes, so any worker can reach any connection (see [WebSocket broadcasting](
 | Example | What it shows | Run from |
 |---|---|---|
 | [Heartbeat](examples/servers/heartbeat.php) | The server closes connections that have sent nothing for a given number of seconds | server |
-| [TCP keepalive](examples/servers/keepalive.php) | Let the operating system probe idle connections and drop dead ones | auto-started, port 9602 |
+| [TCP keepalive](examples/servers/keepalive.php) | Let the operating system probe idle connections and drop dead ones | client |
 | [Delayed receive (DDoS protection)](examples/servers/ddos-protection.php) | Delay reading from a new connection until your code approves it (`enable_delay_receive` and `Server::confirm()`) | client |
 
 ### State inside a server

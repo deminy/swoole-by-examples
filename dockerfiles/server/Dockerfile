@@ -21,7 +21,7 @@ RUN \
     docker-php-ext-enable apcu && \
     echo "apc.enable_cli=1" >> $(php-config --ini-dir)/docker-php-ext-apcu.ini && \
     apt-get update && \
-    apt-get install -y inotify-tools net-tools watch --no-install-recommends && \
+    apt-get install -y inotify-tools --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
 # The repository root is mounted at /var/www, and the examples document their run commands relative to the

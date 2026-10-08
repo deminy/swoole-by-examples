@@ -43,7 +43,7 @@ Both containers mount the whole repo root at `/var/www`, with `/var/www/examples
 via `WORKDIR` in both Dockerfiles, so the run commands documented in the examples' docblocks work as-is). The
 **client** container is where client-side/standalone scripts are normally run (the `redis`/`mysql`/`postgresql`
 services are reachable from both PHP containers, which share the Compose default network);
-the **server** container additionally runs 9 persistent, Supervisord-managed application servers (listed in
+the **server** container additionally runs 8 persistent, Supervisord-managed application servers (listed in
 `docker-compose.yml`'s `AUTORELOAD_PROGRAMS` env var) that many client-side examples connect to.
 
 Running a single example: each example's docblock documents its own exact run command (which container, any
