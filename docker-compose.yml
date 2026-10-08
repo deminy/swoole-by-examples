@@ -43,6 +43,10 @@ services:
       MYSQL_USER: username
   postgresql:
     image: postgres:17-alpine
+    # The default limit of 100 connections is exactly the size of the connection pool in
+    # examples/pool/database-pool/pdo_pgsql.php, so other PostgreSQL examples running at the same time (e.g., in the
+    # test suite) could be refused with "too many clients already". Raise the limit to leave room for them.
+    command: ["postgres", "-c", "max_connections=200"]
     environment:
       POSTGRES_DB: test
       POSTGRES_USER: username
