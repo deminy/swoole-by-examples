@@ -23,6 +23,7 @@ if (!isset($args)) { // The main thread.
     $threads = [];
 
     $threads[] = new Thread(__FILE__, 1, $lock);
+    usleep(20_000); // Starting a thread takes a few milliseconds; give the first thread time to acquire the lock.
     $threads[] = new Thread(__FILE__, 2, $lock);
     foreach ($threads as $thread) {
         $thread->join();
@@ -36,7 +37,7 @@ if (!isset($args)) { // The main thread.
     if ($i === 1) { // First child thread.
         echo '1';
         assert($lock->lock() === true, 'Lock the lock for the first time successfully.');
-        usleep(5000); // Sleep for 5 milliseconds.
+        usleep(100_000); // Hold the lock for 100 milliseconds.
         echo '4';
         assert($lock->unlock() === true, 'Unlock the lock successfully.');
         echo '5';
@@ -45,6 +46,7 @@ if (!isset($args)) { // The main thread.
         assert($lock->lock(LOCK_EX | LOCK_NB) === false, 'Failed to lock a locked lock.');
         echo '3';
         assert($lock->lock() === true, 'Lock the lock for the second time successfully.');
+        usleep(100_000); // Hold the lock for 100 milliseconds.
         echo '6';
         assert($lock->unlock() === true, 'Unlock the lock successfully.');
         echo '7';
