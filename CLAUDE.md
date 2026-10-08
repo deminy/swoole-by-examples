@@ -31,6 +31,27 @@ PHPStan derives the minimum PHP version to check against from `composer.json`'s 
 lower than the syntax actually used (e.g. typed class constants under `>=8.2`) fails static analysis with a
 non-ignorable error.
 
+## Writing documentation and comments
+
+**All documentation and comments must be clear and easy to understand for developers who are not familiar with
+Swoole**, so that they can learn Swoole's features and capabilities from them. This applies to every example's
+docblock and inline comments, text the examples print, `README.md`, and comments in tests and configuration, whenever
+any of them is added or updated. In practice:
+
+- **Explain the concept, not just the code.** Each example's docblock says what the example shows, why it matters,
+  and what the reader will see when running it (the output, or that it hangs or runs forever by design).
+- **Explain Swoole terms on first use** (e.g., coroutine, runtime hook, channel, deadlock, preemptive scheduling,
+  worker/task worker/user process, IPC, ZTS), or point to the example that explains them. Don't assume knowledge of
+  Swoole's internals or of Go-style concurrency.
+- **Be accurate, and verify claims by running the code.** Stated output, timings, return values, and behavior
+  (e.g., which process a callback runs in, what blocks the whole process vs. only a coroutine) must match what the
+  example actually does on the supported versions. If something is uncertain, check it or leave it out.
+- **Keep text in sync with the code.** When an example changes, update its docblock, comments, run command, test,
+  and its `README.md` row together, including any "line N" references (see "Architecture" below).
+- **Use plain, concise language**: short sentences, no first person, consistent terminology across files (e.g.,
+  "cron job", "dispatch a task", `Swoole\X` class names in backticks in the README), and plain ASCII in `examples/`
+  and `tests/` (see "Code quality" below).
+
 ## Development environment
 
 ```bash
