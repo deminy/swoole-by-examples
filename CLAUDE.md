@@ -54,8 +54,8 @@ since that socket file lives in `server`'s own filesystem). `examples/hooks/redi
 `composer global require predis/predis=~3.0` inside the container first: the script deliberately loads Composer's
 *global* autoloader (`$HOME/.composer/vendor/autoload.php`), so the project-level `composer install` — which also
 installs predis, but only so PHPStan can resolve its symbols — does not satisfy it.
-`examples/locks/lock-across-threads.php` needs a ZTS build of PHP/Swoole, which neither container image provides;
-run it via `docker run --rm -v "$(pwd):/var/www" -ti phpswoole/swoole:6.2-php8.4-zts php ./examples/locks/lock-across-threads.php`.
+`examples/locks/lock-across-threads.php` and the examples under `examples/threads/` need a ZTS build of
+PHP/Swoole, which neither container image provides; run them via the ZTS image, e.g. `docker run --rm -v "$(pwd):/var/www" -ti phpswoole/swoole:6.2-php8.4-zts php ./examples/locks/lock-across-threads.php`.
 
 ## Running tests
 
@@ -84,8 +84,8 @@ Run a single test class or method with `--filter` (from `/var/www` inside a cont
 Almost everything is in the `client` suite; only `tests/Server/PoolProcessTest.php` is in `server` (same reason
 as `pool/process-pool/client.php` above — it needs `server`'s own filesystem). `csp/coroutines/benchmark.php` is
 intentionally skipped (`self::markTestSkipped()` in `CspTest`, it creates 1,000,000 coroutines), and
-`locks/lock-across-threads.php` is intentionally not covered at all (ZTS requirement, see `LocksTest`'s header
-comment).
+`locks/lock-across-threads.php` and `threads/*.php` are intentionally not covered at all (ZTS requirement, see
+`LocksTest`'s header comment).
 
 A handful of tests — ones covering examples that may hang forever by design (the deadlock demos, the
 process-blocking `io/block-*` examples) or that depend on Swoole's preemptive scheduler actually firing
@@ -138,11 +138,13 @@ handling), with the reason evident from the example or stated in a comment. Chec
 
 **`examples/`** — one runnable `.php` script per concept, grouped by topic: `csp/` (with `coroutines/`,
 `deadlocks/` and `scheduling/`), `hooks/` (with `redis/`), `pool/` (with `database-pool/` and `process-pool/`),
-`clients/`, `cronjobs/`, `events/`, `io/`, `locks/`, `misc/`, `servers/`, and `timer/`. Every script is meant to be
-copy-paste-runnable and documents its own invocation in a docblock — keep that convention when adding examples.
+`clients/`, `cronjobs/`, `events/`, `io/`, `locks/`, `misc/`, `servers/`, `threads/`, and `timer/`. Every script is
+meant to be copy-paste-runnable and documents its own invocation in a docblock — keep that convention when adding
+examples.
 Every new example must also come with a unit test, written the same way as the existing ones (see **`tests/`**
 below): one test method per example, added to the topic's test class (or a new test class for a new topic),
-normally driving the example through `runExample()` and asserting on its output.
+normally driving the example through `runExample()` and asserting on its output. The one exception is ZTS-only
+examples, which can't run in either container (see `LocksTest`'s header comment).
 Persistent, Supervisord-managed servers — mostly under `examples/servers/`, plus the three `pool-*` programs
 whose scripts live in `examples/pool/process-pool/` — are wired up via
 `dockerfiles/server/rootfilesystem/etc/supervisor/service.d/*.conf` and the `AUTORELOAD_PROGRAMS` env var in

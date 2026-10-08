@@ -20,6 +20,15 @@ class MiscTest extends ExampleTestCase
         self::assertSame(0, $result['code'], $result['output']);
     }
 
+    public function testCoroutineSocket(): void
+    {
+        $result = $this->runExample('misc/coroutine-socket.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertStringContainsString('Client alice received: HELLO FROM ALICE', $result['output']);
+        self::assertStringContainsString('Client bob received: HELLO FROM BOB', $result['output']);
+        self::assertStringContainsString('Done.', $result['output']);
+    }
+
     public function testMulticast(): void
     {
         $result = $this->runExample('misc/multicast.php');

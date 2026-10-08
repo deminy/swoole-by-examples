@@ -46,6 +46,15 @@ class CspTest extends ExampleTestCase
         self::markTestSkipped('csp/coroutines/benchmark.php creates 1,000,000 coroutines and is too heavy to run here.');
     }
 
+    public function testCoroutinesCancel(): void
+    {
+        $result = $this->runExample('csp/coroutines/cancel.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertMatchesRegularExpression('/Coroutine #\d+: sleep\(\) returned false after 0\.\d seconds; canceled: true\./', $result['output']);
+        self::assertMatchesRegularExpression('/Coroutine #\d+: pop\(\) returned false; canceled: true; channel error code: -3 \(SWOOLE_CHANNEL_CANCELED is -3\)\./', $result['output']);
+        self::assertStringContainsString('Done.', $result['output']);
+    }
+
     public function testCoroutinesCreationSyntaxVariants(): void
     {
         $result = $this->runExample('csp/coroutines/creation-syntax-variants.php');

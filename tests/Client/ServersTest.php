@@ -51,6 +51,54 @@ class ServersTest extends ExampleTestCase
         self::assertStringContainsString('Task data is delivered as a Swoole\Server\Task object.', $result['output']);
     }
 
+    // Not Supervisord-managed; a coroutine-style server that the script starts, sends three concurrent requests to, and
+    // shuts down itself, in about 1 second.
+    public function testCoroutineHttpServer(): void
+    {
+        $result = $this->runExample('servers/coroutine-http-server.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        for ($i = 1; $i <= 3; $i++) {
+            self::assertMatchesRegularExpression("/Response to request #{$i}: Hello from coroutine #\\d+!/", $result['output']);
+        }
+        self::assertStringContainsString('Three requests, each taking 1 second, finished in about 1 second(s) in total.', $result['output']);
+    }
+
+    // Not Supervisord-managed; self-driving (creates its own self-signed certificate, makes two HTTPS requests to
+    // itself, and shuts itself down).
+    public function testHttps(): void
+    {
+        $result = $this->runExample('servers/https.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertStringContainsString('Client #1 (does not trust the certificate): request failed - the TLS handshake was rejected', $result['output']);
+        self::assertStringContainsString('Client #2 (trusts the certificate): HTTP 200, body: Hello over HTTPS!', $result['output']);
+    }
+
+    // Not Supervisord-managed; self-driving (a user process makes requests, updates the handler file, reloads the
+    // server, and shuts it down).
+    public function testHotReload(): void
+    {
+        $result = $this->runExample('servers/hot-reload.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertMatchesRegularExpression('/Before the reload: Hello from version 1 of the code \(worker process (\d+)\)/', $result['output']);
+        self::assertMatchesRegularExpression('/After the reload:  Hello from version 2 of the code \(worker process (\d+)\)/', $result['output']);
+        // The response after the reload comes from a new worker process.
+        preg_match_all('/\(worker process (\d+)\)/', $result['output'], $matches);
+        self::assertCount(2, $matches[1]);
+        self::assertNotSame($matches[1][0], $matches[1][1]);
+    }
+
+    // Not Supervisord-managed; self-driving (worker #0 connects three WebSocket clients to the server, and shuts the
+    // server down once the broadcast has been received).
+    public function testWebsocketBroadcast(): void
+    {
+        $result = $this->runExample('servers/websocket-broadcast.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertStringContainsString('broadcast to 3 connections.', $result['output']);
+        foreach (['alice', 'bob', 'carol'] as $name) {
+            self::assertStringContainsString("Client {$name} received: Broadcast: Hello, everyone! (from alice)", $result['output']);
+        }
+    }
+
     public function testDdosProtection(): void
     {
         $client = new HttpClient('server', 9510);
