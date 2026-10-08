@@ -42,7 +42,24 @@ class IoTest extends ExampleTestCase
         self::assertSame(0, $result['code'], $result['output']);
     }
 
-    // The following three block the whole OS process by design (that's the point of each example) and normally
+    public function testBlockProcessesUsingSwooleAtomic(): void
+    {
+        $result = $this->runExample('io/block-processes-using-swoole-atomic.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertSame(
+            implode(PHP_EOL, [
+                '[consumer] Blocked for 0.1 second; wait() returned false.',
+                '[consumer] Blocked again, waiting for the producer to wake me up.',
+                '[producer] Waking up the consumer.',
+                '[consumer] Woken up; wait() returned true.',
+                '[consumer] The value is back to 0.',
+                '[parent] Both child processes have exited.',
+            ]),
+            trim($result['output'])
+        );
+    }
+
+    // The following two block the whole OS process by design (that's the point of each example) and normally
     // finish in 2-5 seconds; a timeout here is a real failure, not the expected outcome. #[RunInSeparateProcess]
     // + runIsolated() rather than runExample(): see runIsolated()'s docblock for why.
 
@@ -58,14 +75,6 @@ class IoTest extends ExampleTestCase
     public function testBlockProcessesUsingSwooleLock(): void
     {
         $result = $this->runIsolated('io/block-processes-using-swoole-lock.php', 15.0);
-        self::assertFalse($result['timedOut'], $result['output']);
-        self::assertSame(0, $result['code'], $result['output']);
-    }
-
-    #[RunInSeparateProcess]
-    public function testBlockProcessesUsingSwooleAtomic(): void
-    {
-        $result = $this->runIsolated('io/block-processes-using-swoole-atomic.php', 15.0);
         self::assertFalse($result['timedOut'], $result['output']);
         self::assertSame(0, $result['code'], $result['output']);
     }

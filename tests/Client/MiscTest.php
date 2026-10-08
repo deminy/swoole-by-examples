@@ -48,12 +48,4 @@ class MiscTest extends ExampleTestCase
         self::assertStringContainsString('player2 still exists after deletion: false', $result['output']);
         self::assertStringContainsString('Number of rows after deleting player2: 1', $result['output']);
     }
-
-    public function testWaitAndWakeupProcesses(): void
-    {
-        $result = $this->runExample('misc/wait-and-wakeup-processes.php');
-        self::assertSame(0, $result['code'], $result['output']);
-        self::assertStringContainsString('[consumer] Woken up by the producer; shared value is back to 0.', $result['output']);
-        self::assertStringContainsString('[parent] Both child processes have exited.', $result['output']);
-    }
 }

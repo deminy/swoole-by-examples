@@ -4,8 +4,21 @@
 declare(strict_types=1);
 
 /**
- * In this example, we will show how to block processes using method \Swoole\Atomic::wait() and \Swoole\Atomic::wakeup()
- * in a multiprocessing environment.
+ * In this example, we will show how to block a process using method \Swoole\Atomic::wait(), and how to wake it up from
+ * another process using method \Swoole\Atomic::wakeup(). Method wait() blocks the whole process, including any other
+ * coroutines in it, unlike a coroutine sleep (see example "block-a-coroutine.php").
+ *
+ * Class \Swoole\Atomic is backed by shared memory, so an Atomic object created before the child processes are started
+ * is shared by all of them:
+ *   - Method wait(float $timeout = 1.0) blocks the calling process while the value is 0. It returns true once another
+ *     process wakes it up (setting the value back from 1 to 0), or false when the timeout expires. A timeout of -1
+ *     means to wait forever.
+ *   - Method wakeup() sets the value from 0 to 1 and wakes up the blocked process. It does nothing if the value is
+ *     already non-zero (e.g., after a call to set()), so don't mix set() into the wait()/wakeup() handshake.
+ *   - Method wakeup(int $count) can unblock several processes that are already waiting, but it still stores a single
+ *     signal, not a count: only one of their wait() calls returns true, and the others return false.
+ *
+ * Only class \Swoole\Atomic provides wait() and wakeup(); class \Swoole\Atomic\Long does not.
  *
  * How to run this script:
  *     docker compose exec -t client bash -c "./io/block-processes-using-swoole-atomic.php"
@@ -16,56 +29,45 @@ declare(strict_types=1);
  */
 
 use Swoole\Atomic;
-use Swoole\Constant;
-use Swoole\Coroutine;
-use Swoole\Process\Pool;
+use Swoole\Process;
 
-$atomic = new Atomic(); // To block process #1 and #2.
-$pool   = new Pool(4, SWOOLE_IPC_NONE); // A pool of 4 processes will be created.
-$pool->set(
-    [
-        Constant::OPTION_ENABLE_COROUTINE => true,
-    ]
+// The Atomic object (with an initial value of 0) must be created before the child processes are started, so that they
+// share the same value.
+$atomic = new Atomic();
+
+// The consumer process is blocked twice: first until a timeout expires, then until the producer wakes it up.
+$consumer = new Process(
+    function () use ($atomic): void {
+        $result = $atomic->wait(0.1); // Nobody wakes the consumer up within 0.1 second, so wait() returns false.
+        echo '[consumer] Blocked for 0.1 second; wait() returned ', var_export($result, true), '.', PHP_EOL;
+
+        echo '[consumer] Blocked again, waiting for the producer to wake me up.', PHP_EOL;
+        $result = $atomic->wait(-1); // Blocks until another process calls wakeup().
+        echo '[consumer] Woken up; wait() returned ', var_export($result, true), '.', PHP_EOL;
+        // wakeup() set the value from 0 to 1, and wait() set it back to 0.
+        echo '[consumer] The value is back to ', $atomic->get(), '.', PHP_EOL;
+    },
+    false
 );
 
-// In this example, we will use a pool of 4 processes:
-//   - Process #0 will be blocked for 10 milliseconds.
-//   - Process #1 and #2 are blocked forever and waiting another process (process #3) to wake them up.
-//   - Process #3 will wake up process #1 and #2; afterwords it will shutdown the pool and exit the program.
-$pool->on('workerStart', function (Pool $pool, int $workerId) use ($atomic): void {
-    Coroutine::sleep(max(0.001, $workerId * 0.1)); // Used only to better order the output from different processes.
+// The producer process wakes up the consumer.
+$producer = new Process(
+    function () use ($atomic): void {
+        // Used only to better order the output. Calling wakeup() before the consumer calls wait() works too: the value
+        // stays at 1, and the next call to wait() returns true right away.
+        sleep(1);
+        echo '[producer] Waking up the consumer.', PHP_EOL;
+        $atomic->wakeup();
+    },
+    false
+);
 
-    switch ($workerId) {
-        case 0: // Process #0 (first process).
-            // Method wait() will block the process until another process wakes it up or the timeout expires. In our
-            // case, the timeout expires and the method call to wait() returns false.
-            (new Atomic())->wait(0.01);
-            echo 'Process #0 is blocked for 10 milliseconds (0.01 second).', PHP_EOL;
-            break;
-        case 1: // Process #1.
-        case 2: // Process #2.
-            echo "Process #{$workerId} is blocked and waiting another process (process #3) to wake it up.", PHP_EOL;
-            // Method wait() will block current process until another process (process #3) wakes it up. The timeout
-            // never expires because we set it to -1.
-            $atomic->wait(-1);
+$consumer->start();
+$producer->start();
 
-            Coroutine::sleep($workerId * 0.2); // Used only to better order the output.
-            echo "Process #{$workerId} is waken up.", PHP_EOL;
-            break;
-        case 3: // Process #3.
-            echo 'Process #3 is waking up process #1 and #2.', PHP_EOL;
-            $atomic->wakeup(2); // To wake up process #1 and #2.
+// Reap both child processes in the parent to avoid leaving zombie processes behind.
+for ($i = 0; $i < 2; $i++) {
+    Process::wait();
+}
 
-            Coroutine::sleep(1);
-            $pool->shutdown(); // Done with the example. Now lets shutdown the pool and exit the program.
-            break;
-        default:
-            echo "Error: process #{$workerId} not handled properly.", PHP_EOL;
-            break;
-    }
-
-    // Blocks current process forever. This is to prevent recreating processes in the pool.
-    (new Atomic())->wait(-1);
-});
-
-$pool->start();
+echo '[parent] Both child processes have exited.', PHP_EOL;

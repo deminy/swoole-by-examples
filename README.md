@@ -291,10 +291,9 @@ outside code sends work to the workers through IPC (inter-process communication)
 | Example | What it shows | Run from |
 |---|---|---|
 | [Lock across processes](examples/locks/lock-across-processes.php) | `Swoole\Lock`: a shared-memory mutex that blocks the whole waiting process (never use it across coroutines; see [Deadlocks](#deadlocks-how-they-happen)) | client |
-| [Wait and wake up processes](examples/misc/wait-and-wakeup-processes.php) | One process waits on a shared `Swoole\Atomic` until another process wakes it up | client |
 | [Block one process with a lock](examples/io/block-a-process-using-swoole-lock.php) | Block a process on a `Swoole\Lock` with a timeout | client |
 | [Block processes with a lock](examples/io/block-processes-using-swoole-lock.php) | Block several processes on a shared `Swoole\Lock`, then release them one by one from another process | client |
-| [Block processes with an atomic](examples/io/block-processes-using-swoole-atomic.php) | The same with `Swoole\Atomic::wait()` and `wakeup()`: one process wakes up two others, while a third waits with a timeout | client |
+| [Block and wake up a process with an atomic](examples/io/block-processes-using-swoole-atomic.php) | One process blocks on a shared `Swoole\Atomic` with `wait()` (with and without a timeout) until another process wakes it up with `wakeup()` | client |
 
 ### Threads
 
