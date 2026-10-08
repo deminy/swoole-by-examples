@@ -99,14 +99,13 @@ class ServersTest extends ExampleTestCase
         }
     }
 
+    // Not Supervisord-managed; self-driving (6 concurrent requests to itself, then shutdown) and finishes in about 2s.
     public function testDdosProtection(): void
     {
-        $client = new HttpClient('server', 9510);
-        $client->set(['timeout' => 5]);
-        $ok = $client->get('/');
-        self::assertTrue($ok);
-        self::assertSame(200, $client->statusCode);
-        self::assertSame('OK', trim((string) $client->body));
+        $result = $this->runExample('servers/ddos-protection.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertSame(6, preg_match_all('/^Response "OK \(connection #\d\)" received after \d\.\d seconds\.$/m', $result['output']));
+        self::assertStringContainsString('Requests answered right away: 4; requests delayed by about 2 seconds: 2', $result['output']);
     }
 
     public function testKeepalive(): void
@@ -120,27 +119,26 @@ class ServersTest extends ExampleTestCase
         self::assertSame('ping', $response);
     }
 
+    // Not Supervisord-managed; self-driving (a user process talks to the server through phpredis, then shuts it down).
     public function testRedisServer(): void
     {
-        $client = new \Redis();
-        self::assertTrue($client->connect('server', 6379, 5.0));
-        $key   = 'validate-examples-' . uniqid();
-        $value = 'bar-' . uniqid();
-        $client->set($key, $value);
-        self::assertSame($value, $client->get($key));
+        $result = $this->runExample('servers/redis.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertSame(
+            implode(PHP_EOL, ['SET foo bar: true', "GET foo: 'bar'", 'GET missing-key: false (the key does not exist)']),
+            trim($result['output'])
+        );
     }
 
-    // The whole response takes ~3.6s to stream (60 SSE events, one every 60ms), hence the raised timeout.
+    // Not Supervisord-managed; self-driving (streams 20 events to itself in about 2s, then shutdown).
     public function testHttp1Sse(): void
     {
-        $client = new HttpClient('server', 9515);
-        $client->set(['timeout' => 10]);
-        $ok = $client->get('/');
-        self::assertTrue($ok);
-        self::assertSame(200, $client->statusCode);
-        self::assertSame('text/event-stream; charset=utf-8', $client->headers['content-type'] ?? null);
-        self::assertStringContainsString('data: 01', (string) $client->body);
-        self::assertStringContainsString('data: 60', (string) $client->body);
+        $result = $this->runExample('servers/http1-sse.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertSame(20, preg_match_all('/^data: \d{2} +\(received after \d+\.\d seconds\)$/m', $result['output']));
+        self::assertStringContainsString('data: 01 ', $result['output']);
+        self::assertStringContainsString('data: 20 ', $result['output']);
+        self::assertStringContainsString('Content-Type of the response: text/event-stream; charset=utf-8', $result['output']);
     }
 
     // A publish/subscribe round trip against the minimal MQTT broker, using hand-crafted MQTT 3.1.1 packets
@@ -197,14 +195,14 @@ class ServersTest extends ExampleTestCase
         self::assertStringContainsString('In this example we start an HTTP/2 server.', (string) $response->data);
     }
 
-    // Deliberately a light smoke check, not a full behavioral test of the 19-second cron timing.
+    // Not Supervisord-managed; self-driving (shuts itself down after 2s, interrupting the cron job's 19-second wait).
     public function testInterruptibleSleep(): void
     {
-        $client = new HttpClient('server', 9512);
-        $client->set(['timeout' => 5]);
-        $ok = $client->get('/');
-        self::assertTrue($ok);
-        self::assertSame(200, $client->statusCode);
+        $result = $this->runExample('servers/interruptible-sleep.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertStringContainsString('[INTERRUPTIBLE-SLEEP] Simulating cron job execution. (case 1)', $result['output']);
+        self::assertMatchesRegularExpression('/\[INTERRUPTIBLE-SLEEP\] Simulating cron job execution\. \(case 2, after [23] seconds\)/', $result['output']);
+        self::assertStringContainsString('[INTERRUPTIBLE-SLEEP] The cron job has exited.', $result['output']);
     }
 
     public function testApcuCaching(): void
@@ -238,33 +236,15 @@ class ServersTest extends ExampleTestCase
         self::assertMatchesRegularExpression('/counter_\d+: \d+/', (string) $client->body);
     }
 
+    // Not Supervisord-managed; self-driving (talks to itself over HTTP/1, HTTP/2, and WebSocket, then shutdown).
     public function testMixedProtocolsSamePort(): void
     {
-        $http = new HttpClient('server', 9511);
-        $http->set(['timeout' => 5]);
-        $http->post('/', 'World');
-        self::assertSame(200, $http->statusCode);
-        self::assertSame('Hello, World', trim((string) $http->body));
-
-        $http2 = new Http2Client('server', 9511);
-        $http2->set(['timeout' => 5, 'open_http2_protocol' => true]);
-        self::assertTrue($http2->connect());
-        $request          = new Http2Request();
-        $request->method  = 'POST';
-        $request->path    = '/';
-        $request->data    = 'World';
-        $http2->send($request);
-        $response = $http2->recv();
-        self::assertInstanceOf(Http2Response::class, $response);
-        self::assertSame('Hello, World', trim((string) $response->data));
-
-        $ws = new HttpClient('server', 9511);
-        $ws->set(['timeout' => 5]);
-        self::assertTrue($ws->upgrade('/'));
-        $ws->push('Test');
-        $frame = $ws->recv();
-        self::assertInstanceOf(Frame::class, $frame);
-        self::assertSame('Hello, Test', $frame->data);
+        $result = $this->runExample('servers/mixed-protocols-same-port.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertSame(
+            implode(PHP_EOL, ['HTTP/1 response: Hello, HTTP/1', 'HTTP/2 response: Hello, HTTP/2', 'WebSocket message: Hello, WebSocket']),
+            trim($result['output'])
+        );
     }
 
     // The proxy forwards raw bytes to the HTTP/1 server (127.0.0.1:9501 inside the "server" container), whose
@@ -279,41 +259,33 @@ class ServersTest extends ExampleTestCase
         self::assertNotEmpty((string) $client->body);
     }
 
-    // One server, a different protocol per port: 9550 speaks HTTP, while 9551 has the inherited HTTP protocol
-    // switched off and echoes raw bytes. Sending an HTTP request to the TCP port and getting it back VERBATIM
-    // (rather than parsed and responded to) proves the per-port protocol override is in effect.
+    // Not Supervisord-managed; self-driving. The primary port speaks HTTP, while the additional port has the inherited
+    // HTTP protocol turned off, so it echoes an HTTP request back as raw bytes instead of parsing it.
     public function testMixedProtocolsPerPort(): void
     {
-        $http = new HttpClient('server', 9550);
-        $http->set(['timeout' => 5]);
-        $ok = $http->get('/');
-        self::assertTrue($ok);
-        self::assertSame(200, $http->statusCode);
-        self::assertSame('Hello from the HTTP listener on port 9550.', trim((string) $http->body));
-
-        $tcp = new TcpClient(SWOOLE_SOCK_TCP);
-        $tcp->set(['timeout' => 5]);
-        self::assertTrue($tcp->connect('server', 9551, 5));
-        $request = "GET / HTTP/1.1\r\nHost: server\r\n\r\n";
-        $tcp->send($request);
-        $response = $tcp->recv();
-        $tcp->close();
-        self::assertSame($request, $response);
+        $result = $this->runExample('servers/mixed-protocols-per-port.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertSame(
+            implode(PHP_EOL, [
+                'Reply from the primary (HTTP) port: HTTP 200, body: Hello from the HTTP listener.',
+                'Reply from the additional (raw TCP) port: "GET / HTTP/1.1\\r\\nHost: localhost\\r\\n\\r\\n"',
+            ]),
+            trim($result['output'])
+        );
     }
 
-    // One server process listens on both ports with per-port 'receive' callbacks; the response prefix proves
-    // which port's callback handled the request.
+    // Not Supervisord-managed; self-driving (sends "hello" to each of its two ports, then shutdown).
     public function testMultiplePorts(): void
     {
-        foreach ([9530, 9531] as $port) {
-            $client = new TcpClient(SWOOLE_SOCK_TCP);
-            $client->set(['timeout' => 5]);
-            self::assertTrue($client->connect('server', $port, 5), "failed to connect to port {$port}");
-            $client->send('hello');
-            $response = $client->recv();
-            $client->close();
-            self::assertSame("port {$port}: hello" . PHP_EOL, $response);
-        }
+        $result = $this->runExample('servers/multiple-ports.php');
+        self::assertSame(0, $result['code'], $result['output']);
+        self::assertSame(
+            implode(PHP_EOL, [
+                'The main port replied: [callback of the main port] hello',
+                'The additional port replied: [callback of the additional port] hello',
+            ]),
+            trim($result['output'])
+        );
     }
 
     public function testRockPaperScissors(): void

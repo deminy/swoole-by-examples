@@ -76,7 +76,7 @@ as the working directory (which is why run commands use paths like `./csp/channe
 | Container | What runs there | How to use it |
 |---|---|---|
 | `client` | Standalone scripts, and clients that talk to the servers | `docker compose exec -t client bash -c "./csp/channel.php"` |
-| `server` | 23 long-running example servers (HTTP, WebSocket, TCP, MQTT, ...), started automatically by Supervisord and reloaded when their script changes | Nothing to start: connect to `server:<port>` from the `client` container |
+| `server` | 16 long-running example servers (HTTP, WebSocket, TCP, MQTT, ...), started automatically by Supervisord and reloaded when their script changes | Nothing to start: connect to `server:<port>` from the `client` container |
 | `zts` | The [thread examples](#threads), which need a thread-safe (ZTS) build of PHP | `docker compose exec -t zts php ./threads/map.php` |
 
 * **Every example documents its exact run command in its docblock**, along with any extra steps. The "Run from" column
@@ -208,8 +208,9 @@ container; the low-level socket example creates its own server socket.
 
 ## Servers
 
-Most servers below are auto-started in the `server` container; each docblock shows how to send requests to it. A server
-runs in one of two modes: in `SWOOLE_BASE` mode (the default), each worker process accepts and handles its own
+Some servers below are auto-started in the `server` container, and their docblocks show how to send requests to them.
+The others ("client" in the Run from column) start their own server on a random port, send it requests, print what
+happened, and shut down, so they run like any other script. A server runs in one of two modes: in `SWOOLE_BASE` mode (the default), each worker process accepts and handles its own
 connections; in `SWOOLE_PROCESS` mode, a master process owns all the connections and forwards their data to the worker
 processes, so any worker can reach any connection (see [WebSocket broadcasting](examples/servers/websocket-broadcast.php)).
 
@@ -229,14 +230,14 @@ processes, so any worker can reach any connection (see [WebSocket broadcasting](
 |---|---|---|
 | [HTTP/2 server](examples/servers/http2.php) | A minimal HTTP/2 server | auto-started, port 9503 |
 | [HTTPS server](examples/servers/https.php) | Serve HTTP over SSL/TLS, and see a client reject an untrusted certificate and accept a trusted one | client |
-| [Server-Sent Events (SSE)](examples/servers/http1-sse.php) | Stream a response chunk by chunk over HTTP/1.1, the technique many AI chat apps use to stream text | auto-started, port 9515 |
+| [Server-Sent Events (SSE)](examples/servers/http1-sse.php) | Stream a response chunk by chunk over HTTP/1.1, the technique many AI chat apps use to stream text | client |
 | [WebSocket server](examples/servers/websocket.php) | A minimal WebSocket server that replies to messages | auto-started, port 9504 |
 | [WebSocket broadcasting](examples/servers/websocket-broadcast.php) | Send a message to every connected client, across worker processes, as in a chat room | client |
 | [TCP server, event-driven style](examples/servers/tcp-event-driven.php) | Register callbacks such as `onReceive`, and let the server call them | auto-started, port 9505 |
 | [TCP server, coroutine style](examples/servers/tcp-coroutine-style.php) | Write the accept/read/write loop yourself inside coroutines, like a Go server | auto-started, port 9507 |
 | [UDP server](examples/servers/udp.php) | An echo server for UDP datagrams | auto-started, port 9506 |
 | [UDP multicast](examples/misc/multicast.php) | A UDP server that joins an IP multicast group and receives datagrams sent to the group address | client |
-| [Redis server](examples/servers/redis.php) | A server speaking the Redis protocol (minimal `GET`/`SET`), usable from any Redis client | auto-started, port 6379 |
+| [Redis server](examples/servers/redis.php) | A server speaking the Redis protocol (minimal `GET`/`SET`), usable from any Redis client | client |
 | [MQTT broker](examples/servers/mqtt.php) | A minimal publish/subscribe broker built on the `open_mqtt_protocol` setting, tested with the Mosquitto command-line clients | auto-started, port 9514 |
 | [Reverse proxy](examples/servers/proxy.php) | A TCP-level reverse proxy relaying each connection to the HTTP/1 server | auto-started, port 9520 |
 
@@ -244,9 +245,9 @@ processes, so any worker can reach any connection (see [WebSocket broadcasting](
 
 | Example | What it shows | Run from |
 |---|---|---|
-| [Listening on multiple ports](examples/servers/multiple-ports.php) | One server listening on two ports, each with its own callbacks | auto-started, ports 9530-9531 |
-| [Different protocols on different ports](examples/servers/mixed-protocols-per-port.php) | One server speaking HTTP on one port and raw TCP on another | auto-started, ports 9550-9551 |
-| [Several protocols on the same port](examples/servers/mixed-protocols-same-port.php) | HTTP/1, HTTP/2, and WebSocket served on one port | auto-started, port 9511 |
+| [Listening on multiple ports](examples/servers/multiple-ports.php) | One server listening on two ports, each with its own callbacks | client |
+| [Different protocols on different ports](examples/servers/mixed-protocols-per-port.php) | One server speaking HTTP on one port and raw TCP on another | client |
+| [Several protocols on the same port](examples/servers/mixed-protocols-same-port.php) | HTTP/1, HTTP/2, and WebSocket served on one port | client |
 
 ### Connection health and protection
 
@@ -254,7 +255,7 @@ processes, so any worker can reach any connection (see [WebSocket broadcasting](
 |---|---|---|
 | [Heartbeat](examples/servers/heartbeat.php) | The server closes connections that have sent nothing for a given number of seconds | server |
 | [TCP keepalive](examples/servers/keepalive.php) | Let the operating system probe idle connections and drop dead ones | auto-started, port 9602 |
-| [Delayed receive (DDoS protection)](examples/servers/ddos-protection.php) | Delay reading from a new connection until your code approves it (`enable_delay_receive` and `Server::confirm()`) | auto-started, port 9510 |
+| [Delayed receive (DDoS protection)](examples/servers/ddos-protection.php) | Delay reading from a new connection until your code approves it (`enable_delay_receive` and `Server::confirm()`) | client |
 
 ### State inside a server
 
@@ -343,7 +344,7 @@ The scheduler runs inside an application server, following the server's lifecycl
 |---|---|---|
 | [Timer plus task workers](examples/cronjobs/tick-to-task.php) | A timer in one server worker hands scheduled work to task worker processes, so slow jobs don't stall requests | client |
 | [Dedicated user process](examples/cronjobs/user-process.php) | An isolated scheduler process attached to a server (`Server::addProcess()`), with graceful shutdown on `SIGTERM` | client |
-| [Interruptible sleep in a server](examples/servers/interruptible-sleep.php) | Let a cron job inside a web server run one last time when the server shuts down, instead of being cut off mid-interval | auto-started, port 9512 |
+| [Interruptible sleep in a server](examples/servers/interruptible-sleep.php) | Let a cron job inside a web server run one last time when the server shuts down, instead of being cut off mid-interval | client |
 
 ## Putting it all together
 

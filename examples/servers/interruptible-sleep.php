@@ -4,55 +4,77 @@
 declare(strict_types=1);
 
 /**
- * In this example, we start a web server with a cronjob setup to run every 19 seconds. The cron job sends a message "[INTERRUPTIBLE-SLEEP] Simulating cronjob execution.(case 1)" to the logs of the server container when executed.
+ * In this example, we start a web server with a cron job set up to run every 19 seconds.
  *
- * The problem with traditional cronjobs is that they don't get a chance to execute at a last time before the server
- * shuts down. For example, if the cronjob is scheduled to run every 19 seconds, and the server is shutting down 15
- * seconds after the last cronjob execution, then the cronjob will never get a chance to execute one more time before
+ * The problem with traditional cron jobs is that they don't get a chance to execute one last time before the server
+ * shuts down. For example, if the cron job is scheduled to run every 19 seconds, and the server is shutting down 15
+ * seconds after the last cron job execution, then the cron job will never get a chance to execute one more time before
  * the server shuts down.
  *
- * In this example, we use Channel to schedule a cronjob to run every 19 seconds. The implementation allows the cronjob
- * to execute one more time by checking if the Channel is closed when server shuts down.
+ * In this example, we use a Channel to schedule the cron job to run every 19 seconds: the cron job waits on the
+ * Channel (method pop() with a 19-second timeout) instead of sleeping. When the server shuts down, the "onWorkerExit"
+ * callback closes the Channel, which interrupts the wait right away; the cron job notices that the Channel is closed,
+ * executes one last time, and exits.
  *
- * When running the following command to stop and restart the server, you will see the cronjob is executed one more time
- * with message "[INTERRUPTIBLE-SLEEP] Simulating cronjob execution.(case 2)" logged in the logs of the server container:
- *     docker compose exec -t server bash -c "supervisorctl restart interruptible-sleep"
+ * To show that, the script shuts the server down by itself 2 seconds after starting it, well before the 19 seconds are
+ * up. The output shows the cron job executing once when the server starts ("case 1"), and once more when the server
+ * shuts down ("case 2"), about 2 seconds later instead of 19.
+ *
+ * How to run this script:
+ *     docker compose exec -t client bash -c "./servers/interruptible-sleep.php"
  */
 
+use Swoole\Constant;
 use Swoole\Coroutine;
 use Swoole\Coroutine\Channel;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Http\Server;
+use Swoole\Timer;
 
 $exited = new Channel();
-$server = new Server('0.0.0.0', 9512);
+
+// Port 0 makes the server listen on a random unused port.
+$server = new Server('127.0.0.1', 0);
+$server->set(
+    [
+        Constant::OPTION_WORKER_NUM => 1,
+    ]
+);
 
 $server->on('workerStart', function (Server $server, int $workerId) use ($exited): void {
-    if ($workerId === 0) {
-        Coroutine::create(function () use ($exited): void {
-            // Here we start the second cron job that makes an HTTP request every 19 seconds.
-            while (true) {
-                echo '[INTERRUPTIBLE-SLEEP] Simulating cronjob execution. (case 1)', PHP_EOL;
-                $exited->pop(19);
-                if ($exited->errCode === SWOOLE_CHANNEL_CLOSED) {
-                    echo '[INTERRUPTIBLE-SLEEP] Simulating cronjob execution. (case 2)', PHP_EOL;
-                    break;
-                }
+    Coroutine::create(function () use ($exited): void {
+        $start = microtime(true);
+        while (true) {
+            echo '[INTERRUPTIBLE-SLEEP] Simulating cron job execution. (case 1)', PHP_EOL;
+            $exited->pop(19); // Wait for 19 seconds, unless the Channel is closed earlier.
+            if ($exited->errCode === SWOOLE_CHANNEL_CLOSED) {
+                printf(
+                    '[INTERRUPTIBLE-SLEEP] Simulating cron job execution. (case 2, after %d seconds)' . PHP_EOL,
+                    round(microtime(true) - $start)
+                );
+                break;
             }
-            echo '[INTERRUPTIBLE-SLEEP] The cronjob has exited.', PHP_EOL;
-        });
-    }
+        }
+        echo '[INTERRUPTIBLE-SLEEP] The cron job has exited.', PHP_EOL;
+    });
+
+    // Shut the server down 2 seconds later. In a real application, this happens when the server is stopped or
+    // restarted (e.g., by a process manager like Supervisord or systemd).
+    Timer::after(2000, function () use ($server): void {
+        echo '[INTERRUPTIBLE-SLEEP] Shutting down the server.', PHP_EOL;
+        $server->shutdown();
+    });
 });
+
 $server->on('workerExit', function (Server $server, int $workerId) use ($exited): void {
     echo "[INTERRUPTIBLE-SLEEP] Worker #{$workerId} is exiting.", PHP_EOL;
-    if ($workerId === 0) {
-        Coroutine::create(function () use ($exited): void {
-            $exited->close();
-        });
-    }
-    echo "[INTERRUPTIBLE-SLEEP] Worker #{$workerId} has exited.", PHP_EOL;
+    Coroutine::create(function () use ($exited): void {
+        $exited->close();
+    });
 });
+
+// The web server's own job: answering HTTP requests. Nothing sends requests to it in this example.
 $server->on('request', function (Request $request, Response $response): void {
     $response->end('OK' . PHP_EOL);
 });

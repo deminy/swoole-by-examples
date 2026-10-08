@@ -43,7 +43,7 @@ Both containers mount the whole repo root at `/var/www`, with `/var/www/examples
 via `WORKDIR` in both Dockerfiles, so the run commands documented in the examples' docblocks work as-is). The
 **client** container is where client-side/standalone scripts are normally run (the `redis`/`mysql`/`postgresql`
 services are reachable from both PHP containers, which share the Compose default network);
-the **server** container additionally runs 23 persistent, Supervisord-managed application servers (listed in
+the **server** container additionally runs 16 persistent, Supervisord-managed application servers (listed in
 `docker-compose.yml`'s `AUTORELOAD_PROGRAMS` env var) that many client-side examples connect to.
 
 Running a single example: each example's docblock documents its own exact run command (which container, any
@@ -176,9 +176,11 @@ actual line numbers (e.g., with `cat -n`) and update them accordingly.
   tests" above); same idea, plain blocking primitives instead of coroutine ones.
 
 `tests/Client/ServersTest.php` covers the persistent Supervisord-managed servers directly, using Swoole's
-coroutine HTTP/HTTP2/TCP/Redis clients to connect out to the `server` container (`heartbeat.php` and
-`server-events.php` aren't Supervisord-managed — they're self-contained scripts that start and drive their own
-server internally, so they're just run like any other example instead).
+coroutine HTTP/HTTP2/TCP clients to connect out to the `server` container. The other server examples aren't
+Supervisord-managed: they're self-driving scripts that start their own server on a random port (port 0), send it
+requests, print what happened, and shut it down, so their tests just run them like any other example and check the
+output. New server examples should be self-driving too, unless another example needs to connect to them or the lesson
+needs a long-running server (e.g. `rock-paper-scissors.php`, played in a browser).
 
 **CI** (`.github/workflows/`): `tests.yml` runs coding style checks, static analysis, and both counit test
 suites on every push/PR, in a Compose environment whose server/client images it builds from `dockerfiles/`
